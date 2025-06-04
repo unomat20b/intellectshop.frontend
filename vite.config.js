@@ -4,6 +4,6 @@ import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   /**  ← обязательно со слешами по краям */
-  base: '/frontend/',
+  base: '/',
   plugins: [vue()],
 })
