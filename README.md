@@ -1,5 +1,15 @@
-# Vue 3 + Vite
+# IntellectShop Frontend
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This project is a Vue 3 + Vite application. It is intended to connect to the `intellectshop.net` MODX site which acts as an API and admin for the catalog.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Development
+
+Install dependencies and start the dev server:
+
+```bash
+npm install
+npm run dev
+```
+
+The application uses Tailwind CSS and Vue Router. API calls are performed with Axios and can be found in `src/api/modx.js`.
+
