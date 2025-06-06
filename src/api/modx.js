@@ -1,11 +1,10 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: '/',                    // остаётся
+  baseURL: __API_BASE__, // ← заменяется Vite автоматически
 })
 
 export async function fetchProducts () {
-  const { data } = await api.get('api/catalog') // получаем уже готовый массив
-  // Если пришёл массив — возвращаем его, иначе пытаемся взять data.items
+  const { data } = await api.get('/catalog') // /catalog добавляется к /api
   return Array.isArray(data) ? data : (data.items ?? [])
 }
