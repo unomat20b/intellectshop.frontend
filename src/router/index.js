@@ -4,9 +4,10 @@ import Catalog from '../pages/Catalog.vue'
 import About from '../pages/About.vue'
 import Services from '../pages/Services.vue'
 import Projects from '../pages/Projects.vue'
-import ServiceApple from '../pages/ServiceApple.vue'
-import ServiceAI from '../pages/ServiceAI.vue'
-import ServiceAudit from '../pages/ServiceAudit.vue'
+// Importing service pages
+import ServiceApple from '../pages/services/ServiceApple.vue'
+import ServiceAI from '../pages/services/ServiceAI.vue'
+import ServiceAudit from '../pages/services/ServiceAudit.vue'
 
 
 

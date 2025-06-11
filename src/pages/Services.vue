@@ -51,7 +51,7 @@ onMounted(async () => {
     </div>
 
     <p v-if="loading">Загрузка…</p>
-    <p v-else-if="!services.length" class="text-gray-500">Услуг пока нет</p>
+    <p v-else-if="!services.length" class="text-gray-500"></p>
 
     <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <article

@@ -17,7 +17,7 @@ onMounted(async () => {
 
 <template>
   <section class="container mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-6">Обо мне</h1>
+    <h1 class="text-2xl font-bold mb-6">Контакты</h1>
 
     <p v-if="loading">Загрузка…</p>
     <p v-else-if="!about" class="text-gray-500">Данные не получены</p>
