@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
 import axios from 'axios'
 
 const loading = ref(true)
@@ -18,6 +19,36 @@ onMounted(async () => {
 <template>
   <section class="container mx-auto px-4 py-8">
     <h1 class="text-2xl font-bold mb-6">Услуги</h1>
+
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+      <RouterLink
+        to="/services/apple"
+        class="p-6 bg-white rounded-xl shadow-sm border text-center block"
+      >
+        <h3 class="font-semibold mb-2">Экосистема Apple</h3>
+        <p class="text-sm text-slate-600">
+          10+ лет опыта настройки устройств, MDM-решений и обучения сотрудников.
+        </p>
+      </RouterLink>
+      <RouterLink
+        to="/services/ai"
+        class="p-6 bg-white rounded-xl shadow-sm border text-center block"
+      >
+        <h3 class="font-semibold mb-2">Нейросети &amp; AI-агенты</h3>
+        <p class="text-sm text-slate-600">
+          Внедряем ChatGPT-решения, создаём кастомных агентов на базе LLM.
+        </p>
+      </RouterLink>
+      <RouterLink
+        to="/services/audit"
+        class="p-6 bg-white rounded-xl shadow-sm border text-center block"
+      >
+        <h3 class="font-semibold mb-2">Бизнес-аудит</h3>
+        <p class="text-sm text-slate-600">
+          Анализ текущих IT-процессов и подбор оптимальных инструментов.
+        </p>
+      </RouterLink>
+    </div>
 
     <p v-if="loading">Загрузка…</p>
     <p v-else-if="!services.length" class="text-gray-500">Услуг пока нет</p>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Button from '@/components/ui/Button.vue'
+import { RouterLink } from 'vue-router'
 </script>
 
 <template>
@@ -43,24 +44,33 @@ import Button from '@/components/ui/Button.vue'
     <h2 class="text-2xl font-bold text-center mb-10">Почему выбирают нас</h2>
 
     <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      <div class="p-6 bg-white rounded-xl shadow-sm border text-center">
+      <RouterLink
+        to="/services/apple"
+        class="p-6 bg-white rounded-xl shadow-sm border text-center block"
+      >
         <h3 class="font-semibold mb-2">Экосистема Apple</h3>
         <p class="text-sm text-slate-600">
           10+ лет опыта настройки устройств, MDM-решений и обучения сотрудников.
         </p>
-      </div>
-      <div class="p-6 bg-white rounded-xl shadow-sm border text-center">
+      </RouterLink>
+      <RouterLink
+        to="/services/ai"
+        class="p-6 bg-white rounded-xl shadow-sm border text-center block"
+      >
         <h3 class="font-semibold mb-2">Нейросети &amp; AI-агенты</h3>
         <p class="text-sm text-slate-600">
           Внедряем ChatGPT-решения, создаём кастомных агентов на базе LLM.
         </p>
-      </div>
-      <div class="p-6 bg-white rounded-xl shadow-sm border text-center">
+      </RouterLink>
+      <RouterLink
+        to="/services/audit"
+        class="p-6 bg-white rounded-xl shadow-sm border text-center block"
+      >
         <h3 class="font-semibold mb-2">Бизнес-аудит</h3>
         <p class="text-sm text-slate-600">
           Анализ текущих IT-процессов и подбор оптимальных инструментов.
         </p>
-      </div>
+      </RouterLink>
     </div>
   </section>
 </template>
