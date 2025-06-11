@@ -5,6 +5,9 @@ import About from '../pages/About.vue'
 import Services from '../pages/Services.vue'
 import Projects from '../pages/Projects.vue'
 
+
+
+
 export default createRouter({
   history: createWebHistory('/'), // ⚠️ важно!
   routes: [
@@ -12,6 +15,6 @@ export default createRouter({
     { path: '/catalog', component: Catalog },
     { path: '/about', component: About },
     { path: '/services', component: Services },
-    { path: '/projects', component: Projects },
+    { path: '/projects', component: Projects }
   ],
 })
