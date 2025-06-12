@@ -1,0 +1,2 @@
+export const displacementMap = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACklEQVQI12NgAAAAAgAB4iYFmwAAAABJRU5ErkJggg=='
+export const polarDisplacementMap = displacementMap
