@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Button from '@/components/ui/Button.vue'
+import WetGlass from '../components/ui/WetGlass.vue'
 import { RouterLink } from 'vue-router'
 import { useHead } from '@vueuse/head'
 
@@ -33,9 +33,9 @@ useHead({
 
         <!-- CTA-кнопки -->
         <div class="mt-8 flex flex-wrap gap-4">
-          <Button as="router-link" to="/services" variant="ghost">
-            Услуги и обучение
-          </Button>
+          <WetGlass class="inline-block">
+            <RouterLink to="/services">Услуги и обучение</RouterLink>
+          </WetGlass>
         </div>
       </div>
 
