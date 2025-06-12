@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import WetGlass from '@/components/ui/WetGlass.vue'
+import WetGlass from '../components/ui/WetGlass.vue'
 import { RouterLink } from 'vue-router'
 </script>
 
@@ -22,7 +22,7 @@ import { RouterLink } from 'vue-router'
 
         <!-- CTA-кнопки -->
         <div class="mt-8 flex flex-wrap gap-4">
-          <WetGlass className="inline-block">
+          <WetGlass class="inline-block">
             <RouterLink to="/services">Услуги и обучение</RouterLink>
           </WetGlass>
         </div>
