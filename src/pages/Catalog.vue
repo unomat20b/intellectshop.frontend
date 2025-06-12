@@ -1,6 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { fetchProducts } from '../api/modx'
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Каталог — IntellectShop',
+  meta: [
+    { name: 'description', content: 'Товары и предложения IntellectShop для бизнеса и пользователей.' }
+  ]
+})
 
 const loading = ref(true)
 const products = ref([])

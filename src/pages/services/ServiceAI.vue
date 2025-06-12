@@ -1,4 +1,12 @@
 <script setup>
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Нейросети & AI-агенты — IntellectShop',
+  meta: [
+    { name: 'description', content: 'Внедрение нейросетей и создание AI-агентов для бизнеса.' }
+  ]
+})
 </script>
 
 <template>

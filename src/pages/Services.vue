@@ -2,6 +2,14 @@
 import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import axios from 'axios'
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Услуги — IntellectShop',
+  meta: [
+    { name: 'description', content: 'Настройка Apple, нейросети, ИИ-агенты, автоматизация.' }
+  ]
+})
 
 const loading = ref(true)
 const services = ref([])

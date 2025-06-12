@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import Button from '@/components/ui/Button.vue'
 import { RouterLink } from 'vue-router'
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'IntellectShop — обучение и автоматизация',
+  meta: [
+    { name: 'description', content: 'Обучение технике Apple, нейросети и автоматизация для бизнеса' },
+    { property: 'og:title', content: 'IntellectShop — обучение и автоматизация' },
+    { property: 'og:description', content: 'Нейросети, Apple, ИИ, автоматизация бизнеса' },
+    { property: 'og:image', content: 'https://intellectshop.net/og-image.jpg' } // при наличии
+  ]
+})
 </script>
 
 <template>

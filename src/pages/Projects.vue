@@ -1,6 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Проекты — IntellectShop',
+  meta: [
+    { name: 'description', content: 'Кейсы и внедрения: ИИ, Apple, автоматизация, обучение.' }
+  ]
+})
 
 const loading = ref(true)
 const projects = ref([])

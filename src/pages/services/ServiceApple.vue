@@ -1,4 +1,12 @@
 <script setup>
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Экосистема Apple — IntellectShop',
+  meta: [
+    { name: 'description', content: 'Настройка устройств Apple, MDM-решения и обучение сотрудников.' }
+  ]
+})
 </script>
 
 <template>

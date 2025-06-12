@@ -1,4 +1,12 @@
 <script setup>
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Бизнес-аудит — IntellectShop',
+  meta: [
+    { name: 'description', content: 'Анализ IT-процессов и подбор оптимальных инструментов для бизнеса.' }
+  ]
+})
 </script>
 
 <template>
