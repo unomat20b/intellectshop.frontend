@@ -55,11 +55,11 @@ onMounted(async () => {
         <ul class="space-y-2">
           <li>
             Телефон:
-            <a href="tel:+700000000" class="text-blue-600 hover:underline">+7 (000) 000‑00‑00</a>
+            <a href="tel:+79126265926" class="text-blue-600 hover:underline">+7 (912) 626‑59‑26</a>
           </li>
           <li>
             Email:
-            <a href="mailto:info@example.com" class="text-blue-600 hover:underline">info@example.com</a>
+            <a href="mailto:info@intellectshop.net" class="text-blue-600 hover:underline">info@intellectshop.net</a>
           </li>
         </ul>
       </div>
