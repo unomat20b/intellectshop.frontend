@@ -4,6 +4,13 @@ import Catalog from '../pages/Catalog.vue'
 import About from '../pages/About.vue'
 import Services from '../pages/Services.vue'
 import Projects from '../pages/Projects.vue'
+// Importing service pages
+import ServiceApple from '../pages/services/ServiceApple.vue'
+import ServiceAI from '../pages/services/ServiceAI.vue'
+import ServiceAudit from '../pages/services/ServiceAudit.vue'
+
+
+
 
 export default createRouter({
   history: createWebHistory('/'), // ⚠️ важно!
@@ -12,6 +19,9 @@ export default createRouter({
     { path: '/catalog', component: Catalog },
     { path: '/about', component: About },
     { path: '/services', component: Services },
-    { path: '/projects', component: Projects },
+    { path: '/services/apple', component: ServiceApple },
+    { path: '/services/ai', component: ServiceAI },
+    { path: '/services/audit', component: ServiceAudit },
+    { path: '/projects', component: Projects }
   ],
 })
