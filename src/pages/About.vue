@@ -1,6 +1,19 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'О нас — IntellectShop',
+  meta: [
+    { name: 'description', content: 'Обучение Apple, ИИ, автоматизация. IntellectShop — технологии для бизнеса.' },
+    { name: 'keywords', content: 'IntellectShop, обучение Apple, нейросети, ИИ, автоматизация, агенты' },
+    { property: 'og:title', content: 'О нас — IntellectShop' },
+    { property: 'og:description', content: 'Мы внедряем нейросети и обучаем работе с техникой Apple' },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: 'https://intellectshop.net/about' },
+  ],
+})
 
 const loading = ref(true)
 const about = ref(null)
