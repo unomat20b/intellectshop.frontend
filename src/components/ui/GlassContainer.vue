@@ -3,7 +3,11 @@
     ref="containerRef"
     class="relative cursor-pointer"
     :class="[className, active ? 'active' : '']"
-    :style="style"
+    :style="{
+      ...style,
+      width: glassSize.width + 'px',
+      height: glassSize.height + 'px',
+    }"
     @mouseenter="$emit('mouseenter')"
     @mouseleave="$emit('mouseleave')"
     @mousedown="$emit('mousedown')"
@@ -41,22 +45,22 @@
     </svg>
 
     <!-- Основной стеклянный контейнер -->
-    <div
-      class="rounded-full inline-flex items-center justify-center overflow-hidden"
-      :style="{
-        padding: padding,
-        width: glassSize.width + 'px',
-        height: glassSize.height + 'px',
-        backdropFilter: `blur(${(overLight ? 12 : 4) + blurAmount * 32}px) saturate(${saturation}%)`,
-        WebkitBackdropFilter: `blur(${(overLight ? 12 : 4) + blurAmount * 32}px) saturate(${saturation}%)`,
-        boxShadow: overLight
-          ? '0px 16px 70px rgba(0,0,0,0.75)'
-          : '0px 12px 40px rgba(0,0,0,0.25)',
-        position: 'relative',
-        transition: 'all 0.2s ease-in-out',
-        borderRadius: cornerRadius + 'px',
-      }"
-    >
+      <div
+        class="rounded-full flex items-center justify-center overflow-hidden z-10"
+        :style="{
+          width: glassSize.width + 'px',
+          height: glassSize.height + 'px',
+          padding,
+          backdropFilter: `blur(${(overLight ? 12 : 4) + blurAmount * 32}px) saturate(${saturation}%)`,
+          WebkitBackdropFilter: `blur(${(overLight ? 12 : 4) + blurAmount * 32}px) saturate(${saturation}%)`,
+          boxShadow: overLight
+            ? '0px 16px 70px rgba(0,0,0,0.75)'
+            : '0px 12px 40px rgba(0,0,0,0.25)',
+          position: 'relative',
+          transition: 'all 0.2s ease-in-out',
+          borderRadius: cornerRadius + 'px',
+        }"
+      >
       <!-- Внутренний фон -->
       <span
         class="absolute inset-0 pointer-events-none"
@@ -65,7 +69,7 @@
         }"
       />
       <!-- Контент -->
-      <div class="relative z-10 text-white text-base font-medium leading-tight">
+      <div class="relative z-10 text-white text-base font-medium leading-tight text-center w-full h-full">
         <slot />
       </div>
     </div>
