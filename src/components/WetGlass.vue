@@ -54,13 +54,10 @@
     </template>
 </template>
 
-<script lang="ts" setup>
-import { defineOptions } from "vue";
-defineOptions({ name: "WetGlass" })
+<script setup>
 import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 
 
-type MousePos = { x: number; y: number }
 
 const props = defineProps({
   displacementScale: { type: Number, default: 70 },
@@ -69,24 +66,24 @@ const props = defineProps({
   aberrationIntensity: { type: Number, default: 2 },
   elasticity: { type: Number, default: 0.15 },
   cornerRadius: { type: Number, default: 999 },
-  globalMousePos: { type: Object as () => MousePos | undefined, default: undefined },
-  mouseOffset: { type: Object as () => MousePos | undefined, default: undefined },
-  mouseContainer: { type: Object as () => HTMLElement | null, default: null },
+  globalMousePos: { type: Object, default: undefined },
+  mouseOffset: { type: Object, default: undefined },
+  mouseContainer: { type: Object, default: null },
   className: { type: String, default: '' },
   padding: { type: String, default: '8px 16px' },
-  style: { type: Object as () => any, default: () => ({}) },
+  style: { type: Object, default: () => ({}) },
   overLight: { type: Boolean, default: false },
-  mode: { type: String as () => 'standard' | 'polar', default: 'standard' },
+  mode: { type: String, default: 'standard' },
 })
 
-const emit = defineEmits<{ (e: 'click'): void }>()
+const emit = defineEmits(['click'])
 
-const glassRef = ref<HTMLElement | null>(null)
+const glassRef = ref(null)
 const isHovered = ref(false)
 const isActive = ref(false)
 const glassSize = ref({ width: 270, height: 69 })
-const internalGlobalMousePos = ref<MousePos>({ x: 0, y: 0 })
-const internalMouseOffset = ref<MousePos>({ x: 0, y: 0 })
+const internalGlobalMousePos = ref({ x: 0, y: 0 })
+const internalMouseOffset = ref({ x: 0, y: 0 })
 
 const hasClick = computed(() => !!emit)
 
@@ -121,7 +118,7 @@ watch(
   () => {
     if (!glassRef.value) return
     const update = () => {
-      const rect = glassRef.value!.getBoundingClientRect()
+      const rect = glassRef.value.getBoundingClientRect()
       glassSize.value = { width: rect.width, height: rect.height }
     }
     update()
@@ -227,7 +224,7 @@ const overLightStyle = computed(() => ({
   transition: baseStyle.value.transition,
 }))
 
-function borderStyle(blend: string, start = 0.12, mid = 0.4, mix = 0.0) {
+function borderStyle(blend, start = 0.12, mid = 0.4, mix = 0.0) {
   return {
     ...positionStyles.value,
     height: glassSize.value.height + 'px',
@@ -247,7 +244,7 @@ function borderStyle(blend: string, start = 0.12, mid = 0.4, mix = 0.0) {
   }
 }
 
-function hoverStyle(opacity: number, img: string) {
+function hoverStyle(opacity, img) {
   return {
     ...positionStyles.value,
     height: glassSize.value.height + 'px',
@@ -282,7 +279,7 @@ function handleClick() {
 }
 </script>
 
-<script lang="ts">
+<script>
 import { defineComponent, h } from 'vue'
 import { displacementMap, polarDisplacementMap } from './utils'
 
@@ -294,7 +291,7 @@ export const GlassFilter = defineComponent({
     aberrationIntensity: { type: Number, required: true },
     width: { type: Number, required: true },
     height: { type: Number, required: true },
-    mode: { type: String as () => 'standard' | 'polar', default: 'standard' },
+    mode: { type: String, default: 'standard' },
   },
   setup(props) {
     return () => h('svg', { style: { position: 'absolute', width: props.width, height: props.height }, 'aria-hidden': 'true' }, [
@@ -336,18 +333,18 @@ export const GlassContainer = defineComponent({
   name: 'GlassContainer',
   props: {
     className: { type: String, default: '' },
-    style: { type: Object as () => any, default: () => ({}) },
+    style: { type: Object, default: () => ({}) },
     displacementScale: { type: Number, default: 25 },
     blurAmount: { type: Number, default: 12 },
     saturation: { type: Number, default: 180 },
     aberrationIntensity: { type: Number, default: 2 },
-    mouseOffset: { type: Object as () => MousePos, default: () => ({ x: 0, y: 0 }) },
+    mouseOffset: { type: Object, default: () => ({ x: 0, y: 0 }) },
     active: { type: Boolean, default: false },
     overLight: { type: Boolean, default: false },
     cornerRadius: { type: Number, default: 999 },
     padding: { type: String, default: '8px 16px' },
-    glassSize: { type: Object as () => { width: number; height: number }, default: () => ({ width: 270, height: 69 }) },
-    mode: { type: String as () => 'standard' | 'polar', default: 'standard' },
+    glassSize: { type: Object, default: () => ({ width: 270, height: 69 }) },
+    mode: { type: String, default: 'standard' },
   },
   emits: ['mouseenter', 'mouseleave', 'mousedown', 'mouseup', 'click'],
   setup(p, { slots, emit }) {
