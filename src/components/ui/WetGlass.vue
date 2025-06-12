@@ -81,7 +81,7 @@ const props = defineProps({
 
 const emit = defineEmits<{ (e: 'click'): void }>()
 
-const glassRef = ref<HTMLElement | null>(null)
+const glassRef = ref<{ el: HTMLElement | null } | null>(null)
 const isHovered = ref(false)
 const isActive = ref(false)
 const glassSize = ref({ width: 270, height: 69 })
@@ -94,7 +94,7 @@ const globalMousePos = computed(() => props.globalMousePos || internalGlobalMous
 const mouseOffset = computed(() => props.mouseOffset || internalMouseOffset.value)
 
 const handleMouseMove = (e: MouseEvent) => {
-  const container = props.mouseContainer || glassRef.value
+  const container = props.mouseContainer || glassRef.value?.el
   if (!container) return
   const rect = container.getBoundingClientRect()
   const centerX = rect.left + rect.width / 2
@@ -108,7 +108,7 @@ const handleMouseMove = (e: MouseEvent) => {
 
 onMounted(() => {
   if (props.globalMousePos && props.mouseOffset) return
-  const container = props.mouseContainer || glassRef.value
+  const container = props.mouseContainer || glassRef.value?.el
   if (!container) return
   container.addEventListener('mousemove', handleMouseMove)
   onBeforeUnmount(() => {
@@ -119,9 +119,9 @@ onMounted(() => {
 watch(
   () => glassRef.value,
   () => {
-    if (!glassRef.value) return
+    if (!glassRef.value?.el) return
     const update = () => {
-      const rect = glassRef.value!.getBoundingClientRect()
+      const rect = glassRef.value!.el!.getBoundingClientRect()
       glassSize.value = { width: rect.width, height: rect.height }
     }
     update()
@@ -133,9 +133,9 @@ watch(
 
 function calculateDirectionalScale() {
   const pos = globalMousePos.value
-  if (!pos.x || !pos.y || !glassRef.value) return 'scale(1)'
+  if (!pos.x || !pos.y || !glassRef.value?.el) return 'scale(1)'
 
-  const rect = glassRef.value.getBoundingClientRect()
+  const rect = glassRef.value.el!.getBoundingClientRect()
   const pillCenterX = rect.left + rect.width / 2
   const pillCenterY = rect.top + rect.height / 2
   const pillWidth = glassSize.value.width
@@ -170,9 +170,9 @@ function calculateDirectionalScale() {
 
 function calculateFadeInFactor() {
   const pos = globalMousePos.value
-  if (!pos.x || !pos.y || !glassRef.value) return 0
+  if (!pos.x || !pos.y || !glassRef.value?.el) return 0
 
-  const rect = glassRef.value.getBoundingClientRect()
+  const rect = glassRef.value.el!.getBoundingClientRect()
   const pillCenterX = rect.left + rect.width / 2
   const pillCenterY = rect.top + rect.height / 2
   const pillWidth = glassSize.value.width
@@ -187,9 +187,9 @@ function calculateFadeInFactor() {
 }
 
 function calculateElasticTranslation() {
-  if (!glassRef.value) return { x: 0, y: 0 }
+  if (!glassRef.value?.el) return { x: 0, y: 0 }
   const fadeInFactor = calculateFadeInFactor()
-  const rect = glassRef.value.getBoundingClientRect()
+  const rect = glassRef.value.el!.getBoundingClientRect()
   const pillCenterX = rect.left + rect.width / 2
   const pillCenterY = rect.top + rect.height / 2
 
@@ -283,7 +283,7 @@ function handleClick() {
 </script>
 
 <script lang="ts">
-import { defineComponent, h } from 'vue'
+import { defineComponent, h, ref } from 'vue'
 import { displacementMap, polarDisplacementMap } from './utils'
 
 export const GlassFilter = defineComponent({
@@ -350,15 +350,18 @@ export const GlassContainer = defineComponent({
     mode: { type: String as () => 'standard' | 'polar', default: 'standard' },
   },
   emits: ['mouseenter', 'mouseleave', 'mousedown', 'mouseup', 'click'],
-  setup(p, { slots, emit }) {
+  setup(p, { slots, emit, expose }) {
     const filterId = Math.random().toString(36).substring(2)
     const isFirefox = navigator.userAgent.toLowerCase().includes('firefox')
+    const containerRef = ref<HTMLElement | null>(null)
+
+    expose({ el: containerRef })
     const backdropStyle = {
       filter: isFirefox ? null : `url(#${filterId})`,
       backdropFilter: `blur(${(p.overLight ? 12 : 4) + p.blurAmount * 32}px) saturate(${p.saturation}%)`,
     }
 
-    return () => h('div', { class: `relative ${p.className} ${p.active ? 'active' : ''} ${emit ? 'cursor-pointer' : ''}`, style: p.style, onClick: () => emit('click') }, [
+    return () => h('div', { ref: containerRef, class: `relative ${p.className} ${p.active ? 'active' : ''} ${emit ? 'cursor-pointer' : ''}`, style: p.style, onClick: () => emit('click') }, [
       h(GlassFilter, { id: filterId, displacementScale: p.displacementScale, aberrationIntensity: p.aberrationIntensity, width: p.glassSize.width, height: p.glassSize.height, mode: p.mode }),
       h('div', { class: 'glass', style: { borderRadius: `${p.cornerRadius}px`, position: 'relative', display: 'inline-flex', alignItems: 'center', gap: '24px', padding: p.padding, overflow: 'hidden', transition: 'all 0.2s ease-in-out', boxShadow: p.overLight ? '0px 16px 70px rgba(0,0,0,0.75)' : '0px 12px 40px rgba(0,0,0,0.25)' }, onMouseenter: () => emit('mouseenter'), onMouseleave: () => emit('mouseleave'), onMousedown: () => emit('mousedown'), onMouseup: () => emit('mouseup') }, [
         h('span', { class: 'glass__warp', style: { ...backdropStyle, position: 'absolute', inset: '0' } }),
