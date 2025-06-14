@@ -15,10 +15,10 @@ const open = ref(false)
 
       <!-- desktop-nav -->
       <nav class="hidden md:flex items-center gap-6">
-        <RouterLink class="hover:text-blue-400" to="/catalog">Catalog</RouterLink>
-        <RouterLink class="hover:text-blue-400" to="/services">Services</RouterLink>
-        <RouterLink class="hover:text-blue-400" to="/projects">Projects</RouterLink>
-        <RouterLink class="hover:text-blue-400" to="/about">About</RouterLink>
+        <RouterLink class="hover:text-blue-400" to="/catalog">Магазин</RouterLink>
+        <RouterLink class="hover:text-blue-400" to="/services">Услуги</RouterLink>
+        <RouterLink class="hover:text-blue-400" to="/projects">Блог</RouterLink>
+        <RouterLink class="hover:text-blue-400" to="/about">Контакты</RouterLink>
       </nav>
 
       <!-- burger -->
@@ -48,10 +48,10 @@ const open = ref(false)
         class="md:hidden flex flex-col gap-4 bg-slate-800 px-6 pb-6"
         @click="open = false"
       >
-        <RouterLink class="py-1" to="/catalog">Catalog</RouterLink>
-        <RouterLink class="py-1" to="/services">Services</RouterLink>
-        <RouterLink class="py-1" to="/projects">Projects</RouterLink>
-        <RouterLink class="py-1" to="/about">About</RouterLink>
+        <RouterLink class="py-1" to="/catalog">Магазин</RouterLink>
+        <RouterLink class="py-1" to="/services">Услуги</RouterLink>
+        <RouterLink class="py-1" to="/projects">Блог</RouterLink>
+        <RouterLink class="py-1" to="/about">Контакты</RouterLink>
       </nav>
     </transition>
   </header>
