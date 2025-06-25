@@ -128,6 +128,9 @@ const routes = [
   { path: '/services/business-it/checklist-setup', component: () => import('../pages/services/business-it/checklist-setup.vue') },
   { path: '/services/business-it/process-formalization', component: () => import('../pages/services/business-it/process-formalization.vue') },
   { path: '/services/business-it/itil-support', component: () => import('../pages/services/business-it/itil-support.vue') },
+
+  // Кастомная страница 404
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('../components/NotFound.vue') }
 ]
 
 const router = createRouter({
