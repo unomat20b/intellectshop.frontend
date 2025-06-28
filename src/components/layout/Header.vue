@@ -17,7 +17,7 @@ const open = ref(false)
       <nav class="hidden md:flex items-center gap-6">
 <!--    <RouterLink class="hover:text-blue-400" to="/catalog">Магазин</RouterLink>  -->
         <RouterLink class="hover:text-blue-400" to="/services">Услуги</RouterLink>
-        <RouterLink class="hover:text-blue-400" to="/projects">Блог</RouterLink>
+        <RouterLink class="hover:text-blue-400" to="/projects">Проекты</RouterLink>
         <RouterLink class="hover:text-blue-400" to="/about">Контакты</RouterLink>
       </nav>
 
