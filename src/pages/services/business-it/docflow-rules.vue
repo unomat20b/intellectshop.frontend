@@ -1,15 +1,21 @@
-<script setup>
+<script>
 import { useHead } from '@vueuse/head'
 
-useHead({
-  title: 'Правила документооборота – IntellectShop',
-  meta: [
-    {
-      name: 'description',
-      content: 'Настройка и внедрение правил внутреннего документооборота: процессы, шаблоны, хранение и согласование.',
-    },
-  ],
-})
+export default {
+  serviceTitle: "Правила документооборота",
+  serviceDescription: "Настройка и внедрение правил внутреннего документооборота: процессы, шаблоны, хранение и согласование.",
+  setup() {
+    useHead({
+      title: 'Правила документооборота – IntellectShop',
+      meta: [
+        {
+          name: 'description',
+          content: 'Настройка и внедрение правил внутреннего документооборота: процессы, шаблоны, хранение и согласование.',
+        },
+      ],
+    })
+  }
+}
 </script>
 
 <template>

@@ -5,6 +5,8 @@ import { useHead } from '@vueuse/head'
 import bgHome1 from '@/assets/backgrounds/Background_home_1.svg'
 import logoWhite from '@/assets/svg/logo_white.svg'
 import ServiceButtons from '../components/ui/ServiceButtons.vue'
+import ServicesBlock from '../components/ServicesBlock.vue'
+import CaseAccordion from '../components/CaseAccordion.vue'
 
 useHead({
   title: 'IntellectShop — обучение и автоматизация',
@@ -72,4 +74,8 @@ useHead({
 
   <!-- Блок преимуществ -->
   <ServiceButtons />
+
+  <!-- Блок услуг -->
+  <ServicesBlock />
+  <CaseAccordion />
 </template>

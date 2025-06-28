@@ -1,16 +1,21 @@
-<script setup>
+<script>
 import { useHead } from '@vueuse/head'
 
-useHead({
-  title: 'Выбор точек применения AI – IntellectShop',
-  meta: [
-    {
-      name: 'description',
-      content:
-        'Как определить, в каких процессах бизнесу действительно выгодно использовать нейросети. Методика анализа и подбор инструментов.',
-    },
-  ],
-})
+export default {
+  serviceTitle: "Выбор точек применения AI",
+  serviceDescription: "Как определить, где в бизнесе выгодно использовать нейросети. Методика анализа и подбор инструментов.",
+  setup() {
+    useHead({
+      title: 'Выбор точек применения AI – IntellectShop',
+      meta: [
+        {
+          name: 'description',
+          content: 'Как определить, в каких процессах бизнесу действительно выгодно использовать нейросети. Методика анализа и подбор инструментов.',
+        },
+      ],
+    })
+  }
+}
 </script>
 
 <template>
