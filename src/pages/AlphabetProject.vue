@@ -10,8 +10,8 @@ useHead({
 })
 
 const openAlphabetApp = () => {
-  // Открываем Flutter приложение в новом окне
-  window.open('/alphabet/', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes')
+  // Открываем Flutter приложение в новом окне с новым параметром для сброса кеша
+  window.open('/alphabet/?v=2', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes')
 }
 </script>
 
@@ -76,14 +76,14 @@ const openAlphabetApp = () => {
         </div>
       </div>
 
-      <!-- Кнопка запуска -->
-      <div class="lg:col-span-1">
+      <!-- Блоки запуска -->
+      <div class="lg:col-span-1 flex flex-col gap-6">
+        <!-- Запуск веб-приложения -->
         <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
           <h3 class="text-lg font-semibold mb-4 text-gray-800">Запустить приложение</h3>
           <p class="text-gray-600 mb-6 text-sm">
             Откроется в новом окне для лучшего пользовательского опыта
           </p>
-          
           <Button 
             variant="primary" 
             @click="openAlphabetApp"
@@ -94,6 +94,29 @@ const openAlphabetApp = () => {
             </svg>
             Запустить Alfabet
           </Button>
+        </div>
+        <!-- Запуск в Telegram -->
+        <div class="bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-6 border border-green-100">
+          <h3 class="text-lg font-semibold mb-4 text-gray-800">Запустить в Telegram</h3>
+          <p class="text-gray-600 mb-6 text-sm">
+            Мини-приложение доступно прямо в Telegram. Откроется в официальном приложении Telegram.
+          </p>
+          <Button 
+            variant="primary" 
+            as="a"
+            href="https://t.me/intellectshop_alphabet_bot"
+            target="_blank"
+            class="w-full flex items-center justify-center gap-2 py-3"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+              <path d="M8 12l2 2l4-4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Открыть в Telegram
+          </Button>
+          <div class="mt-2 text-xs text-gray-500 text-center">
+            @intellectshop_alphabet_bot
+          </div>
         </div>
       </div>
     </div>

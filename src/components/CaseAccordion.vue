@@ -55,5 +55,11 @@ const cases = [
   { title: 'Телеграм боты', description: 'Сбор заявок, внутренние решения для данных, пользовательские контакты', image: img3 }
 ]
 const openIdx = ref(0)
-function open(idx) { openIdx.value = idx }
+function open(idx) {
+  if (openIdx.value === idx) {
+    openIdx.value = (idx + 1) % cases.length
+  } else {
+    openIdx.value = idx
+  }
+}
 </script> 

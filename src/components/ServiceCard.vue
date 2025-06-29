@@ -20,8 +20,8 @@ import { ref, onMounted } from 'vue'
 import ServicePopup from './ServicePopup.vue'
 
 const serviceModules = {
-  'AI/business/n8n-zapier.vue': () => import('../pages/services/ai/business/n8n-zapier.vue'),
-  'AI/business/use-cases.vue': () => import('../pages/services/ai/business/use-cases.vue'),
+  'ai/business/n8n-zapier.vue': () => import('../pages/services/ai/business/n8n-zapier.vue'),
+  'ai/business/use-cases.vue': () => import('../pages/services/ai/business/use-cases.vue'),
   'business-it/access-roles.vue': () => import('../pages/services/business-it/access-roles.vue'),
   'business-it/docflow-rules.vue': () => import('../pages/services/business-it/docflow-rules.vue'),
 }

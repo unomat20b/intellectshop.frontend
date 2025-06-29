@@ -10,6 +10,7 @@ import AlphabetProject from '../pages/AlphabetProject.vue'
 import ServiceApple from '../pages/Services/ServiceApple.vue'
 import ServiceAI from '../pages/Services/ServiceAI.vue'
 import ServiceAudit from '../pages/services/ServiceAudit.vue'
+import Test from '../pages/test.vue'
 
 // Основной массив маршрутов
 const routes = [
@@ -22,6 +23,7 @@ const routes = [
   { path: '/services/audit', component: ServiceAudit },
   { path: '/projects', component: Projects },
   { path: '/alphabet-project', component: AlphabetProject },
+  { path: '/test', component: Test },
 
   // --- iPhone ---
   { path: '/services/apple/iphone/IPhoneBasics', component: () => import('../pages/services/Apple/iPhone/IPhoneBasics.vue') },
