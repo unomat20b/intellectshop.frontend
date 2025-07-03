@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-white py-12">
+  <div :class="[small ? 'small-form' : 'bg-white py-12']">
     <div class="max-w-6xl mx-auto px-4">
-      <div class="bg-slate-50 rounded-3xl shadow-2xl p-8 flex flex-col gap-8">
-        <h2 class="text-3xl font-bold mb-8 text-center">{{ title }}</h2>
+      <div :class="[small ? 'bg-slate-50 rounded-3xl shadow-2xl p-4' : 'bg-slate-50 rounded-3xl shadow-2xl p-8', 'flex flex-col gap-8']">
+        <h2 :class="[small ? 'text-2xl mt-8 mb-2 text-left' : 'text-3xl mb-8 text-center', 'font-bold']">{{ title }}</h2>
         <form
           @submit.prevent="handleSubmit"
           class="w-full flex flex-col gap-4 items-stretch"
@@ -56,6 +56,10 @@ export default {
     tag: {
       type: String,
       default: ''
+    },
+    small: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

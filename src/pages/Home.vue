@@ -81,6 +81,6 @@ useHead({
   <ServicesBlock />
   <CaseAccordion />
   <div class="bg-slate-50 py-12">
-    <FeedbackForm title="Если есть вопросы - вам сюда" tag="Контакты" />
+    <FeedbackForm title="Если есть вопросы - вам сюда" tag="Home" />
   </div>
 </template>
