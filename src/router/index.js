@@ -11,6 +11,8 @@ import ServiceApple from '../pages/Services/ServiceApple.vue'
 import ServiceAI from '../pages/Services/ServiceAI.vue'
 import ServiceAudit from '../pages/services/ServiceAudit.vue'
 import Test from '../pages/test.vue'
+import AiComparison from '../pages/AiComparison.vue'
+import FeedbackFormPage from '../pages/FeedbackFormPage.vue'
 
 // Основной массив маршрутов
 const routes = [
@@ -24,6 +26,8 @@ const routes = [
   { path: '/projects', component: Projects },
   { path: '/alphabet-project', component: AlphabetProject },
   { path: '/test', component: Test },
+  { path: '/ai-comparison', component: AiComparison },
+  { path: '/feedback-form', component: FeedbackFormPage },
 
   // --- iPhone ---
   { path: '/services/apple/iphone/IPhoneBasics', component: () => import('../pages/services/Apple/iPhone/IPhoneBasics.vue') },

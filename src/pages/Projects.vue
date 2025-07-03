@@ -37,12 +37,30 @@ onMounted(async () => {
         variant="primary" 
         as="a"
         href="/alphabet-project"
-        class="flex items-center gap-2"
+        class="inline-flex items-center gap-2"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
         </svg>
         Проект Алфавиты
+      </Button>
+    </div>
+
+    <!-- Кнопка для перехода к сравнению нейросетей -->
+    <div class="mb-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+      <h2 class="text-lg font-semibold mb-3 text-gray-800">Сравнение нейросетей</h2>
+      <p class="text-gray-600 mb-4">Интерактивный гид по выбору ИИ-сервисов для разных задач</p>
+      <Button 
+        variant="primary" 
+        as="a"
+        href="/ai-comparison"
+        class="inline-flex items-center gap-2"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+          <path d="M8 12l2 2l4-4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Сравнить нейросети
       </Button>
     </div>
 
