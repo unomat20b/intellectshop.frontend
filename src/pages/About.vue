@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useHead } from '@vueuse/head'
+import FeedbackForm from '../components/FeedbackForm.vue'
 
 useHead({
   title: 'О нас — IntellectShop',
@@ -35,7 +36,7 @@ onMounted(async () => {
     <div>
       <h1 class="text-3xl font-bold mb-6">О IntellectShop</h1>
       <p class="mb-6 text-lg">
-        IntellectShop — команда специалистов, обучающих работе с техникой Apple, внедряющих нейросети в бизнес, автоматизирующих процессы и развивающих цифровую трансформацию.
+        IntellectShop — команда специалистов, внедряющих нейросети в бизнес, автоматизирующих процессы и развивающих цифровую трансформацию, обучающих работе с техникой Apple.
       </p>
     </div>
 
@@ -49,14 +50,10 @@ onMounted(async () => {
         <h3 class="text-xl font-semibold mb-2">{{ about.title }}</h3>
         <div v-html="about.content" />
       </article>
-
+      
       <div class="bg-white rounded-xl shadow-sm border p-6">
-        <h3 class="text-xl font-semibold mb-4">Свяжитесь с нами</h3>
+        <h3 class="text-xl font-semibold mb-4">Электронная почта</h3>
         <ul class="space-y-2">
-          <li>
-            Телефон:
-            <a href="tel:+79126265926" class="text-blue-600 hover:underline">+7 (912) 626‑59‑26</a>
-          </li>
           <li>
             Email:
             <a href="mailto:info@intellectshop.net" class="text-blue-600 hover:underline">info@intellectshop.net</a>
@@ -64,7 +61,7 @@ onMounted(async () => {
         </ul>
       </div>
     </div>
-
+    <FeedbackForm title="Форма обратной связи" tag="Контакты" />
     <!-- Миссия -->
     <div>
       <h2 class="text-2xl font-semibold mb-4">Наша миссия</h2>
@@ -82,6 +79,9 @@ onMounted(async () => {
       </ul>
       <router-link to="/services" class="mt-4 inline-block text-blue-600 underline hover:text-blue-800">
         Подробнее об услугах →
+      </router-link>
+      <router-link to="/projects" class="mt-4 inline-block text-blue-600 underline hover:text-blue-800">
+        Подробнее об проектах →
       </router-link>
     </div>
   </section>

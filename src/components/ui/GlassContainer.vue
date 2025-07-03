@@ -5,8 +5,8 @@
     :class="[className, active ? 'active' : '']"
     :style="{
       ...style,
-      width: glassSize.width + 'px',
-      height: glassSize.height + 'px',
+      width: (outerSize ? outerSize.width : glassSize.width) + 'px',
+      height: (outerSize ? outerSize.height : glassSize.height) + 'px',
     }"
     @mouseenter="$emit('mouseenter')"
     @mouseleave="$emit('mouseleave')"
@@ -14,9 +14,9 @@
     @mouseup="$emit('mouseup')"
     @click="$emit('click')"
   >
-    <!-- SVG фильтр -->
+    <!-- SVG фильтр (только если не compact) -->
     <svg
-      v-if="!isFirefox"
+      v-if="!compact && !isFirefox"
       :width="glassSize.width"
       :height="glassSize.height"
       class="absolute"
@@ -51,18 +51,21 @@
           width: glassSize.width + 'px',
           height: glassSize.height + 'px',
           padding,
-          backdropFilter: `blur(${(overLight ? 12 : 4) + blurAmount * 32}px) saturate(${saturation}%)`,
-          WebkitBackdropFilter: `blur(${(overLight ? 12 : 4) + blurAmount * 32}px) saturate(${saturation}%)`,
-          boxShadow: overLight
-            ? '0px 16px 70px rgba(0,0,0,0.75)'
-            : '0px 12px 40px rgba(0,0,0,0.25)',
+          backdropFilter: compact ? 'none' : `blur(${(overLight ? 12 : 4) + blurAmount * 32}px) saturate(${saturation}%)`,
+          WebkitBackdropFilter: compact ? 'none' : `blur(${(overLight ? 12 : 4) + blurAmount * 32}px) saturate(${saturation}%)`,
+          boxShadow: compact
+            ? '0 1px 4px rgba(0,0,0,0.10)'
+            : (overLight
+                ? '0px 16px 70px rgba(0,0,0,0.75)'
+                : '0px 12px 40px rgba(0,0,0,0.25)'),
           position: 'relative',
           transition: 'all 0.2s ease-in-out',
           borderRadius: cornerRadius + 'px',
         }"
       >
-      <!-- Внутренний фон -->
+      <!-- Внутренний фон (только если не compact) -->
       <span
+        v-if="!compact"
         class="absolute inset-0 pointer-events-none"
         :style="{
           filter: isFirefox ? '' : `url(#${filterId})`,
@@ -92,7 +95,9 @@ const props = defineProps({
   cornerRadius: { type: Number, default: 999 },
   padding: { type: String, default: '8px 16px' },
   glassSize: { type: Object as () => { width: number; height: number }, default: () => ({ width: 270, height: 69 }) },
+  outerSize: { type: Object as () => { width: number; height: number } | null, default: null },
   mode: { type: String as () => 'standard' | 'polar', default: 'standard' },
+  compact: { type: Boolean, default: false },
 })
 
 defineEmits(['mouseenter', 'mouseleave', 'mousedown', 'mouseup', 'click'])

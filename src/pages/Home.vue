@@ -7,6 +7,8 @@ import logoWhite from '@/assets/svg/logo_white.svg'
 import ServiceButtons from '../components/ui/ServiceButtons.vue'
 import ServicesBlock from '../components/ServicesBlock.vue'
 import CaseAccordion from '../components/CaseAccordion.vue'
+import FeedbackForm from '../components/FeedbackForm.vue'
+import Button from '@/components/ui/Button.vue'
 
 useHead({
   title: 'IntellectShop — обучение и автоматизация',
@@ -78,4 +80,7 @@ useHead({
   <!-- Блок услуг -->
   <ServicesBlock />
   <CaseAccordion />
+  <div class="bg-slate-50 py-12">
+    <FeedbackForm title="Если есть вопросы - вам сюда" tag="Контакты" />
+  </div>
 </template>
