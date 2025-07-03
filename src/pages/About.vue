@@ -84,12 +84,14 @@ onMounted(async () => {
         <li>Настройка и поддержка техники Apple</li>
         <li>Обучение работе с macOS, iOS, iCloud</li>
       </ul>
-      <router-link to="/services" class="mt-4 inline-block text-blue-600 underline hover:text-blue-800">
-        Подробнее об услугах →
-      </router-link>
-      <router-link to="/projects" class="mt-4 inline-block text-blue-600 underline hover:text-blue-800">
-        Подробнее об проектах →
-      </router-link>
+      <div class="flex flex-col gap-2 mt-4">
+        <router-link to="/services" class="text-blue-600 underline hover:text-blue-800">
+          Подробнее об услугах →
+        </router-link>
+        <router-link to="/projects" class="text-blue-600 underline hover:text-blue-800">
+          Подробнее о проектах →
+        </router-link>
+      </div>
     </div>
   </section>
 </template>
