@@ -39,7 +39,7 @@ onMounted(async () => {
       <Button 
         variant="primary" 
         as="a"
-        href="/alphabet-project"
+        href="/alphabet-project/"
         class="inline-flex items-center gap-2"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,7 +56,7 @@ onMounted(async () => {
       <Button 
         variant="primary" 
         as="a"
-        href="/ai-comparison"
+        href="/ai-comparison/"
         class="inline-flex items-center gap-2"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -12,9 +12,15 @@ const DEFAULT_DESCRIPTION =
   'IntellectShop обучает технике Apple, внедряет нейросети и автоматизирует бизнес.'
 const DEFAULT_IMAGE = `${SITE_URL}/favicon.ico`
 
+const normalizeCanonicalPath = (path: string) => {
+  if (!path || path === '/') return '/'
+  if (path.endsWith('/')) return path
+  if (path.includes('.')) return path
+  return `${path}/`
+}
+
 const canonicalUrl = computed(() => {
-  const path = route.path || '/'
-  return new URL(path, SITE_URL).toString()
+  return new URL(normalizeCanonicalPath(route.path), SITE_URL).toString()
 })
 
 const organizationJsonLd = computed(() =>

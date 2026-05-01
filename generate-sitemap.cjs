@@ -5,6 +5,13 @@ const { resolve } = require('path')
 const hostname = 'https://intellectshop.net'
 const outputPath = resolve(__dirname, 'public/sitemap.xml')
 
+function normalizeSitemapPath(path) {
+  if (!path || path === '/') return '/'
+  if (path.endsWith('/')) return path
+  if (path.includes('.')) return path
+  return `${path}/`
+}
+
 async function generateSitemap() {
   const { sitemapRoutes } = await import('./src/router/routes.js')
 
@@ -12,7 +19,7 @@ async function generateSitemap() {
 
   sitemapRoutes.forEach((route) => {
     sitemap.write({
-      url: route.path,
+      url: normalizeSitemapPath(route.path),
       changefreq: route.changefreq,
       priority: route.priority
     })

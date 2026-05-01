@@ -53,7 +53,7 @@ useHead({
           <div class="mt-8 flex flex-wrap gap-4">
             <WetGlass class="inline-block">
               <RouterLink
-                to="/services"
+                to="/services/"
                 class="w-full h-full flex items-center justify-center"
               >
                 Услуги и обучение

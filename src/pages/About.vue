@@ -13,7 +13,6 @@ useHead({
     { property: 'og:title', content: 'О нас — IntellectShop' },
     { property: 'og:description', content: 'Мы внедряем нейросети и обучаем работе с техникой Apple' },
     { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: 'https://intellectshop.net/about' },
   ],
 })
 
@@ -89,10 +88,10 @@ onMounted(async () => {
         <li>Обучение работе с macOS, iOS, iCloud</li>
       </ul>
       <div class="flex flex-col gap-2 mt-4">
-        <router-link to="/services" class="text-blue-600 underline hover:text-blue-800">
+        <router-link to="/services/" class="text-blue-600 underline hover:text-blue-800">
           Подробнее об услугах →
         </router-link>
-        <router-link to="/projects" class="text-blue-600 underline hover:text-blue-800">
+        <router-link to="/projects/" class="text-blue-600 underline hover:text-blue-800">
           Подробнее о проектах →
         </router-link>
       </div>

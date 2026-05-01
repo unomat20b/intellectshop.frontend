@@ -33,7 +33,7 @@ onMounted(async () => {
 
     <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 mb-8">
       <RouterLink
-        to="/services/apple"
+        to="/services/apple/"
         class="block bg-white border rounded-xl p-4 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300"
       >
         <h3 class="font-semibold mb-2">Экосистема Apple</h3>
@@ -42,7 +42,7 @@ onMounted(async () => {
         </p>
       </RouterLink>
       <RouterLink
-        to="/services/ai"
+        to="/services/ai/"
         class="block bg-white border rounded-xl p-4 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300"
       >
         <h3 class="font-semibold mb-2">Нейросети &amp; AI-агенты</h3>
@@ -51,7 +51,7 @@ onMounted(async () => {
         </p>
       </RouterLink>
       <RouterLink
-        to="/services/audit"
+        to="/services/audit/"
         class="block bg-white border rounded-xl p-4 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300"
       >
         <h3 class="font-semibold mb-2">Бизнес-аудит</h3>
