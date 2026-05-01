@@ -48,16 +48,18 @@ jobs:
           chmod 700 ~/.ssh
           printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/timeweb_deploy
           chmod 600 ~/.ssh/timeweb_deploy
+          touch ~/.ssh/known_hosts
+          scanned=0
           for attempt in 1 2 3 4 5; do
             if ssh-keyscan -T 10 -H "${{ secrets.TIMEWEB_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null; then
+              scanned=1
               break
-            fi
-            if [ "$attempt" -eq 5 ]; then
-              echo "Failed to fetch SSH host key for ${{ secrets.TIMEWEB_HOST }}" >&2
-              exit 1
             fi
             sleep 3
           done
+          if [ "$scanned" -ne 1 ]; then
+            echo "Warning: ssh-keyscan failed for ${{ secrets.TIMEWEB_HOST }}; continuing with StrictHostKeyChecking=accept-new"
+          fi
 
       - name: Rsync dist → Timeweb (только артефакты сборки)
         env:
@@ -67,7 +69,7 @@ jobs:
           set -euo pipefail
           test -n "$RPATH"
           rsync -avz --delete \
-            -e "ssh -i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes" \
+            -e "ssh -i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new" \
             dist/assets/ "$REMOTE:$RPATH/assets/"
 
           # SSG pages with nested dir style:
@@ -76,12 +78,12 @@ jobs:
           for dir in "${prerender_dirs[@]}"; do
             dname="$(basename "$dir")"
             rsync -avz --delete \
-              -e "ssh -i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes" \
+              -e "ssh -i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new" \
               "$dir/" "$REMOTE:$RPATH/$dname/"
           done
 
           mapfile -t root_files < <(find dist -maxdepth 1 -type f)
           if [[ ${#root_files[@]} -gt 0 ]]; then
-            scp -i "$HOME/.ssh/timeweb_deploy" -o IdentitiesOnly=yes -o BatchMode=yes \
+            scp -i "$HOME/.ssh/timeweb_deploy" -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new \
               "${root_files[@]}" "$REMOTE:$RPATH/"
           fi
