@@ -1,0 +1,28 @@
+# IntellectShop
+
+> IntellectShop helps people and teams learn Apple devices, adopt AI tools, and automate business workflows.
+
+Primary language: Russian.
+
+## Main Pages
+
+- [Homepage](https://intellectshop.net/): Overview of services and contact entry point.
+- [Services](https://intellectshop.net/services): Full list of service areas.
+- [About](https://intellectshop.net/about): Company context and expertise.
+- [Projects](https://intellectshop.net/projects): Practical implementation examples.
+- [AI Comparison](https://intellectshop.net/ai-comparison): Model and tool comparison content.
+
+## Service Areas
+
+- [Apple Training](https://intellectshop.net/services/apple): iPhone, iPad, Mac, business, and creative workflows.
+- [AI Services](https://intellectshop.net/services/ai): AI adoption for business and personal use.
+- [Business IT Audit](https://intellectshop.net/services/audit): Infrastructure and process audit direction.
+
+## Contact
+
+- [Feedback Form](https://intellectshop.net/feedback-form): Main inbound contact form.
+
+## Discovery
+
+- [Sitemap](https://intellectshop.net/sitemap.xml)
+- [Robots](https://intellectshop.net/robots.txt)

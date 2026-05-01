@@ -102,7 +102,10 @@ const props = defineProps({
 
 defineEmits(['mouseenter', 'mouseleave', 'mousedown', 'mouseup', 'click'])
 
-const isFirefox = navigator.userAgent.toLowerCase().includes('firefox')
+const isFirefox =
+  typeof navigator !== 'undefined'
+    ? navigator.userAgent.toLowerCase().includes('firefox')
+    : false
 const containerRef = ref<HTMLElement | null>(null)
 const filterId = 'glass-filter-' + Math.random().toString(36).substring(2)
 </script>

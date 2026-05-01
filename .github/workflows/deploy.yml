@@ -60,6 +60,17 @@ jobs:
           rsync -avz --delete \
             -e "ssh -i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes" \
             dist/assets/ "$REMOTE:$RPATH/assets/"
+
+          # SSG pages with nested dir style:
+          # copy first-level route directories (e.g. /about/index.html, /services/index.html)
+          mapfile -t prerender_dirs < <(find dist -mindepth 1 -maxdepth 1 -type d ! -name assets ! -name .vite)
+          for dir in "${prerender_dirs[@]}"; do
+            dname="$(basename "$dir")"
+            rsync -avz --delete \
+              -e "ssh -i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes" \
+              "$dir/" "$REMOTE:$RPATH/$dname/"
+          done
+
           mapfile -t root_files < <(find dist -maxdepth 1 -type f)
           if [[ ${#root_files[@]} -gt 0 ]]; then
             scp -i "$HOME/.ssh/timeweb_deploy" -o IdentitiesOnly=yes -o BatchMode=yes \

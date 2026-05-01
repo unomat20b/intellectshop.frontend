@@ -4,6 +4,13 @@ import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd())
+  const prerenderRoutes = new Set([
+    '/',
+    '/services',
+    '/about',
+    '/projects',
+    '/ai-comparison'
+  ])
 
   return {
     base: '/',
@@ -12,7 +19,14 @@ export default defineConfig(({ mode }) => {
     ],
     resolve: {
       alias: {
+        '@vueuse/head': '@unhead/vue',
         '@': fileURLToPath(new URL('./src', import.meta.url))
+      }
+    },
+    ssgOptions: {
+      dirStyle: 'nested',
+      includedRoutes(paths) {
+        return paths.filter((path) => prerenderRoutes.has(path))
       }
     },
     define: {
