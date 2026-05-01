@@ -1,38 +1,62 @@
-name: Deploy to Timeweb via FTP
+# Сборка Vite и выкладка ТОЛЬКО содержимого dist в корень public_html на Timeweb (без modx и пр.).
+# Секреты: TIMEWEB_SSH_KEY, TIMEWEB_HOST, TIMEWEB_USER, TIMEWEB_REMOTE_PATH (абсолютный путь к public_html).
+
+name: Build and deploy dist to Timeweb
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+    paths:
+      - "src/**"
+      - "public/**"
+      - "index.html"
+      - "vite.config.js"
+      - "package.json"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: timeweb-frontend-dist
+  cancel-in-progress: true
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      VITE_API_BASE: https://intellectshop.net/api
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install and build
+        run: |
+          npm install
+          npm run build
 
-      - name: Build project
-        run: npm run build
-
-      - name: Deploy to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - uses: webfactory/ssh-agent@v0.9.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/
-          remote-dir: ${{ secrets.REMOTE_DIR }}
-          # Опции ниже можно настроить по желанию
-          # port: 21 # по умолчанию 21
-          # protocol: ftp # по умолчанию ftp
-          # single-commit: true # загружать только изменения с последнего коммита
-          # clean: true # очищать удаленную директорию перед загрузкой 
+          ssh-private-key: ${{ secrets.TIMEWEB_SSH_KEY }}
+
+      - name: Trust host key
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          ssh-keyscan -H "${{ secrets.TIMEWEB_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Rsync dist → Timeweb (только артефакты сборки)
+        env:
+          REMOTE: ${{ secrets.TIMEWEB_USER }}@${{ secrets.TIMEWEB_HOST }}
+          RPATH: ${{ secrets.TIMEWEB_REMOTE_PATH }}
+        run: |
+          set -euo pipefail
+          test -n "$RPATH"
+          rsync -avz --delete \
+            -e "ssh -o IdentitiesOnly=yes" \
+            dist/assets/ "$REMOTE:$RPATH/assets/"
+          mapfile -t root_files < <(find dist -maxdepth 1 -type f)
+          if [[ ${#root_files[@]} -gt 0 ]]; then
+            scp -o IdentitiesOnly=yes "${root_files[@]}" "$REMOTE:$RPATH/"
+          fi
