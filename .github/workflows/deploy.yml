@@ -12,6 +12,7 @@ on:
       - "index.html"
       - "vite.config.js"
       - "package.json"
+      - "package-lock.json"
       - ".github/workflows/deploy.yml"
   workflow_dispatch:
 
@@ -33,7 +34,7 @@ jobs:
 
       - name: Install and build
         run: |
-          npm install
+          npm ci
           npm run generate-sitemap
           npm run build
 
