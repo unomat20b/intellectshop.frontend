@@ -36,14 +36,16 @@ jobs:
           npm install
           npm run build
 
-      - uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.TIMEWEB_SSH_KEY }}
-
-      - name: Trust host key
+      # Ключ из секрета пишем в файл: так надёжнее, чем ssh-agent (CRLF/многострочные секреты).
+      - name: SSH key and known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.TIMEWEB_SSH_KEY }}
         run: |
+          set -euo pipefail
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/timeweb_deploy
+          chmod 600 ~/.ssh/timeweb_deploy
           ssh-keyscan -H "${{ secrets.TIMEWEB_HOST }}" >> ~/.ssh/known_hosts
 
       - name: Rsync dist → Timeweb (только артефакты сборки)
@@ -54,9 +56,10 @@ jobs:
           set -euo pipefail
           test -n "$RPATH"
           rsync -avz --delete \
-            -e "ssh -o IdentitiesOnly=yes" \
+            -e "ssh -i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes" \
             dist/assets/ "$REMOTE:$RPATH/assets/"
           mapfile -t root_files < <(find dist -maxdepth 1 -type f)
           if [[ ${#root_files[@]} -gt 0 ]]; then
-            scp -o IdentitiesOnly=yes "${root_files[@]}" "$REMOTE:$RPATH/"
+            scp -i "$HOME/.ssh/timeweb_deploy" -o IdentitiesOnly=yes -o BatchMode=yes \
+              "${root_files[@]}" "$REMOTE:$RPATH/"
           fi
