@@ -68,22 +68,48 @@ jobs:
         run: |
           set -euo pipefail
           test -n "$RPATH"
-          rsync -avz --delete \
-            -e "ssh -i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new" \
-            dist/assets/ "$REMOTE:$RPATH/assets/"
+          ssh_opts="-i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
+
+          for attempt in 1 2 3 4 5; do
+            if rsync -avz --delete --timeout=120 -e "ssh $ssh_opts" dist/assets/ "$REMOTE:$RPATH/assets/"; then
+              break
+            fi
+            if [ "$attempt" -eq 5 ]; then
+              echo "Failed to rsync assets after 5 attempts" >&2
+              exit 1
+            fi
+            sleep 5
+          done
 
           # SSG pages with nested dir style:
           # copy first-level route directories (e.g. /about/index.html, /services/index.html)
           mapfile -t prerender_dirs < <(find dist -mindepth 1 -maxdepth 1 -type d ! -name assets ! -name .vite)
           for dir in "${prerender_dirs[@]}"; do
             dname="$(basename "$dir")"
-            rsync -avz --delete \
-              -e "ssh -i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new" \
-              "$dir/" "$REMOTE:$RPATH/$dname/"
+            for attempt in 1 2 3 4 5; do
+              if rsync -avz --delete --timeout=120 -e "ssh $ssh_opts" "$dir/" "$REMOTE:$RPATH/$dname/"; then
+                break
+              fi
+              if [ "$attempt" -eq 5 ]; then
+                echo "Failed to rsync prerender dir '$dname' after 5 attempts" >&2
+                exit 1
+              fi
+              sleep 5
+            done
           done
 
           mapfile -t root_files < <(find dist -maxdepth 1 -type f)
           if [[ ${#root_files[@]} -gt 0 ]]; then
-            scp -i "$HOME/.ssh/timeweb_deploy" -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new \
-              "${root_files[@]}" "$REMOTE:$RPATH/"
+            for attempt in 1 2 3 4 5; do
+              if scp -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3 \
+                -i "$HOME/.ssh/timeweb_deploy" -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new \
+                "${root_files[@]}" "$REMOTE:$RPATH/"; then
+                break
+              fi
+              if [ "$attempt" -eq 5 ]; then
+                echo "Failed to copy root files after 5 attempts" >&2
+                exit 1
+              fi
+              sleep 5
+            done
           fi
