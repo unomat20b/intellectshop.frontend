@@ -1,0 +1,30 @@
+Options -Indexes -MultiViews
+DirectorySlash Off
+
+RewriteEngine On
+
+# Backend endpoints must bypass SPA/404 rewrites.
+RewriteRule ^api(?:/.*)?$ - [L]
+RewriteRule ^api-feedback/?$ - [L]
+
+# Normalize directory URLs to a single canonical HTTPS URL with trailing slash.
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI}/ [R=301,L,NE]
+
+# Force HTTPS (works both behind proxy and on direct HTTPS).
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE]
+
+# Serve existing files/directories as-is.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Known SPA routes fall back to the app shell.
+RewriteRule ^(?:services(?:/.*)?|about|projects|ai-comparison|alphabet-project|catalog|feedback-form|test)/?$ /index.html [L]
+
+# Unknown paths should be real 404 responses.
+ErrorDocument 404 /404.html
+RewriteRule ^ - [R=404,L]
