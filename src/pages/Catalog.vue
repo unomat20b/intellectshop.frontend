@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { fetchProducts } from '../api/modx'
+import { getErrorMessage } from '@/api/errors'
 import { useHead } from '@vueuse/head'
 
 useHead({
@@ -12,10 +13,13 @@ useHead({
 
 const loading = ref(true)
 const products = ref([])
+const errorMessage = ref('')
 
 onMounted(async () => {
   try {
     products.value = await fetchProducts()
+  } catch (error) {
+    errorMessage.value = getErrorMessage(error, 'Не удалось загрузить каталог.')
   } finally {
     loading.value = false
   }
@@ -30,6 +34,7 @@ onMounted(async () => {
 
     <!-- Спиннер / заглушка -->
     <p v-if="loading">Загрузка…</p>
+    <p v-else-if="errorMessage" class="text-red-600">{{ errorMessage }}</p>
 
     <!-- Нет товаров -->
     <p v-else-if="!products.length" class="text-gray-500">

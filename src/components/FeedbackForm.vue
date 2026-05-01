@@ -46,6 +46,9 @@
 </template>
 
 <script>
+import { submitFeedback } from '@/api/modx'
+import { getErrorMessage } from '@/api/errors'
+
 export default {
   name: 'FeedbackForm',
   props: {
@@ -74,30 +77,24 @@ export default {
   methods: {
     async handleSubmit() {
       try {
-        const formData = new FormData();
-        formData.append('name', this.form.name);
-        formData.append('email', this.form.email);
-        formData.append('message', this.form.message);
-        formData.append('tag', this.tag);
-
-        const response = await fetch('/api-feedback', {
-          method: 'POST',
-          body: formData
-        });
-
-        const result = await response.json();
+        const result = await submitFeedback({
+          name: this.form.name,
+          email: this.form.email,
+          message: this.form.message,
+          tag: this.tag
+        })
 
         if (result.success) {
-          alert('Сообщение успешно отправлено!');
-          this.form.name = '';
-          this.form.email = '';
-          this.form.message = '';
+          alert('Сообщение успешно отправлено!')
+          this.form.name = ''
+          this.form.email = ''
+          this.form.message = ''
         } else {
-          alert('Ошибка: ' + (result.error || 'Неизвестная ошибка'));
+          alert('Ошибка: ' + (result.error || 'Неизвестная ошибка'))
         }
       } catch (error) {
-        console.error('Ошибка отправки:', error);
-        alert('Ошибка сети. Попробуйте еще раз.');
+        console.error('Ошибка отправки:', error)
+        alert(getErrorMessage(error, 'Ошибка сети. Попробуйте еще раз.'))
       }
     }
   }

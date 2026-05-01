@@ -34,6 +34,7 @@ jobs:
       - name: Install and build
         run: |
           npm install
+          npm run generate-sitemap
           npm run build
 
       # Ключ из секрета пишем в файл: так надёжнее, чем ssh-agent (CRLF/многострочные секреты).

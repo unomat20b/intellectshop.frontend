@@ -1,8 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import axios from 'axios'
 import { useHead } from '@vueuse/head'
+import { fetchServices } from '@/api/modx'
+import { getErrorMessage } from '@/api/errors'
 
 useHead({
   title: 'Услуги — IntellectShop',
@@ -13,11 +14,13 @@ useHead({
 
 const loading = ref(true)
 const services = ref([])
+const errorMessage = ref('')
 
 onMounted(async () => {
   try {
-    const { data } = await axios.get('/api/services')
-    services.value = Array.isArray(data) ? data : []
+    services.value = await fetchServices()
+  } catch (error) {
+    errorMessage.value = getErrorMessage(error, 'Не удалось загрузить список услуг.')
   } finally {
     loading.value = false
   }
@@ -59,6 +62,7 @@ onMounted(async () => {
     </div>
 
     <p v-if="loading">Загрузка…</p>
+    <p v-else-if="errorMessage" class="text-red-600">{{ errorMessage }}</p>
     <p v-else-if="!services.length" class="text-gray-500"></p>
 
     <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

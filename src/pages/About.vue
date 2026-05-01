@@ -1,8 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
 import { useHead } from '@vueuse/head'
 import FeedbackForm from '../components/FeedbackForm.vue'
+import { fetchAbout } from '@/api/modx'
+import { getErrorMessage } from '@/api/errors'
 
 useHead({
   title: 'О нас — IntellectShop',
@@ -18,11 +19,13 @@ useHead({
 
 const loading = ref(true)
 const about = ref(null)
+const errorMessage = ref('')
 
 onMounted(async () => {
   try {
-    const { data } = await axios.get('/api/about')
-    about.value = data
+    about.value = await fetchAbout()
+  } catch (error) {
+    errorMessage.value = getErrorMessage(error, 'Не удалось загрузить информацию о компании.')
   } finally {
     loading.value = false
   }
@@ -38,6 +41,7 @@ onMounted(async () => {
       <p class="mb-6 text-lg">
         IntellectShop — команда специалистов, внедряющих нейросети в бизнес, автоматизирующих процессы и развивающих цифровую трансформацию, обучающих работе с техникой Apple.
       </p>
+      <p v-if="errorMessage" class="text-red-600">{{ errorMessage }}</p>
     </div>
 
     <!-- Контакты (из API) -->

@@ -1,8 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
 import { useHead } from '@vueuse/head'
 import Button from '@/components/ui/Button.vue'
+import { fetchProjects } from '@/api/modx'
+import { getErrorMessage } from '@/api/errors'
 
 useHead({
   title: 'Проекты — IntellectShop',
@@ -13,11 +14,13 @@ useHead({
 
 const loading = ref(true)
 const projects = ref([])
+const errorMessage = ref('')
 
 onMounted(async () => {
   try {
-    const { data } = await axios.get('/api/projects')
-    projects.value = Array.isArray(data) ? data : []
+    projects.value = await fetchProjects()
+  } catch (error) {
+    errorMessage.value = getErrorMessage(error, 'Не удалось загрузить проекты.')
   } finally {
     loading.value = false
   }
@@ -65,6 +68,7 @@ onMounted(async () => {
     </div>
 
     <p v-if="loading">Загрузка…</p>
+    <p v-else-if="errorMessage" class="text-red-600">{{ errorMessage }}</p>
     <p v-else-if="!projects.length" class="text-gray-500"></p>
 
     <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
