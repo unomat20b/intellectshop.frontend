@@ -3,10 +3,6 @@ DirectorySlash Off
 
 RewriteEngine On
 
-# Backend endpoints must bypass SPA/404 rewrites.
-RewriteRule ^api(?:/.*)?$ - [L]
-RewriteRule ^api-feedback/?$ - [L]
-
 # Normalize directory URLs to a single canonical HTTPS URL with trailing slash.
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteCond %{REQUEST_URI} !/$
@@ -27,4 +23,5 @@ RewriteRule ^(?:services(?:/.*)?|about|projects|ai-comparison|alphabet-project|c
 
 # Unknown paths should be real 404 responses.
 ErrorDocument 404 /404.html
+RewriteCond %{REQUEST_URI} !^/(?:api|api-feedback|modx)(?:/|$)
 RewriteRule ^ - [R=404,L]
