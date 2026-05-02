@@ -68,6 +68,11 @@ jobs:
           TIMEWEB_SSH_HOST: ${{ secrets.TIMEWEB_SSH_HOST }}
           TIMEWEB_SSH_PORT: ${{ secrets.TIMEWEB_SSH_PORT }}
           TIMEWEB_USER: ${{ secrets.TIMEWEB_USER }}
+          TIMEWEB_FTP_HOST: ${{ secrets.TIMEWEB_FTP_HOST }}
+          TIMEWEB_FTP_USER: ${{ secrets.TIMEWEB_FTP_USER }}
+          TIMEWEB_FTP_PASSWORD: ${{ secrets.TIMEWEB_FTP_PASSWORD }}
+          TIMEWEB_FTP_PATH: ${{ secrets.TIMEWEB_FTP_PATH }}
+          TIMEWEB_FTP_SSL: ${{ secrets.TIMEWEB_FTP_SSL }}
           RPATH: ${{ secrets.TIMEWEB_REMOTE_PATH }}
         run: |
           set -euo pipefail
@@ -120,6 +125,53 @@ jobs:
 
           selected_host=""
           selected_port=""
+
+          ftp_host="${TIMEWEB_FTP_HOST:-$TIMEWEB_HOST}"
+          ftp_user="${TIMEWEB_FTP_USER:-$TIMEWEB_USER}"
+          ftp_password="${TIMEWEB_FTP_PASSWORD:-}"
+          ftp_path="${TIMEWEB_FTP_PATH:-$RPATH}"
+          ftp_ssl="${TIMEWEB_FTP_SSL:-true}"
+
+          deploy_via_ftp() {
+            if [[ -z "$ftp_host" || -z "$ftp_user" || -z "$ftp_password" ]]; then
+              return 1
+            fi
+
+            if ! command -v lftp >/dev/null 2>&1; then
+              sudo apt-get update
+              sudo apt-get install -y lftp
+            fi
+
+            if [[ "${ftp_ssl,,}" == "false" || "${ftp_ssl}" == "0" || "${ftp_ssl,,}" == "no" ]]; then
+              echo "Deploying via plain FTP fallback to $ftp_host:$ftp_path"
+              lftp -u "$ftp_user","$ftp_password" "$ftp_host" <<EOF
+set cmd:fail-exit true
+set net:max-retries 2
+set net:reconnect-interval-base 5
+set net:timeout 20
+set ftp:passive-mode true
+mkdir -p "$ftp_path"
+mirror -R --delete --verbose dist "$ftp_path"
+bye
+EOF
+            else
+              echo "Deploying via FTPS fallback to $ftp_host:$ftp_path"
+              lftp -u "$ftp_user","$ftp_password" "$ftp_host" <<EOF
+set cmd:fail-exit true
+set net:max-retries 2
+set net:reconnect-interval-base 5
+set net:timeout 20
+set ftp:passive-mode true
+set ftp:ssl-force true
+set ftp:ssl-protect-data true
+set ssl:verify-certificate false
+mkdir -p "$ftp_path"
+mirror -R --delete --verbose dist "$ftp_path"
+bye
+EOF
+            fi
+          }
+
           for host in "${deduped_hosts[@]}"; do
             for port in "${deduped_ports[@]}"; do
               echo "Checking TCP $host:$port"
@@ -132,10 +184,15 @@ jobs:
           done
 
           if [[ -z "$selected_host" || -z "$selected_port" ]]; then
-            echo "No reachable SSH endpoint from GitHub runner." >&2
-            echo "Checked hosts: ${deduped_hosts[*]}" >&2
-            echo "Checked ports: ${deduped_ports[*]}" >&2
+            echo "No reachable SSH endpoint from GitHub runner."
+            echo "Checked hosts: ${deduped_hosts[*]}"
+            echo "Checked ports: ${deduped_ports[*]}"
+            if deploy_via_ftp; then
+              echo "SSH unavailable; FTPS/FTP fallback deploy completed."
+              exit 0
+            fi
             echo "If this is Timeweb shared hosting, ensure SSH is enabled in 'Статус сервисов' and use server hostname from 'Доступ по FTP' as TIMEWEB_SSH_HOST." >&2
+            echo "Or set FTP secrets TIMEWEB_FTP_HOST, TIMEWEB_FTP_USER, TIMEWEB_FTP_PASSWORD, TIMEWEB_FTP_PATH for FTPS fallback." >&2
             exit 1
           fi
 
@@ -150,6 +207,10 @@ jobs:
             fi
             if [ "$attempt" -eq 5 ]; then
               echo "Failed to rsync assets after 5 attempts" >&2
+              if deploy_via_ftp; then
+                echo "SSH rsync failed; FTPS/FTP fallback deploy completed."
+                exit 0
+              fi
               exit 1
             fi
             sleep 5
@@ -166,6 +227,10 @@ jobs:
               fi
               if [ "$attempt" -eq 5 ]; then
                 echo "Failed to rsync prerender dir '$dname' after 5 attempts" >&2
+                if deploy_via_ftp; then
+                  echo "SSH rsync failed on prerender dirs; FTPS/FTP fallback deploy completed."
+                  exit 0
+                fi
                 exit 1
               fi
               sleep 5
@@ -182,6 +247,10 @@ jobs:
               fi
               if [ "$attempt" -eq 5 ]; then
                 echo "Failed to copy root files after 5 attempts" >&2
+                if deploy_via_ftp; then
+                  echo "SSH scp failed; FTPS/FTP fallback deploy completed."
+                  exit 0
+                fi
                 exit 1
               fi
               sleep 5
