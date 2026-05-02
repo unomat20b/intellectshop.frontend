@@ -65,20 +65,84 @@ jobs:
       - name: Rsync dist → Timeweb (только артефакты сборки)
         env:
           TIMEWEB_HOST: ${{ secrets.TIMEWEB_HOST }}
+          TIMEWEB_SSH_HOST: ${{ secrets.TIMEWEB_SSH_HOST }}
+          TIMEWEB_SSH_PORT: ${{ secrets.TIMEWEB_SSH_PORT }}
           TIMEWEB_USER: ${{ secrets.TIMEWEB_USER }}
           RPATH: ${{ secrets.TIMEWEB_REMOTE_PATH }}
         run: |
           set -euo pipefail
           test -n "$RPATH"
-          host_target="$TIMEWEB_HOST"
-          resolved_ipv4="$(getent ahostsv4 "$TIMEWEB_HOST" | awk 'NR==1 {print $1}' || true)"
-          if [[ -n "$resolved_ipv4" ]]; then
-            host_target="$resolved_ipv4"
+          ssh_host="${TIMEWEB_SSH_HOST:-$TIMEWEB_HOST}"
+          if [[ -z "$ssh_host" ]]; then
+            echo "TIMEWEB_HOST/TIMEWEB_SSH_HOST is empty. Set secrets in repository settings." >&2
+            exit 1
           fi
-          remote="$TIMEWEB_USER@$host_target"
-          echo "Deploy target: $host_target"
 
-          ssh_opts="-4 -o AddressFamily=inet -i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
+          # Build host candidate list:
+          # 1) literal configured host (preferred)
+          # 2) all resolved IPv4 addresses (for diagnostics/fallback)
+          host_candidates=("$ssh_host")
+          if [[ "$ssh_host" != *:* && ! "$ssh_host" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            mapfile -t resolved_ipv4s < <(getent ahostsv4 "$ssh_host" | awk '{print $1}' | sort -u)
+            for ip in "${resolved_ipv4s[@]}"; do
+              [[ -n "$ip" ]] || continue
+              host_candidates+=("$ip")
+            done
+          fi
+
+          # Build port candidate list:
+          # 1) explicit secret TIMEWEB_SSH_PORT if present
+          # 2) common SSH ports
+          port_candidates=()
+          if [[ -n "${TIMEWEB_SSH_PORT:-}" ]]; then
+            port_candidates+=("$TIMEWEB_SSH_PORT")
+          fi
+          port_candidates+=(22 2222)
+
+          # Deduplicate candidates while preserving order.
+          deduped_hosts=()
+          declare -A seen_hosts=()
+          for host in "${host_candidates[@]}"; do
+            if [[ -n "$host" && -z "${seen_hosts[$host]:-}" ]]; then
+              deduped_hosts+=("$host")
+              seen_hosts["$host"]=1
+            fi
+          done
+
+          deduped_ports=()
+          declare -A seen_ports=()
+          for port in "${port_candidates[@]}"; do
+            if [[ -n "$port" && -z "${seen_ports[$port]:-}" ]]; then
+              deduped_ports+=("$port")
+              seen_ports["$port"]=1
+            fi
+          done
+
+          selected_host=""
+          selected_port=""
+          for host in "${deduped_hosts[@]}"; do
+            for port in "${deduped_ports[@]}"; do
+              echo "Checking TCP $host:$port"
+              if timeout 6 bash -c "cat < /dev/null > /dev/tcp/$host/$port" 2>/dev/null; then
+                selected_host="$host"
+                selected_port="$port"
+                break 2
+              fi
+            done
+          done
+
+          if [[ -z "$selected_host" || -z "$selected_port" ]]; then
+            echo "No reachable SSH endpoint from GitHub runner." >&2
+            echo "Checked hosts: ${deduped_hosts[*]}" >&2
+            echo "Checked ports: ${deduped_ports[*]}" >&2
+            echo "If this is Timeweb shared hosting, ensure SSH is enabled in 'Статус сервисов' and use server hostname from 'Доступ по FTP' as TIMEWEB_SSH_HOST." >&2
+            exit 1
+          fi
+
+          remote="$TIMEWEB_USER@$selected_host"
+          echo "Deploy target: $selected_host:$selected_port (source host: $ssh_host)"
+
+          ssh_opts="-4 -o AddressFamily=inet -p $selected_port -i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
 
           for attempt in 1 2 3 4 5; do
             if rsync -avz --delete --timeout=120 -e "ssh $ssh_opts" dist/assets/ "$remote:$RPATH/assets/"; then
