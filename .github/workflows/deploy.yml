@@ -1,5 +1,6 @@
 # Сборка Vite и выкладка ТОЛЬКО содержимого dist в корень public_html на Timeweb (без modx и пр.).
 # Секреты: TIMEWEB_SSH_KEY, TIMEWEB_HOST, TIMEWEB_USER, TIMEWEB_REMOTE_PATH (абсолютный путь к public_html).
+# Retry marker: no-op change to force a fresh workflow run when network deploy flakes.
 
 name: Build and deploy dist to Timeweb
 
