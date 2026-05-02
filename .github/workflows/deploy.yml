@@ -144,31 +144,10 @@ jobs:
 
             if [[ "${ftp_ssl,,}" == "false" || "${ftp_ssl}" == "0" || "${ftp_ssl,,}" == "no" ]]; then
               echo "Deploying via plain FTP fallback to $ftp_host:$ftp_path"
-              lftp -u "$ftp_user","$ftp_password" "$ftp_host" <<EOF
-set cmd:fail-exit true
-set net:max-retries 2
-set net:reconnect-interval-base 5
-set net:timeout 20
-set ftp:passive-mode true
-mkdir -p "$ftp_path"
-mirror -R --delete --verbose dist "$ftp_path"
-bye
-EOF
+              lftp -u "$ftp_user","$ftp_password" "$ftp_host" -e "set cmd:fail-exit true; set net:max-retries 2; set net:reconnect-interval-base 5; set net:timeout 20; set ftp:passive-mode true; mkdir -p \"$ftp_path\"; mirror -R --delete --verbose dist \"$ftp_path\"; bye"
             else
               echo "Deploying via FTPS fallback to $ftp_host:$ftp_path"
-              lftp -u "$ftp_user","$ftp_password" "$ftp_host" <<EOF
-set cmd:fail-exit true
-set net:max-retries 2
-set net:reconnect-interval-base 5
-set net:timeout 20
-set ftp:passive-mode true
-set ftp:ssl-force true
-set ftp:ssl-protect-data true
-set ssl:verify-certificate false
-mkdir -p "$ftp_path"
-mirror -R --delete --verbose dist "$ftp_path"
-bye
-EOF
+              lftp -u "$ftp_user","$ftp_password" "$ftp_host" -e "set cmd:fail-exit true; set net:max-retries 2; set net:reconnect-interval-base 5; set net:timeout 20; set ftp:passive-mode true; set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate false; mkdir -p \"$ftp_path\"; mirror -R --delete --verbose dist \"$ftp_path\"; bye"
             fi
           }
 
