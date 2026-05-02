@@ -30,7 +30,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Install and build
         run: |
@@ -51,7 +51,8 @@ jobs:
           touch ~/.ssh/known_hosts
           scanned=0
           for attempt in 1 2 3 4 5; do
-            if ssh-keyscan -T 10 -H "${{ secrets.TIMEWEB_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null; then
+            if ssh-keyscan -4 -T 10 -H "${{ secrets.TIMEWEB_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || \
+               ssh-keyscan -T 10 -H "${{ secrets.TIMEWEB_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null; then
               scanned=1
               break
             fi
@@ -63,15 +64,24 @@ jobs:
 
       - name: Rsync dist → Timeweb (только артефакты сборки)
         env:
-          REMOTE: ${{ secrets.TIMEWEB_USER }}@${{ secrets.TIMEWEB_HOST }}
+          TIMEWEB_HOST: ${{ secrets.TIMEWEB_HOST }}
+          TIMEWEB_USER: ${{ secrets.TIMEWEB_USER }}
           RPATH: ${{ secrets.TIMEWEB_REMOTE_PATH }}
         run: |
           set -euo pipefail
           test -n "$RPATH"
-          ssh_opts="-i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
+          host_target="$TIMEWEB_HOST"
+          resolved_ipv4="$(getent ahostsv4 "$TIMEWEB_HOST" | awk 'NR==1 {print $1}' || true)"
+          if [[ -n "$resolved_ipv4" ]]; then
+            host_target="$resolved_ipv4"
+          fi
+          remote="$TIMEWEB_USER@$host_target"
+          echo "Deploy target: $host_target"
+
+          ssh_opts="-4 -o AddressFamily=inet -i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
 
           for attempt in 1 2 3 4 5; do
-            if rsync -avz --delete --timeout=120 -e "ssh $ssh_opts" dist/assets/ "$REMOTE:$RPATH/assets/"; then
+            if rsync -avz --delete --timeout=120 -e "ssh $ssh_opts" dist/assets/ "$remote:$RPATH/assets/"; then
               break
             fi
             if [ "$attempt" -eq 5 ]; then
@@ -87,7 +97,7 @@ jobs:
           for dir in "${prerender_dirs[@]}"; do
             dname="$(basename "$dir")"
             for attempt in 1 2 3 4 5; do
-              if rsync -avz --delete --timeout=120 -e "ssh $ssh_opts" "$dir/" "$REMOTE:$RPATH/$dname/"; then
+              if rsync -avz --delete --timeout=120 -e "ssh $ssh_opts" "$dir/" "$remote:$RPATH/$dname/"; then
                 break
               fi
               if [ "$attempt" -eq 5 ]; then
@@ -101,9 +111,9 @@ jobs:
           mapfile -t root_files < <(find dist -maxdepth 1 -type f)
           if [[ ${#root_files[@]} -gt 0 ]]; then
             for attempt in 1 2 3 4 5; do
-              if scp -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3 \
+              if scp -4 -o AddressFamily=inet -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3 \
                 -i "$HOME/.ssh/timeweb_deploy" -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new \
-                "${root_files[@]}" "$REMOTE:$RPATH/"; then
+                "${root_files[@]}" "$remote:$RPATH/"; then
                 break
               fi
               if [ "$attempt" -eq 5 ]; then
