@@ -14,6 +14,11 @@ async function request(path, { method = 'get', data, fallbackMessage, transform 
     const payload = response?.data
     return typeof transform === 'function' ? transform(payload) : payload
   } catch (error) {
+    const normalizedMethod = String(method).toLowerCase()
+    if (normalizedMethod === 'get' && error?.response?.status === 404) {
+      const emptyPayload = null
+      return typeof transform === 'function' ? transform(emptyPayload) : emptyPayload
+    }
     throw normalizeApiError(error, { fallbackMessage })
   }
 }
