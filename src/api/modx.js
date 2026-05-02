@@ -8,16 +8,38 @@ const api = axios.create({
   baseURL: apiBase,
 })
 
+function parseMaybeJson(data) {
+  if (typeof data !== 'string') return data
+  const trimmed = data.trim()
+  if (!trimmed) return null
+  try {
+    return JSON.parse(trimmed)
+  } catch {
+    return data
+  }
+}
+
+async function requestStaticFallback(path, transform) {
+  const normalizedPath = path.endsWith('.json') ? path : `${path}.json`
+  const response = await api.request({ url: normalizedPath, method: 'get' })
+  const payload = parseMaybeJson(response?.data)
+  return typeof transform === 'function' ? transform(payload) : payload
+}
+
 async function request(path, { method = 'get', data, fallbackMessage, transform } = {}) {
   try {
     const response = await api.request({ url: path, method, data })
-    const payload = response?.data
+    const payload = parseMaybeJson(response?.data)
     return typeof transform === 'function' ? transform(payload) : payload
   } catch (error) {
     const normalizedMethod = String(method).toLowerCase()
     if (normalizedMethod === 'get' && error?.response?.status === 404) {
-      const emptyPayload = null
-      return typeof transform === 'function' ? transform(emptyPayload) : emptyPayload
+      try {
+        return await requestStaticFallback(path, transform)
+      } catch {
+        const emptyPayload = null
+        return typeof transform === 'function' ? transform(emptyPayload) : emptyPayload
+      }
     }
     throw normalizeApiError(error, { fallbackMessage })
   }
