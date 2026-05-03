@@ -47,6 +47,19 @@ onMounted(async () => {
         </svg>
         Проект Алфавиты
       </Button>
+
+      <Button
+        variant="ghost"
+        as="a"
+        href="/projects/speedreader/"
+        class="inline-flex items-center gap-2 mt-3"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"></path>
+          <circle cx="12" cy="12" r="10" stroke-width="2" fill="none"></circle>
+        </svg>
+        Speedreeder — скорочтение (RSVP)
+      </Button>
     </div>
 
     <!-- Кнопка для перехода к сравнению нейросетей -->
