@@ -18,6 +18,13 @@ RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
+# MODX: /api-feedback, /api/* и админка фидбека (до SPA fallback).
+# Без этого POST с сайта и из приложения «Алфавиты» получают 404 вместо MODX.
+RewriteRule ^api-feedback$ /modx/index.php?q=api-feedback [L,QSA]
+RewriteRule ^admin-feedback$ /modx/index.php?q=admin-feedback [L,QSA]
+RewriteRule ^api$ /modx/index.php [L]
+RewriteRule ^api/?(.*)$ /modx/index.php?q=$1 [L,QSA]
+
 # Known SPA routes fall back to the app shell.
 RewriteRule ^(?:services(?:/.*)?|about|projects|ai-comparison|alphabet-project|catalog|feedback-form|test)/?$ /index.html [L]
 
