@@ -8,6 +8,17 @@ export const routeDefinitions = [
   { path: '/services/audit', component: () => import('../pages/services/ServiceAudit.vue') },
   { path: '/projects', component: () => import('../pages/Projects.vue') },
   { path: '/alphabet-project', component: () => import('../pages/AlphabetProject.vue') },
+  {
+    path: '/speedreader-project',
+    component: () => import('../pages/SpeedreaderProject.vue'),
+    sitemap: { priority: 0.85 },
+  },
+  // Лендинг по тому же URL, что и веб-сборка Flutter (если папки ещё нет — отдаётся SPA и эта страница)
+  {
+    path: '/projects/speedreader',
+    component: () => import('../pages/SpeedreaderProject.vue'),
+    sitemap: false,
+  },
   { path: '/test', component: () => import('../pages/test.vue'), sitemap: false },
   { path: '/ai-comparison', component: () => import('../pages/AiComparison.vue') },
   { path: '/feedback-form', component: () => import('../pages/FeedbackFormPage.vue'), sitemap: false },

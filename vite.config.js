@@ -9,7 +9,8 @@ export default defineConfig(({ mode }) => {
     '/services',
     '/about',
     '/projects',
-    '/ai-comparison'
+    '/ai-comparison',
+    '/speedreader-project',
   ])
 
   return {

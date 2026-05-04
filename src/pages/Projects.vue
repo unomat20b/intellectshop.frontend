@@ -49,9 +49,9 @@ onMounted(async () => {
       </Button>
 
       <Button
-        variant="ghost"
+        variant="primary"
         as="a"
-        href="/projects/speedreader/"
+        href="/speedreader-project/"
         class="inline-flex items-center gap-2 mt-3"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
