@@ -15,7 +15,7 @@ useHead({
 
 const openConverterApp = () => {
   window.open(
-    '/projects/upubconverter/?v=' + Date.now(),
+    '/projects/epubconverter/?v=' + Date.now(),
     '_blank',
     'width=1200,height=800,scrollbars=yes,resizable=yes',
   )
@@ -94,7 +94,7 @@ const openConverterApp = () => {
         <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
           <h3 class="text-lg font-semibold mb-4 text-gray-800">Запустить конвертер</h3>
           <p class="text-gray-600 mb-6 text-sm">
-            Откроется Flutter Web-приложение по адресу <code>/projects/upubconverter/</code>.
+            Откроется Flutter Web-приложение по адресу <code>/projects/epubconverter/</code>.
           </p>
           <Button
             variant="primary"

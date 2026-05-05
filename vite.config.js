@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
     '/projects',
     '/ai-comparison',
     '/speedreader-project',
-    '/upubconverter',
+    '/epubconverter',
   ])
 
   return {
