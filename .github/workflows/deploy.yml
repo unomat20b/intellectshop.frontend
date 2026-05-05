@@ -43,8 +43,17 @@ jobs:
       - name: SSH key and known_hosts
         env:
           SSH_PRIVATE_KEY: ${{ secrets.TIMEWEB_SSH_KEY }}
+          TIMEWEB_HOST: ${{ secrets.TIMEWEB_HOST }}
+          TIMEWEB_SSH_HOST: ${{ secrets.TIMEWEB_SSH_HOST }}
+          TIMEWEB_SSH_PORT: ${{ secrets.TIMEWEB_SSH_PORT }}
         run: |
           set -euo pipefail
+          ssh_host="${TIMEWEB_SSH_HOST:-$TIMEWEB_HOST}"
+          ssh_port="${TIMEWEB_SSH_PORT:-22}"
+          if [[ -z "$ssh_host" ]]; then
+            echo "TIMEWEB_HOST/TIMEWEB_SSH_HOST is empty. Set secrets in repository settings." >&2
+            exit 1
+          fi
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/timeweb_deploy
@@ -52,15 +61,15 @@ jobs:
           touch ~/.ssh/known_hosts
           scanned=0
           for attempt in 1 2 3 4 5; do
-            if ssh-keyscan -4 -T 10 -H "${{ secrets.TIMEWEB_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || \
-               ssh-keyscan -T 10 -H "${{ secrets.TIMEWEB_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null; then
+            if ssh-keyscan -4 -T 10 -p "$ssh_port" -H "$ssh_host" >> ~/.ssh/known_hosts 2>/dev/null || \
+               ssh-keyscan -T 10 -p "$ssh_port" -H "$ssh_host" >> ~/.ssh/known_hosts 2>/dev/null; then
               scanned=1
               break
             fi
             sleep 3
           done
           if [ "$scanned" -ne 1 ]; then
-            echo "Warning: ssh-keyscan failed for ${{ secrets.TIMEWEB_HOST }}; continuing with StrictHostKeyChecking=accept-new"
+            echo "Warning: ssh-keyscan failed for $ssh_host; continuing with StrictHostKeyChecking=accept-new"
           fi
 
       - name: Rsync dist → Timeweb (только артефакты сборки)
@@ -78,79 +87,11 @@ jobs:
             echo "TIMEWEB_HOST/TIMEWEB_SSH_HOST is empty. Set secrets in repository settings." >&2
             exit 1
           fi
+          ssh_port="${TIMEWEB_SSH_PORT:-22}"
+          remote="$TIMEWEB_USER@$ssh_host"
+          echo "Deploy target: $ssh_host:$ssh_port"
 
-          # Build host candidate list:
-          # 1) literal configured host (preferred)
-          # 2) all resolved IPv4 addresses (for diagnostics/fallback)
-          host_candidates=("$ssh_host")
-          if [[ "$ssh_host" != *:* && ! "$ssh_host" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            mapfile -t resolved_ipv4s < <(getent ahostsv4 "$ssh_host" | awk '{print $1}' | sort -u)
-            for ip in "${resolved_ipv4s[@]}"; do
-              [[ -n "$ip" ]] || continue
-              host_candidates+=("$ip")
-            done
-          fi
-
-          # Build port candidate list:
-          # 1) explicit secret TIMEWEB_SSH_PORT if present
-          # 2) common SSH ports
-          port_candidates=()
-          if [[ -n "${TIMEWEB_SSH_PORT:-}" ]]; then
-            port_candidates+=("$TIMEWEB_SSH_PORT")
-          fi
-          port_candidates+=(22 2222)
-
-          # Deduplicate candidates while preserving order.
-          deduped_hosts=()
-          declare -A seen_hosts=()
-          for host in "${host_candidates[@]}"; do
-            if [[ -n "$host" && -z "${seen_hosts[$host]:-}" ]]; then
-              deduped_hosts+=("$host")
-              seen_hosts["$host"]=1
-            fi
-          done
-
-          deduped_ports=()
-          declare -A seen_ports=()
-          for port in "${port_candidates[@]}"; do
-            if [[ -n "$port" && -z "${seen_ports[$port]:-}" ]]; then
-              deduped_ports+=("$port")
-              seen_ports["$port"]=1
-            fi
-          done
-
-          selected_host=""
-          selected_port=""
-
-          # GitHub-hosted runner networking to SSH can flap; re-check for ~5 minutes before failing.
-          for round in {1..20}; do
-            for host in "${deduped_hosts[@]}"; do
-              for port in "${deduped_ports[@]}"; do
-                echo "Checking TCP $host:$port (attempt $round/20)"
-                if timeout 6 bash -c "cat < /dev/null > /dev/tcp/$host/$port" 2>/dev/null; then
-                  selected_host="$host"
-                  selected_port="$port"
-                  break 3
-                fi
-              done
-            done
-            if [[ -n "$selected_host" && -n "$selected_port" ]]; then
-              break
-            fi
-            sleep 15
-          done
-
-          if [[ -z "$selected_host" || -z "$selected_port" ]]; then
-            echo "No reachable SSH endpoint from GitHub runner after retries." >&2
-            echo "Checked hosts: ${deduped_hosts[*]}" >&2
-            echo "Checked ports: ${deduped_ports[*]}" >&2
-            exit 1
-          fi
-
-          remote="$TIMEWEB_USER@$selected_host"
-          echo "Deploy target: $selected_host:$selected_port (source host: $ssh_host)"
-
-          ssh_opts="-4 -o AddressFamily=inet -p $selected_port -i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
+          ssh_opts="-p $ssh_port -i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
 
           for attempt in 1 2 3 4 5; do
             if rsync -avz --delete --timeout=120 -e "ssh $ssh_opts" dist/assets/ "$remote:$RPATH/assets/"; then
@@ -183,9 +124,7 @@ jobs:
           mapfile -t root_files < <(find dist -maxdepth 1 -type f)
           if [[ ${#root_files[@]} -gt 0 ]]; then
             for attempt in 1 2 3 4 5; do
-              if scp -4 -o AddressFamily=inet -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3 \
-                -i "$HOME/.ssh/timeweb_deploy" -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new \
-                "${root_files[@]}" "$remote:$RPATH/"; then
+              if rsync -avz --timeout=120 -e "ssh $ssh_opts" "${root_files[@]}" "$remote:$RPATH/"; then
                 break
               fi
               if [ "$attempt" -eq 5 ]; then
