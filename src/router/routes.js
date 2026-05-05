@@ -9,6 +9,11 @@ export const routeDefinitions = [
   { path: '/projects', component: () => import('../pages/Projects.vue') },
   { path: '/alphabet-project', component: () => import('../pages/AlphabetProject.vue') },
   {
+    path: '/upubconverter',
+    component: () => import('../pages/UpubConverterProject.vue'),
+    sitemap: { priority: 0.85 },
+  },
+  {
     path: '/speedreader-project',
     component: () => import('../pages/SpeedreaderProject.vue'),
     sitemap: { priority: 0.85 },
@@ -17,6 +22,12 @@ export const routeDefinitions = [
   {
     path: '/projects/speedreader',
     component: () => import('../pages/SpeedreaderProject.vue'),
+    sitemap: false,
+  },
+  // Лендинг по тому же URL, что и веб-сборка Flutter (если папки ещё нет — отдаётся SPA и эта страница)
+  {
+    path: '/projects/upubconverter',
+    component: () => import('../pages/UpubConverterProject.vue'),
     sitemap: false,
   },
   { path: '/test', component: () => import('../pages/test.vue'), sitemap: false },

@@ -60,6 +60,19 @@ onMounted(async () => {
         </svg>
         Speedreeder — скорочтение (RSVP)
       </Button>
+
+      <Button
+        variant="primary"
+        as="a"
+        href="/upubconverter/"
+        class="inline-flex items-center gap-2 mt-3"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v12m0 0l-4-4m4 4l4-4" />
+        </svg>
+        EPUB Converter — восстановление после Apple Books
+      </Button>
     </div>
 
     <!-- Кнопка для перехода к сравнению нейросетей -->
