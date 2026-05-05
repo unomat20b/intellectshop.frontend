@@ -31,48 +31,67 @@ onMounted(async () => {
   <section class="container mx-auto px-4 py-8">
     <h1 class="text-2xl font-bold mb-6">Проекты</h1>
 
-    <!-- Кнопка для перехода к проекту Алфавиты -->
-    <div class="mb-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+    <div class="mb-8">
       <h2 class="text-lg font-semibold mb-3 text-gray-800">Интерактивные приложения</h2>
       <p class="text-gray-600 mb-4">Изучайте и практикуйтесь с нашими интерактивными инструментами</p>
-      
-      <Button 
-        variant="primary" 
-        as="a"
-        href="/alphabet-project/"
-        class="inline-flex items-center gap-2"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-        </svg>
-        Проект Алфавиты
-      </Button>
 
-      <Button
-        variant="primary"
-        as="a"
-        href="/speedreader-project/"
-        class="inline-flex items-center gap-2 mt-3"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"></path>
-          <circle cx="12" cy="12" r="10" stroke-width="2" fill="none"></circle>
-        </svg>
-        Speedreeder — скорочтение (RSVP)
-      </Button>
+      <div class="grid gap-6 md:grid-cols-3">
+        <article class="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+          <h3 class="text-lg font-semibold mb-3 text-gray-800">Alfabet</h3>
+          <p class="text-gray-600 mb-4 text-sm">
+            Изучение незнакомых алфавитов через чтение знакомых текстов и постепенную замену символов.
+          </p>
+          <Button
+            variant="primary"
+            as="a"
+            href="/projects/alphabet/"
+            class="inline-flex items-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+            Описание проекта
+          </Button>
+        </article>
 
-      <Button
-        variant="primary"
-        as="a"
-        href="/epubconverter/"
-        class="inline-flex items-center gap-2 mt-3"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v12m0 0l-4-4m4 4l4-4" />
-        </svg>
-        EPUB Converter — восстановление после Apple Books
-      </Button>
+        <article class="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+          <h3 class="text-lg font-semibold mb-3 text-gray-800">Speedreeder</h3>
+          <p class="text-gray-600 mb-4 text-sm">
+            RSVP-скорочтение: импорт TXT, EPUB и PDF, настройка темпа и чтение по одному слову.
+          </p>
+          <Button
+            variant="primary"
+            as="a"
+            href="/projects/speedreader/"
+            class="inline-flex items-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"></path>
+              <circle cx="12" cy="12" r="10" stroke-width="2" fill="none"></circle>
+            </svg>
+            Описание проекта
+          </Button>
+        </article>
+
+        <article class="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+          <h3 class="text-lg font-semibold mb-3 text-gray-800">EPUB Converter</h3>
+          <p class="text-gray-600 mb-4 text-sm">
+            Переупаковка папок .epub из Apple Books в обычный EPUB-файл прямо в браузере.
+          </p>
+          <Button
+            variant="primary"
+            as="a"
+            href="/projects/epubconverter/"
+            class="inline-flex items-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v12m0 0l-4-4m4 4l4-4" />
+            </svg>
+            Описание проекта
+          </Button>
+        </article>
+      </div>
     </div>
 
     <!-- Кнопка для перехода к сравнению нейросетей -->
@@ -121,5 +140,5 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.container { max-width: 960px; }
+.container { max-width: 1200px; }
 </style>

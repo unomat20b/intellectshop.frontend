@@ -26,7 +26,7 @@ RewriteRule ^api$ /modx/index.php [L]
 RewriteRule ^api/?(.*)$ /modx/index.php?q=$1 [L,QSA]
 
 # Known SPA routes fall back to the app shell.
-RewriteRule ^(?:services(?:/.*)?|about|projects|ai-comparison|alphabet-project|catalog|feedback-form|test)/?$ /index.html [L]
+RewriteRule ^(?:services(?:/.*)?|about|projects(?:/.*)?|ai-comparison|alphabet-project|speedreader-project|catalog|feedback-form|test)/?$ /index.html [L]
 
 # Unknown paths should be real 404 responses.
 ErrorDocument 404 /404.html

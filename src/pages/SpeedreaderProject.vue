@@ -19,7 +19,7 @@ useHead({
 
 const openWebApp = () => {
   window.open(
-    '/projects/speedreader/?v=' + Date.now(),
+    '/speedreader/?v=' + Date.now(),
     '_blank',
     'width=1200,height=800,scrollbars=yes,resizable=yes',
   )

@@ -7,28 +7,22 @@ export const routeDefinitions = [
   { path: '/services/ai', component: () => import('../pages/services/ServiceAI.vue') },
   { path: '/services/audit', component: () => import('../pages/services/ServiceAudit.vue') },
   { path: '/projects', component: () => import('../pages/Projects.vue') },
-  { path: '/alphabet-project', component: () => import('../pages/AlphabetProject.vue') },
+  { path: '/alphabet-project', redirect: '/projects/alphabet', sitemap: false },
+  { path: '/speedreader-project', redirect: '/projects/speedreader', sitemap: false },
   {
-    path: '/epubconverter',
-    component: () => import('../pages/EpubConverterProject.vue'),
+    path: '/projects/alphabet',
+    component: () => import('../pages/AlphabetProject.vue'),
     sitemap: { priority: 0.85 },
   },
-  {
-    path: '/speedreader-project',
-    component: () => import('../pages/SpeedreaderProject.vue'),
-    sitemap: { priority: 0.85 },
-  },
-  // Лендинг по тому же URL, что и веб-сборка Flutter (если папки ещё нет — отдаётся SPA и эта страница)
   {
     path: '/projects/speedreader',
     component: () => import('../pages/SpeedreaderProject.vue'),
-    sitemap: false,
+    sitemap: { priority: 0.85 },
   },
-  // Лендинг по тому же URL, что и веб-сборка Flutter (если папки ещё нет — отдаётся SPA и эта страница)
   {
     path: '/projects/epubconverter',
     component: () => import('../pages/EpubConverterProject.vue'),
-    sitemap: false,
+    sitemap: { priority: 0.85 },
   },
   { path: '/test', component: () => import('../pages/test.vue'), sitemap: false },
   { path: '/ai-comparison', component: () => import('../pages/AiComparison.vue') },

@@ -9,9 +9,10 @@ export default defineConfig(({ mode }) => {
     '/services',
     '/about',
     '/projects',
+    '/projects/alphabet',
+    '/projects/speedreader',
+    '/projects/epubconverter',
     '/ai-comparison',
-    '/speedreader-project',
-    '/epubconverter',
   ])
 
   return {

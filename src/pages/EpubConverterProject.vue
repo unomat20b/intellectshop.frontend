@@ -15,7 +15,7 @@ useHead({
 
 const openConverterApp = () => {
   window.open(
-    '/projects/epubconverter/?v=' + Date.now(),
+    '/epubconverter/?v=' + Date.now(),
     '_blank',
     'width=1200,height=800,scrollbars=yes,resizable=yes',
   )
@@ -94,7 +94,7 @@ const openConverterApp = () => {
         <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
           <h3 class="text-lg font-semibold mb-4 text-gray-800">Запустить конвертер</h3>
           <p class="text-gray-600 mb-6 text-sm">
-            Откроется Flutter Web-приложение по адресу <code>/projects/epubconverter/</code>.
+            Откроется Flutter Web-приложение по адресу <code>/epubconverter/</code>.
           </p>
           <Button
             variant="primary"
@@ -105,6 +105,27 @@ const openConverterApp = () => {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
             Открыть EPUB Converter
+          </Button>
+        </div>
+
+        <div class="bg-gradient-to-br from-blue-50 to-green-50 rounded-xl p-6 border border-green-100 mt-6">
+          <h3 class="text-lg font-semibold mb-4 text-gray-800">Открытый код</h3>
+          <p class="text-gray-600 mb-6 text-sm">
+            Репозиторий публичный: можно посмотреть реализацию клиентской переупаковки EPUB.
+          </p>
+          <Button
+            variant="primary"
+            as="a"
+            href="https://github.com/unomat20b/ibooksEPUBConverter"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-full flex items-center justify-center gap-2 py-3"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            GitHub: ibooksEPUBConverter
           </Button>
         </div>
       </div>
