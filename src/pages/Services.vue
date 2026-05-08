@@ -5,10 +5,72 @@ import { useHead } from '@vueuse/head'
 import { fetchServices } from '@/api/modx'
 import { getErrorMessage } from '@/api/errors'
 
+const SITE_URL = 'https://intellectshop.net'
+const OG_IMAGE = `${SITE_URL}/og-image.svg`
+
+const topServiceCards = [
+  {
+    to: '/services/apple/',
+    title: 'Экосистема Apple',
+    description: '10+ лет опыта настройки устройств, MDM-решений и обучения сотрудников.'
+  },
+  {
+    to: '/services/ai/',
+    title: 'Нейросети & AI-агенты',
+    description: 'Внедряем ChatGPT-решения, создаём кастомных агентов на базе LLM.'
+  },
+  {
+    to: '/services/audit/',
+    title: 'Бизнес-аудит',
+    description: 'Анализ текущих IT-процессов и подбор оптимальных инструментов.'
+  }
+]
+
 useHead({
   title: 'Услуги — IntellectShop',
   meta: [
-    { name: 'description', content: 'Настройка Apple, нейросети, ИИ-агенты, автоматизация.' }
+    {
+      name: 'description',
+      content: 'Каталог услуг IntellectShop: Apple-обучение, внедрение AI-агентов и бизнес-аудит IT-процессов.'
+    },
+    { property: 'og:title', content: 'Услуги — IntellectShop' },
+    {
+      property: 'og:description',
+      content: 'Apple, AI и автоматизация: подберём и внедрим решения под задачи команды.'
+    },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: `${SITE_URL}/services/` },
+    { property: 'og:image', content: OG_IMAGE },
+    { name: 'twitter:title', content: 'Услуги — IntellectShop' },
+    {
+      name: 'twitter:description',
+      content: 'Каталог услуг: Apple-обучение, AI-агенты, автоматизация и бизнес-аудит.'
+    },
+    { name: 'twitter:image', content: OG_IMAGE }
+  ],
+  script: [
+    {
+      key: 'services-page-jsonld',
+      type: 'application/ld+json',
+      textContent: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        '@id': `${SITE_URL}/services/#webpage`,
+        url: `${SITE_URL}/services/`,
+        name: 'Услуги — IntellectShop',
+        inLanguage: 'ru-RU',
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+        mainEntity: {
+          '@type': 'ItemList',
+          itemListElement: topServiceCards.map((card, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: card.title,
+            url: `${SITE_URL}${card.to}`
+          }))
+        }
+      })
+    }
   ]
 })
 
@@ -33,30 +95,14 @@ onMounted(async () => {
 
     <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 mb-8">
       <RouterLink
-        to="/services/apple/"
+        v-for="card in topServiceCards"
+        :key="card.to"
+        :to="card.to"
         class="block bg-white border rounded-xl p-4 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300"
       >
-        <h3 class="font-semibold mb-2">Экосистема Apple</h3>
+        <h3 class="font-semibold mb-2">{{ card.title }}</h3>
         <p class="text-sm text-slate-600">
-          10+ лет опыта настройки устройств, MDM-решений и обучения сотрудников.
-        </p>
-      </RouterLink>
-      <RouterLink
-        to="/services/ai/"
-        class="block bg-white border rounded-xl p-4 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300"
-      >
-        <h3 class="font-semibold mb-2">Нейросети &amp; AI-агенты</h3>
-        <p class="text-sm text-slate-600">
-          Внедряем ChatGPT-решения, создаём кастомных агентов на базе LLM.
-        </p>
-      </RouterLink>
-      <RouterLink
-        to="/services/audit/"
-        class="block bg-white border rounded-xl p-4 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300"
-      >
-        <h3 class="font-semibold mb-2">Бизнес-аудит</h3>
-        <p class="text-sm text-slate-600">
-          Анализ текущих IT-процессов и подбор оптимальных инструментов.
+          {{ card.description }}
         </p>
       </RouterLink>
     </div>

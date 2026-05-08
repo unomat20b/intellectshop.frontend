@@ -85,6 +85,13 @@ export default {
         })
 
         if (result.success) {
+          if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+            window.gtag('event', 'generate_lead', {
+              event_category: 'engagement',
+              event_label: this.tag || 'feedback_form',
+              value: 1
+            })
+          }
           alert('Сообщение успешно отправлено!')
           this.form.name = ''
           this.form.email = ''

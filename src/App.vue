@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, nextTick, watch } from 'vue'
 import { useHead } from '@vueuse/head'
 import { useRoute } from 'vue-router'
 import Header from './components/layout/Header.vue'
@@ -11,6 +11,7 @@ const SITE_URL = 'https://intellectshop.net'
 const DEFAULT_DESCRIPTION =
   'IntellectShop обучает технике Apple, внедряет нейросети и автоматизирует бизнес.'
 const DEFAULT_IMAGE = `${SITE_URL}/og-image.svg`
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || 'G-04BMZGMCNT'
 
 const ROUTE_SEGMENT_LABELS: Record<string, string> = {
   about: 'О нас',
@@ -147,6 +148,35 @@ const breadcrumbJsonLd = computed(() =>
   })
 )
 
+type GtagFn = (...args: unknown[]) => void
+
+const getGtag = (): GtagFn | null => {
+  if (typeof window === 'undefined') return null
+  const withGtag = window as Window & { gtag?: GtagFn }
+  return typeof withGtag.gtag === 'function' ? withGtag.gtag : null
+}
+
+const trackPageView = () => {
+  const gtag = getGtag()
+  if (!gtag) return
+  gtag('event', 'page_view', {
+    page_title: document.title,
+    page_location: canonicalUrl.value,
+    page_path: normalizeCanonicalPath(route.path)
+  })
+}
+
+if (typeof window !== 'undefined' && GA_MEASUREMENT_ID) {
+  watch(
+    () => route.fullPath,
+    async () => {
+      await nextTick()
+      trackPageView()
+    },
+    { immediate: true }
+  )
+}
+
 useHead(() => ({
   htmlAttrs: {
     lang: 'ru'
@@ -211,35 +241,54 @@ useHead(() => ({
       content: DEFAULT_IMAGE
     }
   ],
-  script: route.name === 'NotFound'
-    ? []
-    : [
-        {
-          key: 'organization-jsonld',
-          type: 'application/ld+json',
-          textContent: organizationJsonLd.value
-        },
-        {
-          key: 'website-jsonld',
-          type: 'application/ld+json',
-          textContent: websiteJsonLd.value
-        },
-        {
-          key: 'professional-service-jsonld',
-          type: 'application/ld+json',
-          textContent: professionalServiceJsonLd.value
-        },
-        {
-          key: 'webpage-jsonld',
-          type: 'application/ld+json',
-          textContent: webPageJsonLd.value
-        },
-        {
-          key: 'breadcrumb-jsonld',
-          type: 'application/ld+json',
-          textContent: breadcrumbJsonLd.value
-        }
-      ]
+  script: [
+    ...(GA_MEASUREMENT_ID
+      ? [
+          {
+            key: 'ga4-loader',
+            async: true,
+            src: `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`
+          },
+          {
+            key: 'ga4-init',
+            textContent:
+              `window.dataLayer = window.dataLayer || [];` +
+              `function gtag(){dataLayer.push(arguments);}` +
+              `gtag('js', new Date());` +
+              `gtag('config', '${GA_MEASUREMENT_ID}', { send_page_view: false });`
+          }
+        ]
+      : []),
+    ...(route.name === 'NotFound'
+      ? []
+      : [
+          {
+            key: 'organization-jsonld',
+            type: 'application/ld+json',
+            textContent: organizationJsonLd.value
+          },
+          {
+            key: 'website-jsonld',
+            type: 'application/ld+json',
+            textContent: websiteJsonLd.value
+          },
+          {
+            key: 'professional-service-jsonld',
+            type: 'application/ld+json',
+            textContent: professionalServiceJsonLd.value
+          },
+          {
+            key: 'webpage-jsonld',
+            type: 'application/ld+json',
+            textContent: webPageJsonLd.value
+          },
+          {
+            key: 'breadcrumb-jsonld',
+            type: 'application/ld+json',
+            textContent: breadcrumbJsonLd.value
+          }
+        ])
+  ]
 }))
 </script>
 

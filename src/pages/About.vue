@@ -5,15 +5,48 @@ import FeedbackForm from '../components/FeedbackForm.vue'
 import { fetchAbout } from '@/api/modx'
 import { getErrorMessage } from '@/api/errors'
 
+const SITE_URL = 'https://intellectshop.net'
+const OG_IMAGE = `${SITE_URL}/og-image.svg`
+
 useHead({
   title: 'О нас — IntellectShop',
   meta: [
-    { name: 'description', content: 'Обучение Apple, ИИ, автоматизация. IntellectShop — технологии для бизнеса.' },
+    {
+      name: 'description',
+      content: 'О команде IntellectShop: обучение Apple, внедрение нейросетей, автоматизация и цифровая трансформация бизнеса.'
+    },
     { name: 'keywords', content: 'IntellectShop, обучение Apple, нейросети, ИИ, автоматизация, агенты' },
     { property: 'og:title', content: 'О нас — IntellectShop' },
-    { property: 'og:description', content: 'Мы внедряем нейросети и обучаем работе с техникой Apple' },
+    {
+      property: 'og:description',
+      content: 'Команда IntellectShop внедряет нейросети и обучает работе с техникой Apple.'
+    },
     { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: `${SITE_URL}/about/` },
+    { property: 'og:image', content: OG_IMAGE },
+    { name: 'twitter:title', content: 'О нас — IntellectShop' },
+    {
+      name: 'twitter:description',
+      content: 'Обучение Apple, нейросети, автоматизация и цифровая трансформация бизнеса.'
+    },
+    { name: 'twitter:image', content: OG_IMAGE }
   ],
+  script: [
+    {
+      key: 'about-page-jsonld',
+      type: 'application/ld+json',
+      textContent: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'AboutPage',
+        '@id': `${SITE_URL}/about/#webpage`,
+        url: `${SITE_URL}/about/`,
+        name: 'О нас — IntellectShop',
+        inLanguage: 'ru-RU',
+        about: { '@id': `${SITE_URL}/#organization` },
+        mainEntity: { '@id': `${SITE_URL}/#organization` }
+      })
+    }
+  ]
 })
 
 const loading = ref(true)
