@@ -14,6 +14,7 @@ function normalizeSitemapPath(path) {
 
 async function generateSitemap() {
   const { sitemapRoutes } = await import('./src/router/routes.js')
+  const lastmod = new Date().toISOString().slice(0, 10)
 
   const sitemap = new SitemapStream({ hostname })
 
@@ -21,7 +22,8 @@ async function generateSitemap() {
     sitemap.write({
       url: normalizeSitemapPath(route.path),
       changefreq: route.changefreq,
-      priority: route.priority
+      priority: route.priority,
+      lastmod
     })
   })
 

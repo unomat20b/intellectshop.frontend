@@ -13,10 +13,16 @@ import Button from '@/components/ui/Button.vue'
 useHead({
   title: 'IntellectShop — обучение и автоматизация',
   meta: [
-    { name: 'description', content: 'Обучение технике Apple, нейросети и автоматизация для бизнеса' },
+    {
+      name: 'description',
+      content: 'Обучение технике Apple, внедрение нейросетей и автоматизация бизнес-процессов под задачи команды.'
+    },
     { property: 'og:title', content: 'IntellectShop — обучение и автоматизация' },
     { property: 'og:description', content: 'Нейросети, Apple, ИИ, автоматизация бизнеса' },
-    { property: 'og:image', content: 'https://intellectshop.net/og-image.jpg' } // при наличии
+    { property: 'og:image', content: 'https://intellectshop.net/og-image.svg' },
+    { name: 'twitter:title', content: 'IntellectShop — обучение и автоматизация' },
+    { name: 'twitter:description', content: 'Нейросети, Apple, ИИ, автоматизация бизнеса' },
+    { name: 'twitter:image', content: 'https://intellectshop.net/og-image.svg' }
   ]
 })
 </script>

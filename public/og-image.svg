@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">IntellectShop</title>
+  <desc id="desc">Apple training, AI implementation, and business automation services.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="55%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#334155" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#60a5fa" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="1030" cy="120" r="180" fill="#0ea5e9" opacity="0.16" />
+  <circle cx="180" cy="560" r="220" fill="#3b82f6" opacity="0.16" />
+
+  <g transform="translate(110 150)">
+    <rect x="0" y="0" width="88" height="88" rx="20" fill="url(#accent)" />
+    <text x="44" y="58" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700" fill="#ffffff">I</text>
+
+    <text x="118" y="54" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="700" fill="#f8fafc">IntellectShop</text>
+    <text x="118" y="108" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#cbd5e1">Apple | AI | Business Automation</text>
+  </g>
+
+  <g transform="translate(110 370)" fill="#e2e8f0" font-family="Arial, Helvetica, sans-serif">
+    <text x="0" y="0" font-size="38" font-weight="600">Practical training and implementation for teams</text>
+    <text x="0" y="54" font-size="30">intellectshop.net</text>
+  </g>
+</svg>

@@ -8,23 +8,16 @@
     />
     <div class="absolute inset-0 bg-black/40 rounded-3xl z-0"></div>
     <div class="relative z-10">
-      <h3 class="text-xl font-bold mb-4 text-white drop-shadow-md">{{ title }}</h3>
-      <p class="text-white text-xs drop-shadow-md">{{ description }}</p>
+      <h3 class="text-xl font-bold mb-4 text-white drop-shadow-md">{{ summary.title }}</h3>
+      <p class="text-white text-xs drop-shadow-md">{{ summary.description }}</p>
     </div>
     <ServicePopup v-if="isOpen" :servicePath="props.servicePath" @close="isOpen = false" />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { computed, ref } from 'vue'
 import ServicePopup from './ServicePopup.vue'
-
-const serviceModules = {
-  'ai/business/n8n-zapier.vue': () => import('../pages/services/AI/business/n8n-zapier.vue'),
-  'ai/business/use-cases.vue': () => import('../pages/services/AI/business/use-cases.vue'),
-  'business-it/access-roles.vue': () => import('../pages/services/business-it/access-roles.vue'),
-  'business-it/docflow-rules.vue': () => import('../pages/services/business-it/docflow-rules.vue'),
-}
 
 const props = defineProps({
   servicePath: {
@@ -37,28 +30,35 @@ const props = defineProps({
   }
 })
 
-const title = ref('')
-const description = ref('')
+const SERVICE_SUMMARIES = {
+  'ai/business/n8n-zapier.vue': {
+    title: 'Автоматизация с n8n и Zapier',
+    description: 'Интеграция и автоматизация бизнес-процессов с помощью n8n и Zapier.'
+  },
+  'ai/business/use-cases.vue': {
+    title: 'Выбор точек применения AI',
+    description: 'Как определить, где в бизнесе выгодно использовать нейросети и какие инструменты выбрать.'
+  },
+  'business-it/access-roles.vue': {
+    title: 'Ролевая модель доступа',
+    description: 'Кто, куда и зачем имеет доступ: шаблоны прав, контроль рисков и прозрачность процессов.'
+  },
+  'business-it/docflow-rules.vue': {
+    title: 'Правила документооборота',
+    description: 'Процессы, шаблоны, хранение и согласование документов для стабильной внутренней работы.'
+  }
+}
+
+const summary = computed(() => {
+  return SERVICE_SUMMARIES[props.servicePath] || {
+    title: 'Консультация IntellectShop',
+    description: 'Практическая настройка и внедрение решений под задачи команды.'
+  }
+})
+
 const isOpen = ref(false)
 
 function openPopup() {
   isOpen.value = true
 }
-
-onMounted(async () => {
-  try {
-    if (serviceModules[props.servicePath]) {
-      const serviceModule = await serviceModules[props.servicePath]()
-      const comp = serviceModule.default
-      title.value = comp.serviceTitle || 'Без названия'
-      description.value = comp.serviceDescription || ''
-    } else {
-      title.value = 'Не найдено'
-      description.value = ''
-    }
-  } catch (e) {
-    title.value = 'Не найдено'
-    description.value = ''
-  }
-})
-</script> 
+</script>

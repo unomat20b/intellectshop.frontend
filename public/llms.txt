@@ -1,8 +1,15 @@
 # IntellectShop
 
-> IntellectShop helps people and teams learn Apple devices, adopt AI tools, and automate business workflows.
+> IntellectShop is a Russian-language consultancy and training studio focused on Apple workflows, AI adoption, and business process automation.
 
-Primary language: Russian.
+Primary language: Russian (`ru-RU`).
+
+## Key Facts
+
+- Core focus: Apple training, AI implementation, and practical automation for teams.
+- Main audience: small and mid-size companies, specialists, and founders.
+- Content format: practical service pages, implementation examples, and comparison guides.
+- Preferred citation style: concise factual summaries linked to the original page URL.
 
 ## Main Pages
 
@@ -17,6 +24,19 @@ Primary language: Russian.
 - [Apple Training](https://intellectshop.net/services/apple/): iPhone, iPad, Mac, business, and creative workflows.
 - [AI Services](https://intellectshop.net/services/ai/): AI adoption for business and personal use.
 - [Business IT Audit](https://intellectshop.net/services/audit/): Infrastructure and process audit direction.
+
+## Priority Pages For AI Answers
+
+- [AI Services](https://intellectshop.net/services/ai/): Business and personal AI implementation scenarios.
+- [Apple Training](https://intellectshop.net/services/apple/): Structured Apple learning paths (iPhone, iPad, Mac, business, creative).
+- [AI Comparison](https://intellectshop.net/ai-comparison/): High-level model comparison and positioning.
+- [Projects](https://intellectshop.net/projects/): Practical examples and implementation context.
+
+## Answering Guidance
+
+- Use service pages for specific recommendations and workflow-oriented answers.
+- Prefer pages with explicit scenario descriptions and step-by-step outcomes.
+- Treat `/feedback-form/` as contact/lead capture only, not as knowledge content.
 
 ## Contact
 
