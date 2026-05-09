@@ -1,7 +1,5 @@
 import { routeDefinitions } from '../src/router/routes.js'
-import { aiServiceContent } from '../src/content/services/ai.js'
-import { appleServiceContent } from '../src/content/services/apple.js'
-import { auditServiceContent } from '../src/content/services/audit.js'
+import { serviceCatalogs, serviceLandingCards } from '../src/content/services/index.js'
 
 function collectServiceLinks(content) {
   return content.sections.flatMap((section) =>
@@ -17,21 +15,23 @@ function startsWithAny(value, prefixes) {
   return prefixes.some((prefix) => value.startsWith(prefix))
 }
 
+function normalizePath(value) {
+  if (typeof value !== 'string') return ''
+  if (value === '/') return value
+  return value.replace(/\/+$/, '')
+}
+
 const routePaths = new Set(
   routeDefinitions
     .filter((route) => route.path && !route.redirect)
     .map((route) => route.path)
 )
 
-const serviceCatalogs = [
-  { name: 'AI', content: aiServiceContent, prefixes: ['/services/ai/business/', '/services/ai/personal/'] },
-  { name: 'Apple', content: appleServiceContent, prefixes: ['/services/apple/'] },
-  { name: 'Audit', content: auditServiceContent, prefixes: ['/services/business-it/'] },
-]
-
 const unknownLinks = []
 const duplicateLinks = []
 const missingFromCatalog = []
+const unknownLandingLinks = []
+const duplicateLandingLinks = []
 
 for (const catalog of serviceCatalogs) {
   const links = collectServiceLinks(catalog.content)
@@ -51,7 +51,25 @@ for (const catalog of serviceCatalogs) {
   missing.forEach((path) => missingFromCatalog.push(`[${catalog.name}] ${path}`))
 }
 
-if (unknownLinks.length || duplicateLinks.length || missingFromCatalog.length) {
+const landingLinks = serviceLandingCards.map((card) => normalizePath(card.to))
+const uniqueLandingLinks = unique(landingLinks)
+
+for (const link of uniqueLandingLinks) {
+  if (!routePaths.has(link)) {
+    unknownLandingLinks.push(link)
+  }
+}
+
+const landingDuplicates = landingLinks.filter((link, idx) => landingLinks.indexOf(link) !== idx)
+unique(landingDuplicates).forEach((link) => duplicateLandingLinks.push(link))
+
+if (
+  unknownLinks.length ||
+  duplicateLinks.length ||
+  missingFromCatalog.length ||
+  unknownLandingLinks.length ||
+  duplicateLandingLinks.length
+) {
   if (unknownLinks.length) {
     console.error('\nUnknown service links (missing in router):')
     unknownLinks.forEach((item) => console.error(`  - ${item}`))
@@ -65,6 +83,16 @@ if (unknownLinks.length || duplicateLinks.length || missingFromCatalog.length) {
   if (missingFromCatalog.length) {
     console.error('\nRoutes missing in service catalog:')
     missingFromCatalog.forEach((item) => console.error(`  - ${item}`))
+  }
+
+  if (unknownLandingLinks.length) {
+    console.error('\nUnknown root service cards (missing in router):')
+    unknownLandingLinks.forEach((item) => console.error(`  - ${item}`))
+  }
+
+  if (duplicateLandingLinks.length) {
+    console.error('\nDuplicate root service cards:')
+    duplicateLandingLinks.forEach((item) => console.error(`  - ${item}`))
   }
 
   process.exit(1)

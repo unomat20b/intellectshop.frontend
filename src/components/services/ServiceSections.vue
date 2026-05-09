@@ -51,9 +51,9 @@ function groupHeadingClass(section) {
               :to="item.to"
               class="block bg-white border rounded-xl p-4 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-300"
             >
-              <h4 class="font-medium">
+              <p class="font-medium">
                 {{ item.title }}
-              </h4>
+              </p>
             </RouterLink>
           </div>
         </div>

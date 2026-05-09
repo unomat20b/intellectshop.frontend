@@ -4,27 +4,16 @@ import { RouterLink } from 'vue-router'
 import { useHead } from '@vueuse/head'
 import { fetchServices } from '@/api/modx'
 import { getErrorMessage } from '@/api/errors'
+import { serviceLandingCards } from '@/content/services'
 
 const SITE_URL = 'https://intellectshop.net'
 const OG_IMAGE = `${SITE_URL}/og-image.svg`
 
-const topServiceCards = [
-  {
-    to: '/services/apple/',
-    title: 'Экосистема Apple',
-    description: '10+ лет опыта настройки устройств, MDM-решений и обучения сотрудников.'
-  },
-  {
-    to: '/services/ai/',
-    title: 'Нейросети & AI-агенты',
-    description: 'Внедряем ChatGPT-решения, создаём кастомных агентов на базе LLM.'
-  },
-  {
-    to: '/services/audit/',
-    title: 'Бизнес-аудит',
-    description: 'Анализ текущих IT-процессов и подбор оптимальных инструментов.'
-  }
-]
+const topServiceCards = serviceLandingCards
+
+function withTrailingSlash(path) {
+  return path.endsWith('/') ? path : `${path}/`
+}
 
 useHead({
   title: 'Услуги — IntellectShop',
@@ -66,7 +55,7 @@ useHead({
             '@type': 'ListItem',
             position: index + 1,
             name: card.title,
-            url: `${SITE_URL}${card.to}`
+            url: `${SITE_URL}${withTrailingSlash(card.to)}`
           }))
         }
       })

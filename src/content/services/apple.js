@@ -6,6 +6,8 @@ export const appleServiceContent = {
   },
   page: {
     title: 'Курсы Apple',
+    summary:
+      '10+ лет опыта настройки устройств Apple, сервисов iCloud и обучения команд безопасной работе.',
     intro:
       'IntellectShop обучает работе с устройствами и сервисами Apple. Ниже — подборки курсов по каждому направлению.',
   },
