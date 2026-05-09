@@ -50,28 +50,44 @@ jobs:
           TIMEWEB_SSH_PORT: ${{ secrets.TIMEWEB_SSH_PORT }}
         run: |
           set -euo pipefail
-          ssh_host="${TIMEWEB_SSH_HOST:-$TIMEWEB_HOST}"
           ssh_port="${TIMEWEB_SSH_PORT:-22}"
-          if [[ -z "$ssh_host" ]]; then
-            echo "TIMEWEB_HOST/TIMEWEB_SSH_HOST is empty. Set secrets in repository settings." >&2
+
+          candidate_hosts=()
+          if [[ -n "${TIMEWEB_SSH_HOST:-}" ]]; then
+            candidate_hosts+=("$TIMEWEB_SSH_HOST")
+          fi
+          if [[ -n "${TIMEWEB_HOST:-}" ]]; then
+            candidate_hosts+=("$TIMEWEB_HOST")
+          fi
+          mapfile -t candidate_hosts < <(printf '%s\n' "${candidate_hosts[@]}" | awk 'NF && !seen[$0]++')
+
+          if [[ ${#candidate_hosts[@]} -eq 0 ]]; then
+            echo "TIMEWEB_HOST/TIMEWEB_SSH_HOST are empty. Set secrets in repository settings." >&2
             exit 1
           fi
+
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
           printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/timeweb_deploy
           chmod 600 ~/.ssh/timeweb_deploy
           touch ~/.ssh/known_hosts
+
           scanned=0
-          for attempt in 1 2 3 4 5; do
-            if ssh-keyscan -4 -T 10 -p "$ssh_port" -H "$ssh_host" >> ~/.ssh/known_hosts 2>/dev/null || \
-               ssh-keyscan -T 10 -p "$ssh_port" -H "$ssh_host" >> ~/.ssh/known_hosts 2>/dev/null; then
-              scanned=1
+          for ssh_host in "${candidate_hosts[@]}"; do
+            for attempt in 1 2 3 4 5; do
+              if ssh-keyscan -4 -T 10 -p "$ssh_port" -H "$ssh_host" >> ~/.ssh/known_hosts 2>/dev/null || \
+                 ssh-keyscan -T 10 -p "$ssh_port" -H "$ssh_host" >> ~/.ssh/known_hosts 2>/dev/null; then
+                scanned=1
+                break
+              fi
+              sleep 3
+            done
+            if [ "$scanned" -eq 1 ]; then
               break
             fi
-            sleep 3
           done
           if [ "$scanned" -ne 1 ]; then
-            echo "Warning: ssh-keyscan failed for $ssh_host; continuing with StrictHostKeyChecking=accept-new"
+            echo "Warning: ssh-keyscan failed for all candidate hosts; continuing with StrictHostKeyChecking=accept-new"
           fi
 
       - name: Rsync dist → Timeweb (только артефакты сборки)
@@ -84,31 +100,50 @@ jobs:
         run: |
           set -euo pipefail
           test -n "$RPATH"
-          ssh_host="${TIMEWEB_SSH_HOST:-$TIMEWEB_HOST}"
-          if [[ -z "$ssh_host" ]]; then
-            echo "TIMEWEB_HOST/TIMEWEB_SSH_HOST is empty. Set secrets in repository settings." >&2
+
+          candidate_hosts=()
+          if [[ -n "${TIMEWEB_SSH_HOST:-}" ]]; then
+            candidate_hosts+=("$TIMEWEB_SSH_HOST")
+          fi
+          if [[ -n "${TIMEWEB_HOST:-}" ]]; then
+            candidate_hosts+=("$TIMEWEB_HOST")
+          fi
+          mapfile -t candidate_hosts < <(printf '%s\n' "${candidate_hosts[@]}" | awk 'NF && !seen[$0]++')
+
+          if [[ ${#candidate_hosts[@]} -eq 0 ]]; then
+            echo "TIMEWEB_HOST/TIMEWEB_SSH_HOST are empty. Set secrets in repository settings." >&2
             exit 1
           fi
-          ssh_port="${TIMEWEB_SSH_PORT:-22}"
-          remote="$TIMEWEB_USER@$ssh_host"
-          echo "Deploy target: $ssh_host:$ssh_port"
-          echo "DNS records (getent ahosts):"
-          getent ahosts "$ssh_host" || true
 
+          ssh_port="${TIMEWEB_SSH_PORT:-22}"
           ssh_opts="-p $ssh_port -i $HOME/.ssh/timeweb_deploy -o AddressFamily=inet -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
 
-          reachable=0
-          for attempt in 1 2 3 4 5; do
-            if ssh $ssh_opts "$remote" "echo ssh-ok" >/dev/null 2>&1; then
-              reachable=1
+          selected_host=""
+          for ssh_host in "${candidate_hosts[@]}"; do
+            echo "Checking deploy target: $ssh_host:$ssh_port"
+            echo "DNS records (getent ahosts):"
+            getent ahosts "$ssh_host" || true
+
+            remote="$TIMEWEB_USER@$ssh_host"
+            for attempt in 1 2 3 4 5; do
+              if ssh $ssh_opts "$remote" "echo ssh-ok" >/dev/null 2>&1; then
+                selected_host="$ssh_host"
+                break
+              fi
+              sleep 5
+            done
+            if [[ -n "$selected_host" ]]; then
               break
             fi
-            sleep 5
           done
-          if [ "$reachable" -ne 1 ]; then
-            echo "SSH preflight failed after 5 attempts (host unreachable or blocked)" >&2
+
+          if [[ -z "$selected_host" ]]; then
+            echo "SSH preflight failed for all candidate hosts (host unreachable or blocked)" >&2
             exit 1
           fi
+
+          remote="$TIMEWEB_USER@$selected_host"
+          echo "Selected deploy target: $selected_host:$ssh_port"
 
           for attempt in 1 2 3 4 5; do
             if rsync -avz --delete --timeout=120 -e "ssh $ssh_opts" dist/assets/ "$remote:$RPATH/assets/"; then
