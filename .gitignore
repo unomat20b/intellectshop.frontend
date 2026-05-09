@@ -27,3 +27,7 @@ dist-ssr
 .env
 .env.*
 !.env.example
+intellectshop-4cdb59479511.json
+client_secret_296343870620-o8qtofbu3rtlev66od57icoog63g0ncl.apps.googleusercontent.com.json
+ga4-oauth-client.json
+.ga4-oauth-token.json

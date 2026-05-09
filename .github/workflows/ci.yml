@@ -1,0 +1,38 @@
+name: Frontend CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "public/**"
+      - "index.html"
+      - "vite.config.js"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/ci.yml"
+      - "generate-sitemap.cjs"
+      - "src/router/**"
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      VITE_API_BASE: https://intellectshop.net/api
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Verify sitemap and build
+        run: |
+          npm run generate-sitemap
+          git diff --exit-code -- public/sitemap.xml
+          npm run build

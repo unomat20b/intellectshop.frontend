@@ -34,11 +34,20 @@
           <!-- Кнопка -->
           <button
             type="submit"
+            :disabled="isSubmitting"
             class="w-full md:w-auto bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-xl transition-colors duration-200 shadow mt-2"
             style="height: auto;"
           >
-            Отправить
+            {{ isSubmitting ? 'Отправка...' : 'Отправить' }}
           </button>
+          <p
+            v-if="statusMessage"
+            class="text-sm mt-1"
+            :class="statusType === 'success' ? 'text-green-600' : 'text-red-600'"
+            aria-live="polite"
+          >
+            {{ statusMessage }}
+          </p>
         </form>
       </div>
     </div>
@@ -71,11 +80,19 @@ export default {
         name: '',
         email: '',
         message: ''
-      }
+      },
+      isSubmitting: false,
+      statusMessage: '',
+      statusType: 'error'
     }
   },
   methods: {
     async handleSubmit() {
+      if (this.isSubmitting) return
+
+      this.isSubmitting = true
+      this.statusMessage = ''
+
       try {
         const result = await submitFeedback({
           name: this.form.name,
@@ -92,16 +109,21 @@ export default {
               value: 1
             })
           }
-          alert('Сообщение успешно отправлено!')
+          this.statusType = 'success'
+          this.statusMessage = 'Сообщение успешно отправлено!'
           this.form.name = ''
           this.form.email = ''
           this.form.message = ''
         } else {
-          alert('Ошибка: ' + (result.error || 'Неизвестная ошибка'))
+          this.statusType = 'error'
+          this.statusMessage = result.error || 'Неизвестная ошибка'
         }
       } catch (error) {
         console.error('Ошибка отправки:', error)
-        alert(getErrorMessage(error, 'Ошибка сети. Попробуйте еще раз.'))
+        this.statusType = 'error'
+        this.statusMessage = getErrorMessage(error, 'Ошибка сети. Попробуйте еще раз.')
+      } finally {
+        this.isSubmitting = false
       }
     }
   }
