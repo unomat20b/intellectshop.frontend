@@ -38,6 +38,7 @@ jobs:
         run: |
           npm ci
           npm run validate:services
+          npm run validate:service-pages
           npm run generate-sitemap
           npm run build
 

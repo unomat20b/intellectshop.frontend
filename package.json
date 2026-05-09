@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "generate-sitemap": "node generate-sitemap.cjs",
     "validate:services": "node scripts/validate-service-links.mjs",
+    "validate:service-pages": "node scripts/validate-service-page-content.mjs",
     "analytics:report": "node scripts/ga4-report.mjs",
     "analytics:report:oauth": "node scripts/ga4-report-oauth.mjs"
   },
