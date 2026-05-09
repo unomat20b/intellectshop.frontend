@@ -90,8 +90,23 @@ jobs:
           ssh_port="${TIMEWEB_SSH_PORT:-22}"
           remote="$TIMEWEB_USER@$ssh_host"
           echo "Deploy target: $ssh_host:$ssh_port"
+          echo "DNS records (getent ahosts):"
+          getent ahosts "$ssh_host" || true
 
-          ssh_opts="-p $ssh_port -i $HOME/.ssh/timeweb_deploy -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
+          ssh_opts="-p $ssh_port -i $HOME/.ssh/timeweb_deploy -o AddressFamily=inet -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
+
+          reachable=0
+          for attempt in 1 2 3 4 5; do
+            if ssh $ssh_opts "$remote" "echo ssh-ok" >/dev/null 2>&1; then
+              reachable=1
+              break
+            fi
+            sleep 5
+          done
+          if [ "$reachable" -ne 1 ]; then
+            echo "SSH preflight failed after 5 attempts (host unreachable or blocked)" >&2
+            exit 1
+          fi
 
           for attempt in 1 2 3 4 5; do
             if rsync -avz --delete --timeout=120 -e "ssh $ssh_opts" dist/assets/ "$remote:$RPATH/assets/"; then
