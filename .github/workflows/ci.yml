@@ -12,6 +12,7 @@ on:
       - "package-lock.json"
       - ".github/workflows/ci.yml"
       - "generate-sitemap.cjs"
+      - "scripts/**"
       - "src/router/**"
   workflow_dispatch:
 
@@ -33,6 +34,7 @@ jobs:
 
       - name: Verify sitemap and build
         run: |
+          npm run validate:services
           npm run generate-sitemap
           git diff --exit-code -- public/sitemap.xml
           npm run build

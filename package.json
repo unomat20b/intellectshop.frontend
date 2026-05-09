@@ -9,6 +9,7 @@
     "build:spa": "vite build",
     "preview": "vite preview",
     "generate-sitemap": "node generate-sitemap.cjs",
+    "validate:services": "node scripts/validate-service-links.mjs",
     "analytics:report": "node scripts/ga4-report.mjs",
     "analytics:report:oauth": "node scripts/ga4-report-oauth.mjs"
   },
