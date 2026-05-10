@@ -1,55 +1,11 @@
 <script setup>
-import { useHead } from '@vueuse/head'
+import ServiceDetailContent from '@/components/services/ServiceDetailContent.vue'
+import { useServicePageHead } from '@/composables/useServicePageHead'
+import { servicePageContent } from '@/content/service-pages/ai/personal/materials'
 
-useHead({
-  title: 'Работа с личными материалами – IntellectShop',
-  meta: [
-    {
-      name: 'description',
-      content: 'Научитесь подключать собственные файлы и материалы к AI: резюме, статьи, письма, проекты — для персонализированных ответов и работы с памятью.',
-    },
-  ],
-})
+useServicePageHead(servicePageContent)
 </script>
 
 <template>
-  <section class="max-w-3xl mx-auto px-4 py-10">
-    <h1 class="text-2xl font-bold mb-4">Работа с личными материалами</h1>
-
-    <p class="text-gray-700 mb-4">
-      Индивидуальный AI должен учитывать ваши знания, стиль и цели. Этот модуль посвящён тому, как «научить» ассистента работать с вашими файлами — от резюме до проектов.
-    </p>
-
-    <h2 class="text-lg font-semibold mb-2">Что входит в обучение</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>Загрузка и подключение файлов: PDF, Word, Google Docs</li>
-      <li>Создание собственной базы знаний и подключение её к ассистенту</li>
-      <li>Извлечение ключевой информации из документов</li>
-      <li>Ответы AI на основе ваших материалов: контекст, стиль, тон</li>
-      <li>Работа с внутренними заметками, письмами, статьями</li>
-    </ul>
-
-    <h2 class="text-lg font-semibold mb-2">Примеры использования</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>📝 Подготовка откликов на вакансии по своему резюме</li>
-      <li>📄 Ответы клиентам на основе FAQ и старых переписок</li>
-      <li>📚 Поиск цитат и данных в загруженных книгах и документах</li>
-      <li>📬 Подготовка email по шаблонам, с учётом своего стиля</li>
-    </ul>
-
-    <h2 class="text-lg font-semibold mb-2">Что вы получите на выходе</h2>
-    <p class="text-gray-700 mb-6">
-      Персональный AI, который учитывает ваши знания и работает в вашем контексте. Это как ассистент, который читал ваши документы и помнит детали.
-    </p>
-
-    <h2 class="text-lg font-semibold mb-2">2 лайфхака для работы с файлами</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li><strong>Структурируйте файлы:</strong> названия, разделы и заголовки помогают AI быстрее и точнее находить ответы.</li>
-      <li><strong>Создайте контекстные шаблоны:</strong> включайте инструкции вроде «отвечай как я бы ответил» — это работает удивительно точно.</li>
-    </ul>
-
-    <p class="text-gray-700 italic">
-      Ваши материалы — главный источник силы персонального AI. Мы покажем, как их правильно подключить и использовать.
-    </p>
-  </section>
+  <ServiceDetailContent :content="servicePageContent" />
 </template>

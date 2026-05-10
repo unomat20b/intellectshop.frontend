@@ -117,6 +117,10 @@ const requiredScopes = [
     name: 'AI Business',
     prefixes: ['/services/ai/business/'],
   },
+  {
+    name: 'AI Personal',
+    prefixes: ['/services/ai/personal/'],
+  },
 ]
 
 for (const scope of requiredScopes) {

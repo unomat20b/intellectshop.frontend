@@ -1,56 +1,11 @@
 <script setup>
-import { useHead } from '@vueuse/head'
+import ServiceDetailContent from '@/components/services/ServiceDetailContent.vue'
+import { useServicePageHead } from '@/composables/useServicePageHead'
+import { servicePageContent } from '@/content/service-pages/ai/personal/idea-gen'
 
-useHead({
-  title: 'Генерация идей и сценариев – IntellectShop',
-  meta: [
-    {
-      name: 'description',
-      content: 'Используйте нейросети для генерации идей, сценариев, креативных концептов и новых проектов. Для авторов, маркетологов, дизайнеров и предпринимателей.',
-    },
-  ],
-})
+useServicePageHead(servicePageContent)
 </script>
 
 <template>
-  <section class="max-w-3xl mx-auto px-4 py-10">
-    <h1 class="text-2xl font-bold mb-4">Генерация идей и сценариев</h1>
-
-    <p class="text-gray-700 mb-4">
-      Застряли на старте проекта? Нейросети помогут вам выйти из творческого ступора и предложат десятки оригинальных идей для видео, текстов, дизайна, стартапов и даже курсов.
-    </p>
-
-    <h2 class="text-lg font-semibold mb-2">Что входит в обучение</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>Методики генерации идей с помощью GPT и Claude</li>
-      <li>Работа с шаблонами сценариев, сторителлинга, контент-планов</li>
-      <li>Создание креативных промтов для изображений (Midjourney, SDXL)</li>
-      <li>Разработка уникальных офферов и заголовков</li>
-      <li>Сбор идей для YouTube, Reels, презентаций, рекламы</li>
-    </ul>
-
-    <h2 class="text-lg font-semibold mb-2">Примеры задач</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>💡 Найти идею для нового видео или курса</li>
-      <li>🧠 Придумать сюжет и структуру презентации</li>
-      <li>🎙️ Создать сценарий подкаста, шоу, тренинга</li>
-      <li>📱 Сгенерировать контент-план на месяц</li>
-      <li>📦 Получить идеи для новых продуктов или офферов</li>
-    </ul>
-
-    <h2 class="text-lg font-semibold mb-2">Что вы получите на выходе</h2>
-    <p class="text-gray-700 mb-6">
-      У вас всегда будет под рукой "мозговой штурм", доступный 24/7. Вы научитесь получать релевантные и свежие идеи по любой теме — быстро и без выгорания.
-    </p>
-
-    <h2 class="text-lg font-semibold mb-2">2 лайфхака для креативных задач</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li><strong>Меняйте ракурс:</strong> просите AI сгенерировать идеи от имени разных ролей (пользователь, инвестор, критик).</li>
-      <li><strong>Используйте цепочку промтов:</strong> уточняйте идеи в несколько шагов, а не в одном большом запросе.</li>
-    </ul>
-
-    <p class="text-gray-700 italic">
-      Иногда одна фраза меняет весь проект. Мы покажем, как её получить — и развить в полноценную концепцию.
-    </p>
-  </section>
+  <ServiceDetailContent :content="servicePageContent" />
 </template>

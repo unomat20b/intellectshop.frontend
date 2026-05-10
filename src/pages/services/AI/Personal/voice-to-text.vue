@@ -1,50 +1,11 @@
 <script setup>
-import { useHead } from '@vueuse/head'
+import ServiceDetailContent from '@/components/services/ServiceDetailContent.vue'
+import { useServicePageHead } from '@/composables/useServicePageHead'
+import { servicePageContent } from '@/content/service-pages/ai/personal/voice-to-text'
 
-useHead({
-  title: 'Преобразование голоса в текст – IntellectShop',
-  meta: [
-    {
-      name: 'description',
-      content: 'Использование нейросетей для точного преобразования голосовых сообщений и аудиофайлов в текст.',
-    },
-  ],
-})
+useServicePageHead(servicePageContent)
 </script>
 
 <template>
-  <section class="max-w-3xl mx-auto px-4 py-10">
-    <h1 class="text-2xl font-bold mb-4">Преобразование голоса в текст</h1>
-
-    <p class="text-gray-700 mb-4">
-      Голосовые сообщения, заметки и записи — это удобно. Но ещё удобнее, когда они автоматически превращаются в текст, готовы к поиску, редактированию и анализу. Этот модуль посвящён преобразованию речи в текст с помощью AI.
-    </p>
-
-    <h2 class="text-lg font-semibold mb-2">Что вы узнаете</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>Подключение Whisper, Vosk и других моделей распознавания речи</li>
-      <li>Настройка распознавания голосовых сообщений в Telegram и мессенджерах</li>
-      <li>Автоматический разбор интервью, лекций, голосовых заметок</li>
-      <li>Создание Telegram-бота, который преобразует аудио в текст</li>
-      <li>Интеграция с Google Drive и другими хранилищами для хранения файлов</li>
-    </ul>
-
-    <h2 class="text-lg font-semibold mb-2">Кому это полезно</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>🎙️ Подкастерам и интервьюерам — для быстрой расшифровки выпусков</li>
-      <li>📱 Активным пользователям голосовых — для удобного поиска и архива</li>
-      <li>📖 Студентам и преподавателям — для создания текстовых конспектов</li>
-      <li>💼 Специалистам — для перевода встреч и звонков в структурированный текст</li>
-    </ul>
-
-    <h2 class="text-lg font-semibold mb-2">2 лайфхака по распознаванию речи</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li><strong>Объединяйте с AI-редактором:</strong> сразу после расшифровки прогоните текст через ChatGPT — получите отредактированную, чистую версию.</li>
-      <li><strong>Используйте автоматический запуск:</strong> n8n может сам запускать расшифровку, как только файл попадает в папку в Google Drive.</li>
-    </ul>
-
-    <p class="text-gray-700 italic">
-      Используйте голос для свободы — и AI для порядка. Никаких потерянных мыслей и забытых идей.
-    </p>
-  </section>
+  <ServiceDetailContent :content="servicePageContent" />
 </template>

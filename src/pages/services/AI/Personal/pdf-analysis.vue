@@ -1,54 +1,11 @@
 <script setup>
-import { useHead } from '@vueuse/head'
+import ServiceDetailContent from '@/components/services/ServiceDetailContent.vue'
+import { useServicePageHead } from '@/composables/useServicePageHead'
+import { servicePageContent } from '@/content/service-pages/ai/personal/pdf-analysis'
 
-useHead({
-  title: 'Разбор PDF с помощью нейросетей – IntellectShop',
-  meta: [
-    {
-      name: 'description',
-      content: 'Автоматический анализ PDF-файлов: извлечение информации, поиск по документу, генерация резюме и ответов с помощью AI.',
-    },
-  ],
-})
+useServicePageHead(servicePageContent)
 </script>
 
 <template>
-  <section class="max-w-3xl mx-auto px-4 py-10">
-    <h1 class="text-2xl font-bold mb-4">Разбор PDF с помощью нейросетей</h1>
-
-    <p class="text-gray-700 mb-4">
-      Хотите быстро понять, о чём документ? Нейросети могут помочь. На этом модуле вы научитесь подключать и использовать AI для анализа PDF-файлов — как текстовых, так и отсканированных.
-    </p>
-
-    <h2 class="text-lg font-semibold mb-2">Что входит в обучение</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>Извлечение текста из PDF с помощью OCR (если нужно)</li>
-      <li>Использование AI-агента для поиска и анализа внутри PDF</li>
-      <li>Создание кратких выжимок и ответов на вопросы по содержимому</li>
-      <li>Поддержка многостраничных и вложенных PDF-файлов</li>
-      <li>Интеграция с Telegram-ботом, Web-интерфейсом или расширением</li>
-    </ul>
-
-    <h2 class="text-lg font-semibold mb-2">Типичные задачи</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>📑 Быстрое понимание длинных договоров и инструкций</li>
-      <li>📋 Проверка юридических, технических или академических документов</li>
-      <li>📎 Ответы на вопросы по загруженному документу в чате</li>
-    </ul>
-
-    <h2 class="text-lg font-semibold mb-2">Что вы получите на выходе</h2>
-    <p class="text-gray-700 mb-6">
-      Умение подключать и использовать ИИ-агента для разбора и анализа PDF — без сложных установок. Ваш личный PDF-ассистент будет доступен 24/7.
-    </p>
-
-    <h2 class="text-lg font-semibold mb-2">2 лайфхака по работе с PDF</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li><strong>Готовьте документы заранее:</strong> AI работает лучше, если PDF не содержит мусора и сканирован плохого качества. Используйте OCR (Tesseract или Adobe).</li>
-      <li><strong>Добавьте чат над PDF:</strong> встроенный чат-ассистент прямо на странице документа с возможностью задавать вопросы по содержимому.</li>
-    </ul>
-
-    <p class="text-gray-700 italic">
-      Не читайте — анализируйте. Нейросеть прочитает PDF за секунды и расскажет главное.
-    </p>
-  </section>
+  <ServiceDetailContent :content="servicePageContent" />
 </template>

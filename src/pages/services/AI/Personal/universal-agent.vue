@@ -1,55 +1,11 @@
 <script setup>
-import { useHead } from '@vueuse/head'
+import ServiceDetailContent from '@/components/services/ServiceDetailContent.vue'
+import { useServicePageHead } from '@/composables/useServicePageHead'
+import { servicePageContent } from '@/content/service-pages/ai/personal/universal-agent'
 
-useHead({
-  title: 'Универсальный AI-ассистент – IntellectShop',
-  meta: [
-    {
-      name: 'description',
-      content: 'Создание и настройка персонального AI-агента, который запоминает ваш стиль, работает с файлами и выполняет повседневные задачи.',
-    },
-  ],
-})
+useServicePageHead(servicePageContent)
 </script>
 
 <template>
-  <section class="max-w-3xl mx-auto px-4 py-10">
-    <h1 class="text-2xl font-bold mb-4">Универсальный AI-ассистент</h1>
-
-    <p class="text-gray-700 mb-4">
-      Представьте помощника, который "помнит" ваши цели, понимает контекст, ориентируется в ваших документах и подстраивается под стиль общения. На этом модуле вы создадите именно такого AI-ассистента.
-    </p>
-
-    <h2 class="text-lg font-semibold mb-2">Что входит в обучение</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>Создание базового AI-агента с памятью и историей запросов</li>
-      <li>Подключение собственных материалов: резюме, тексты, документы</li>
-      <li>Настройка индивидуального тона и целей: эксперт, редактор, маркетолог и т.д.</li>
-      <li>Возможность работы в Telegram, браузере, расширении или как WebApp</li>
-      <li>Интеграция с внешними источниками (Google Docs, PDF, заметки)</li>
-    </ul>
-
-    <h2 class="text-lg font-semibold mb-2">Типичные сценарии использования</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>📝 Писать тексты, письма и статьи в вашем стиле</li>
-      <li>🧠 Отвечать на вопросы по вашим файлам и проектам</li>
-      <li>🎯 Помогать с планированием и выбором приоритетов</li>
-      <li>📥 Обрабатывать голосовые и текстовые сообщения</li>
-    </ul>
-
-    <h2 class="text-lg font-semibold mb-2">Что вы получите на выходе</h2>
-    <p class="text-gray-700 mb-6">
-      У вас будет личный AI-ассистент, заточенный под ваш стиль и задачи. Готовый к работе 24/7 в удобном формате — без подписок, облаков и лишних сервисов.
-    </p>
-
-    <h2 class="text-lg font-semibold mb-2">2 лайфхака для универсального ассистента</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li><strong>Используйте промты-шаблоны:</strong> сохраняйте полезные запросы для повседневных задач: письма, отчёты, списки.</li>
-      <li><strong>Добавьте “память” ассистенту:</strong> подключите JSON или базы заметок для имитации долгосрочной памяти — например, Notion или SQLite.</li>
-    </ul>
-
-    <p class="text-gray-700 italic">
-      Один агент — много ролей. Вы задаёте правила, он — исполняет.
-    </p>
-  </section>
+  <ServiceDetailContent :content="servicePageContent" />
 </template>

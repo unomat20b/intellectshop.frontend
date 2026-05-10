@@ -1,56 +1,11 @@
 <script setup>
-import { useHead } from '@vueuse/head'
+import ServiceDetailContent from '@/components/services/ServiceDetailContent.vue'
+import { useServicePageHead } from '@/composables/useServicePageHead'
+import { servicePageContent } from '@/content/service-pages/ai/personal/goal-based-selection'
 
-useHead({
-  title: 'Выбор нейросетей под цели пользователя – IntellectShop',
-  meta: [
-    {
-      name: 'description',
-      content: 'Подбор оптимальных нейросетевых инструментов под конкретные задачи: тексты, изображения, голос, видео и документы.',
-    },
-  ],
-})
+useServicePageHead(servicePageContent)
 </script>
 
 <template>
-  <section class="max-w-3xl mx-auto px-4 py-10">
-    <h1 class="text-2xl font-bold mb-4">Выбор нейросетей под цели пользователя</h1>
-
-    <p class="text-gray-700 mb-4">
-      Необязательно знать все модели и платформы — мы подскажем, какие инструменты подойдут именно под ваши цели: от генерации логотипов до расшифровки голосовых и автоматизации рутинных задач.
-    </p>
-
-    <h2 class="text-lg font-semibold mb-2">Что входит в обучение</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>Краткий аудит целей и задач пользователя</li>
-      <li>Подбор инструментов под тип задач: текст, графика, видео, голос</li>
-      <li>Обзор лучших сервисов: GPT, Claude, Midjourney, Runway, ElevenLabs, TTS и др.</li>
-      <li>Сравнение качества, цены и удобства</li>
-      <li>Создание индивидуальной подборки сервисов и моделей</li>
-    </ul>
-
-    <h2 class="text-lg font-semibold mb-2">Примеры задач</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>📝 Генерация текстов, писем, статей и описаний</li>
-      <li>🎨 Создание логотипов, иллюстраций, обложек</li>
-      <li>🎞️ Работа с видео: монтаж, субтитры, эффекты</li>
-      <li>🎙️ Голосовая озвучка или ассистент</li>
-      <li>📊 Автоматизация таблиц, отчётов, шаблонов</li>
-    </ul>
-
-    <h2 class="text-lg font-semibold mb-2">Что вы получите на выходе</h2>
-    <p class="text-gray-700 mb-6">
-      Готовый набор сервисов, подобранных под ваши цели, задачи и бюджет. Вы сэкономите недели тестов и сразу начнёте использовать мощь нейросетей в нужном направлении.
-    </p>
-
-    <h2 class="text-lg font-semibold mb-2">2 лайфхака по выбору AI-инструментов</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li><strong>Сначала цель — потом инструмент:</strong> не выбирайте модель, пока не сформулировали задачу.</li>
-      <li><strong>Сравнивайте не только цену, но и UX:</strong> удобство, скорость и язык интерфейса часто важнее технических нюансов.</li>
-    </ul>
-
-    <p class="text-gray-700 italic">
-      Нейросети — не магия, а инструмент. Мы поможем вам найти нужный и начать работать продуктивнее уже завтра.
-    </p>
-  </section>
+  <ServiceDetailContent :content="servicePageContent" />
 </template>
