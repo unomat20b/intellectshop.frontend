@@ -62,7 +62,18 @@ jobs:
           fi
           mapfile -t candidate_hosts < <(printf '%s\n' "${candidate_hosts[@]}" | awk 'NF && !seen[$0]++')
 
-          if [[ ${#candidate_hosts[@]} -eq 0 ]]; then
+          candidate_targets=()
+          for ssh_host in "${candidate_hosts[@]}"; do
+            candidate_targets+=("$ssh_host")
+            if command -v getent >/dev/null 2>&1; then
+              while IFS= read -r ip; do
+                candidate_targets+=("$ip")
+              done < <(getent ahostsv4 "$ssh_host" 2>/dev/null | awk '{print $1}' | awk 'NF && !seen[$0]++')
+            fi
+          done
+          mapfile -t candidate_targets < <(printf '%s\n' "${candidate_targets[@]}" | awk 'NF && !seen[$0]++')
+
+          if [[ ${#candidate_targets[@]} -eq 0 ]]; then
             echo "TIMEWEB_HOST/TIMEWEB_SSH_HOST are empty. Set secrets in repository settings." >&2
             exit 1
           fi
@@ -74,7 +85,7 @@ jobs:
           touch ~/.ssh/known_hosts
 
           scanned=0
-          for ssh_host in "${candidate_hosts[@]}"; do
+          for ssh_host in "${candidate_targets[@]}"; do
             for attempt in 1 2 3 4 5; do
               if ssh-keyscan -4 -T 10 -p "$ssh_port" -H "$ssh_host" >> ~/.ssh/known_hosts 2>/dev/null || \
                  ssh-keyscan -T 10 -p "$ssh_port" -H "$ssh_host" >> ~/.ssh/known_hosts 2>/dev/null; then
@@ -111,7 +122,18 @@ jobs:
           fi
           mapfile -t candidate_hosts < <(printf '%s\n' "${candidate_hosts[@]}" | awk 'NF && !seen[$0]++')
 
-          if [[ ${#candidate_hosts[@]} -eq 0 ]]; then
+          candidate_targets=()
+          for ssh_host in "${candidate_hosts[@]}"; do
+            candidate_targets+=("$ssh_host")
+            if command -v getent >/dev/null 2>&1; then
+              while IFS= read -r ip; do
+                candidate_targets+=("$ip")
+              done < <(getent ahostsv4 "$ssh_host" 2>/dev/null | awk '{print $1}' | awk 'NF && !seen[$0]++')
+            fi
+          done
+          mapfile -t candidate_targets < <(printf '%s\n' "${candidate_targets[@]}" | awk 'NF && !seen[$0]++')
+
+          if [[ ${#candidate_targets[@]} -eq 0 ]]; then
             echo "TIMEWEB_HOST/TIMEWEB_SSH_HOST are empty. Set secrets in repository settings." >&2
             exit 1
           fi
@@ -120,10 +142,12 @@ jobs:
           ssh_opts="-p $ssh_port -i $HOME/.ssh/timeweb_deploy -o AddressFamily=inet -o IdentitiesOnly=yes -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15 -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
 
           selected_host=""
-          for ssh_host in "${candidate_hosts[@]}"; do
+          for ssh_host in "${candidate_targets[@]}"; do
             echo "Checking deploy target: $ssh_host:$ssh_port"
-            echo "DNS records (getent ahosts):"
-            getent ahosts "$ssh_host" || true
+            if command -v getent >/dev/null 2>&1; then
+              echo "DNS records (getent ahosts):"
+              getent ahosts "$ssh_host" || true
+            fi
 
             remote="$TIMEWEB_USER@$ssh_host"
             for attempt in 1 2 3 4 5; do
