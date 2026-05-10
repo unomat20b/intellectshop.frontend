@@ -1,4 +1,4 @@
-export const processAnalysisPageContent = {
+export const servicePageContent = {
   meta: {
     title: 'Анализ процессов — IntellectShop',
     description:

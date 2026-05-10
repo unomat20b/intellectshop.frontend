@@ -1,4 +1,4 @@
-export const iphoneBasicsPageContent = {
+export const servicePageContent = {
   meta: {
     title: 'Основы работы с iPhone — IntellectShop',
     description:

@@ -1,4 +1,4 @@
-export const infraAnalysisPageContent = {
+export const servicePageContent = {
   meta: {
     title: 'Анализ цифровой инфраструктуры — IntellectShop',
     description:

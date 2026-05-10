@@ -1,11 +1,11 @@
 <script setup>
 import ServiceDetailContent from '@/components/services/ServiceDetailContent.vue'
 import { useServicePageHead } from '@/composables/useServicePageHead'
-import { iphoneBasicsPageContent } from '@/content/service-pages/apple/iphone/iphone-basics'
+import { servicePageContent } from '@/content/service-pages/apple/iphone/iphone-basics'
 
-useServicePageHead(iphoneBasicsPageContent)
+useServicePageHead(servicePageContent)
 </script>
 
 <template>
-  <ServiceDetailContent :content="iphoneBasicsPageContent" />
+  <ServiceDetailContent :content="servicePageContent" />
 </template>

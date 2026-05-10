@@ -1,11 +1,11 @@
 <script setup>
 import ServiceDetailContent from '@/components/services/ServiceDetailContent.vue'
 import { useServicePageHead } from '@/composables/useServicePageHead'
-import { processAnalysisPageContent } from '@/content/service-pages/ai/business/process-analysis'
+import { servicePageContent } from '@/content/service-pages/ai/business/process-analysis'
 
-useServicePageHead(processAnalysisPageContent)
+useServicePageHead(servicePageContent)
 </script>
 
 <template>
-  <ServiceDetailContent :content="processAnalysisPageContent" />
+  <ServiceDetailContent :content="servicePageContent" />
 </template>

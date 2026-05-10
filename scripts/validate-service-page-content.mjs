@@ -29,6 +29,7 @@ const routePaths = new Set(
 
 const errors = []
 const seenPaths = new Set()
+const registryPaths = new Set()
 
 for (const entry of servicePageContentRegistry) {
   const normalizedPath = normalizePath(entry?.path)
@@ -43,6 +44,7 @@ for (const entry of servicePageContentRegistry) {
     errors.push(`Duplicate registry path: ${normalizedPath}`)
   }
   seenPaths.add(normalizedPath)
+  registryPaths.add(normalizedPath)
 
   if (!routePaths.has(normalizedPath)) {
     errors.push(`Unknown route path in registry: ${normalizedPath}`)
@@ -107,6 +109,24 @@ for (const entry of servicePageContentRegistry) {
         )
       }
     }
+  }
+}
+
+const requiredScopes = [
+  {
+    name: 'AI Business',
+    prefixes: ['/services/ai/business/'],
+  },
+]
+
+for (const scope of requiredScopes) {
+  const scopedRoutes = [...routePaths].filter((path) =>
+    scope.prefixes.some((prefix) => path.startsWith(prefix))
+  )
+
+  const missingEntries = scopedRoutes.filter((path) => !registryPaths.has(path))
+  for (const missingPath of missingEntries) {
+    errors.push(`[${scope.name}] missing content registry entry for route: ${missingPath}`)
   }
 }
 
