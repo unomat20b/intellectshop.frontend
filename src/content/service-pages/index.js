@@ -62,7 +62,34 @@ import { servicePageContent as contentServicesAppleMacMacosFileManagement } from
 import { servicePageContent as contentServicesAppleMacMacosNavigationTools } from './apple/Mac/macos-navigation-tools.js'
 import { servicePageContent as contentServicesAppleMacMacosThirdpartyWorkflow } from './apple/Mac/macos-thirdparty-workflow.js'
 import { servicePageContent as contentServicesAppleMacMacosTimeMachine } from './apple/Mac/macos-time-machine.js'
+import { servicePageContent as contentServicesBusinessItAccessAutomation } from './business-it/access-automation.js'
+import { servicePageContent as contentServicesBusinessItAccessRoles } from './business-it/access-roles.js'
+import { servicePageContent as contentServicesBusinessItAuthLogging } from './business-it/auth-logging.js'
+import { servicePageContent as contentServicesBusinessItChecklistSetup } from './business-it/checklist-setup.js'
+import { servicePageContent as contentServicesBusinessItCloudComparison } from './business-it/cloud-comparison.js'
+import { servicePageContent as contentServicesBusinessItDocGuidelines } from './business-it/doc-guidelines.js'
+import { servicePageContent as contentServicesBusinessItDocflowRules } from './business-it/docflow-rules.js'
+import { servicePageContent as contentServicesBusinessItFileOrganization } from './business-it/file-organization.js'
+import { servicePageContent as contentServicesBusinessItHostingBackup } from './business-it/hosting-backup.js'
+import { servicePageContent as contentServicesBusinessItHostingSelection } from './business-it/hosting-selection.js'
 import { servicePageContent as contentServicesBusinessItInfraAnalysis } from './business-it/infra-analysis.js'
+import { servicePageContent as contentServicesBusinessItInfraScan } from './business-it/infra-scan.js'
+import { servicePageContent as contentServicesBusinessItInternalGuides } from './business-it/internal-guides.js'
+import { servicePageContent as contentServicesBusinessItItilSupport } from './business-it/itil-support.js'
+import { servicePageContent as contentServicesBusinessItOnboardingSetup } from './business-it/onboarding-setup.js'
+import { servicePageContent as contentServicesBusinessItPasswordManagers } from './business-it/password-managers.js'
+import { servicePageContent as contentServicesBusinessItProcessFormalization } from './business-it/process-formalization.js'
+import { servicePageContent as contentServicesBusinessItProjectBackup } from './business-it/project-backup.js'
+import { servicePageContent as contentServicesBusinessItRepoManagement } from './business-it/repo-management.js'
+import { servicePageContent as contentServicesBusinessItRiskDetection } from './business-it/risk-detection.js'
+import { servicePageContent as contentServicesBusinessItSecureAlternatives } from './business-it/secure-alternatives.js'
+import { servicePageContent as contentServicesBusinessItServerSetup } from './business-it/server-setup.js'
+import { servicePageContent as contentServicesBusinessItTeamStructure } from './business-it/team-structure.js'
+import { servicePageContent as contentServicesBusinessItTimeTracking } from './business-it/time-tracking.js'
+import { servicePageContent as contentServicesBusinessItToolComparison } from './business-it/tool-comparison.js'
+import { servicePageContent as contentServicesBusinessItToolSelection } from './business-it/tool-selection.js'
+import { servicePageContent as contentServicesBusinessItTransformationStrategy } from './business-it/transformation-strategy.js'
+import { servicePageContent as contentServicesBusinessItVpnSetup } from './business-it/vpn-setup.js'
 
 export const servicePageContentRegistry = [
   {
@@ -322,8 +349,116 @@ export const servicePageContentRegistry = [
     content: contentServicesAppleMacMacosTimeMachine,
   },
   {
+    path: '/services/business-it/access-automation',
+    content: contentServicesBusinessItAccessAutomation,
+  },
+  {
+    path: '/services/business-it/access-roles',
+    content: contentServicesBusinessItAccessRoles,
+  },
+  {
+    path: '/services/business-it/auth-logging',
+    content: contentServicesBusinessItAuthLogging,
+  },
+  {
+    path: '/services/business-it/checklist-setup',
+    content: contentServicesBusinessItChecklistSetup,
+  },
+  {
+    path: '/services/business-it/cloud-comparison',
+    content: contentServicesBusinessItCloudComparison,
+  },
+  {
+    path: '/services/business-it/doc-guidelines',
+    content: contentServicesBusinessItDocGuidelines,
+  },
+  {
+    path: '/services/business-it/docflow-rules',
+    content: contentServicesBusinessItDocflowRules,
+  },
+  {
+    path: '/services/business-it/file-organization',
+    content: contentServicesBusinessItFileOrganization,
+  },
+  {
+    path: '/services/business-it/hosting-backup',
+    content: contentServicesBusinessItHostingBackup,
+  },
+  {
+    path: '/services/business-it/hosting-selection',
+    content: contentServicesBusinessItHostingSelection,
+  },
+  {
     path: '/services/business-it/infra-analysis',
     content: contentServicesBusinessItInfraAnalysis,
+  },
+  {
+    path: '/services/business-it/infra-scan',
+    content: contentServicesBusinessItInfraScan,
+  },
+  {
+    path: '/services/business-it/internal-guides',
+    content: contentServicesBusinessItInternalGuides,
+  },
+  {
+    path: '/services/business-it/itil-support',
+    content: contentServicesBusinessItItilSupport,
+  },
+  {
+    path: '/services/business-it/onboarding-setup',
+    content: contentServicesBusinessItOnboardingSetup,
+  },
+  {
+    path: '/services/business-it/password-managers',
+    content: contentServicesBusinessItPasswordManagers,
+  },
+  {
+    path: '/services/business-it/process-formalization',
+    content: contentServicesBusinessItProcessFormalization,
+  },
+  {
+    path: '/services/business-it/project-backup',
+    content: contentServicesBusinessItProjectBackup,
+  },
+  {
+    path: '/services/business-it/repo-management',
+    content: contentServicesBusinessItRepoManagement,
+  },
+  {
+    path: '/services/business-it/risk-detection',
+    content: contentServicesBusinessItRiskDetection,
+  },
+  {
+    path: '/services/business-it/secure-alternatives',
+    content: contentServicesBusinessItSecureAlternatives,
+  },
+  {
+    path: '/services/business-it/server-setup',
+    content: contentServicesBusinessItServerSetup,
+  },
+  {
+    path: '/services/business-it/team-structure',
+    content: contentServicesBusinessItTeamStructure,
+  },
+  {
+    path: '/services/business-it/time-tracking',
+    content: contentServicesBusinessItTimeTracking,
+  },
+  {
+    path: '/services/business-it/tool-comparison',
+    content: contentServicesBusinessItToolComparison,
+  },
+  {
+    path: '/services/business-it/tool-selection',
+    content: contentServicesBusinessItToolSelection,
+  },
+  {
+    path: '/services/business-it/transformation-strategy',
+    content: contentServicesBusinessItTransformationStrategy,
+  },
+  {
+    path: '/services/business-it/vpn-setup',
+    content: contentServicesBusinessItVpnSetup,
   },
 ]
 

@@ -125,6 +125,10 @@ const requiredScopes = [
     name: 'Apple',
     prefixes: ['/services/apple/'],
   },
+  {
+    name: 'Business IT',
+    prefixes: ['/services/business-it/'],
+  },
 ]
 
 for (const scope of requiredScopes) {
