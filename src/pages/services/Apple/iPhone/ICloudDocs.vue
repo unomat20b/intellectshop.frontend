@@ -1,7 +1,7 @@
 <script setup>
 import ServiceDetailContent from '@/components/services/ServiceDetailContent.vue'
 import { useServicePageHead } from '@/composables/useServicePageHead'
-import { servicePageContent } from '@/content/service-pages/apple/iPhone/ICloudDocs'
+import { servicePageContent } from '@/content/service-pages/apple/iphone/ICloudDocs'
 
 useServicePageHead(servicePageContent)
 </script>
