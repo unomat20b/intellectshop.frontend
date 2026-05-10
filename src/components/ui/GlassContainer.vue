@@ -51,15 +51,19 @@
           width: glassSize.width + 'px',
           height: glassSize.height + 'px',
           padding,
+          background: compact
+            ? 'rgba(255,255,255,0.1)'
+            : 'linear-gradient(145deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.14) 34%, rgba(125,211,252,0.18) 66%, rgba(59,130,246,0.2) 100%)',
+          border: compact ? '1px solid rgba(255,255,255,0.18)' : '1px solid rgba(255,255,255,0.34)',
           backdropFilter: compact ? 'none' : `blur(${(overLight ? 12 : 4) + blurAmount * 32}px) saturate(${saturation}%)`,
           WebkitBackdropFilter: compact ? 'none' : `blur(${(overLight ? 12 : 4) + blurAmount * 32}px) saturate(${saturation}%)`,
           boxShadow: compact
             ? '0 1px 4px rgba(0,0,0,0.10)'
             : (overLight
-                ? '0px 16px 70px rgba(0,0,0,0.75)'
-                : '0px 12px 40px rgba(0,0,0,0.25)'),
+                ? '0px 20px 80px rgba(0,0,0,0.72), 0 0 22px rgba(148,163,184,0.22)'
+                : '0px 14px 40px rgba(2,6,23,0.24), 0 8px 22px rgba(125,211,252,0.16)'),
           position: 'relative',
-          transition: 'all 0.2s ease-in-out',
+          transition: 'all 0.26s ease-in-out',
           borderRadius: cornerRadius + 'px',
         }"
       >

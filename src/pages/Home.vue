@@ -8,7 +8,6 @@ import ServiceButtons from '../components/ui/ServiceButtons.vue'
 import ServicesBlock from '../components/ServicesBlock.vue'
 import CaseAccordion from '../components/CaseAccordion.vue'
 import FeedbackForm from '../components/FeedbackForm.vue'
-import Button from '@/components/ui/Button.vue'
 
 useHead({
   title: 'IntellectShop — обучение и автоматизация',
@@ -60,7 +59,7 @@ useHead({
             <WetGlass class="inline-block">
               <RouterLink
                 to="/services/"
-                class="w-full h-full flex items-center justify-center"
+                class="w-full h-full flex items-center justify-center px-8 text-sm md:text-base font-semibold tracking-wide rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
               >
                 Услуги и обучение
               </RouterLink>

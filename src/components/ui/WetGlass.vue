@@ -1,14 +1,19 @@
 <template>
   <!-- Обёртка: применяется translate и scale только сюда -->
-  <div class="relative w-fit h-fit" :style="transformWrapperStyle" ref="wrapperRef">
+  <div class="wet-glass-wrapper relative w-fit h-fit" :style="transformWrapperStyle" ref="wrapperRef">
     
     <!-- Световые слои -->
-    <div class="absolute bg-black pointer-events-none transition-opacity duration-150"
+    <div class="wet-glass-layer absolute bg-black pointer-events-none transition-opacity duration-150"
          :class="overLight ? 'opacity-20' : 'opacity-0'"
          :style="effectLayerStyle" />
-    <div class="absolute bg-black mix-blend-overlay pointer-events-none transition-opacity duration-150"
+    <div class="wet-glass-layer absolute bg-black mix-blend-overlay pointer-events-none transition-opacity duration-150"
          :class="overLight ? 'opacity-100' : 'opacity-0'"
          :style="effectLayerStyle" />
+
+    <!-- Мягкая глубина стекла -->
+    <div class="wet-glass-layer absolute" :style="ambientLayerStyle" />
+    <div class="wet-glass-layer absolute" :style="glossLayerStyle" />
+    <div class="wet-glass-layer absolute" :style="causticLayerStyle" />
 
     <!-- Градиентные рамки -->
     <span class="absolute" :style="borderStyle('screen', 0.2, 0.12)" />
@@ -81,6 +86,21 @@ const internalMouseOffset = ref<MousePos>({ x: 0, y: 0 })
 const hasClick = computed(() => !!emit)
 const globalMousePos = computed(() => props.globalMousePos || internalGlobalMousePos.value)
 const mouseOffset = computed(() => props.mouseOffset || internalMouseOffset.value)
+const clampedMouseOffset = computed(() => ({
+  x: Math.max(-70, Math.min(70, mouseOffset.value.x)),
+  y: Math.max(-70, Math.min(70, mouseOffset.value.y)),
+}))
+
+const pointerAnchor = computed(() => ({
+  x: 50 + clampedMouseOffset.value.x * 0.55,
+  y: 40 + clampedMouseOffset.value.y * 0.35,
+}))
+
+const interactionStrength = computed(() => {
+  if (isActive.value) return 1
+  if (isHovered.value) return 0.78
+  return 0.5
+})
 
 const handleMouseMove = (e: MouseEvent) => {
   const container = props.mouseContainer || wrapperRef.value
@@ -180,6 +200,45 @@ const effectLayerStyle = computed(() => ({
   borderRadius: `${props.cornerRadius}px`,
 }))
 
+const ambientLayerStyle = computed(() => ({
+  ...effectLayerStyle.value,
+  pointerEvents: 'none',
+  mixBlendMode: 'screen',
+  opacity: props.overLight ? 0.28 : 0.68,
+  transition: 'opacity 0.24s ease',
+  background: `linear-gradient(${138 + clampedMouseOffset.value.x * 0.35}deg,
+    rgba(255,255,255,0.24) 0%,
+    rgba(255,255,255,0.08) 27%,
+    rgba(147,197,253,0.22) 62%,
+    rgba(59,130,246,0.36) 100%)`,
+}))
+
+const glossLayerStyle = computed(() => ({
+  ...effectLayerStyle.value,
+  pointerEvents: 'none',
+  mixBlendMode: 'screen',
+  opacity: 0.56 + interactionStrength.value * 0.34,
+  transition: 'opacity 0.2s ease-out, background 0.2s ease-out',
+  background: `radial-gradient(128% 178% at ${pointerAnchor.value.x}% ${pointerAnchor.value.y}%,
+    rgba(255,255,255,${0.58 + interactionStrength.value * 0.1}) 0%,
+    rgba(255,255,255,${0.18 + interactionStrength.value * 0.08}) 32%,
+    rgba(255,255,255,0.06) 56%,
+    rgba(255,255,255,0) 82%)`,
+}))
+
+const causticLayerStyle = computed(() => ({
+  ...effectLayerStyle.value,
+  pointerEvents: 'none',
+  mixBlendMode: 'overlay',
+  opacity: isHovered.value || isActive.value ? 0.72 : 0.34,
+  transition: 'opacity 0.24s ease, transform 0.24s ease',
+  background: `linear-gradient(${123 + clampedMouseOffset.value.x * 0.6}deg,
+    rgba(255,255,255,0) 14%,
+    rgba(255,255,255,0.8) 46%,
+    rgba(255,255,255,0) 78%)`,
+  transform: `translate3d(${clampedMouseOffset.value.x * 0.08}px, ${clampedMouseOffset.value.y * 0.04}px, 0)`,
+}))
+
 function borderStyle(blend: string, start = 0.12, mid = 0.4) {
   return {
     ...effectLayerStyle.value,
@@ -189,11 +248,11 @@ function borderStyle(blend: string, start = 0.12, mid = 0.4) {
     WebkitMask: 'linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)',
     WebkitMaskComposite: 'xor',
     maskComposite: 'exclude',
-    boxShadow: '0 0 0 0.5px rgba(255,255,255,0.5) inset, 0 1px 3px rgba(255,255,255,0.25) inset',
+    boxShadow: '0 0 0 0.75px rgba(255,255,255,0.46) inset, 0 2px 8px rgba(255,255,255,0.2) inset',
     background: `linear-gradient(${135 + mouseOffset.value.x * 1.2}deg,
     rgba(255,255,255,0) 0%,
-    rgba(255,255,255,${start + Math.abs(mouseOffset.value.x) * 0.008}) ${Math.max(10, 33 + mouseOffset.value.y * 0.3)}%,
-    rgba(255,255,255,${mid + Math.abs(mouseOffset.value.x) * 0.012}) ${Math.min(90, 66 + mouseOffset.value.y * 0.4)}%,
+    rgba(255,255,255,${start + Math.abs(mouseOffset.value.x) * 0.006}) ${Math.max(8, 28 + mouseOffset.value.y * 0.32)}%,
+    rgba(255,255,255,${mid + Math.abs(mouseOffset.value.x) * 0.009}) ${Math.min(92, 72 + mouseOffset.value.y * 0.28)}%,
     rgba(255,255,255,0) 100%)`
   }
 }
@@ -209,3 +268,21 @@ function hoverStyle(opacity: number, color: string) {
   }
 }
 </script>
+
+<style scoped>
+.wet-glass-wrapper {
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wet-glass-wrapper {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .wet-glass-layer {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+</style>
