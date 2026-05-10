@@ -1,55 +1,11 @@
 <script setup>
-import { useHead } from '@vueuse/head'
+import ServiceDetailContent from '@/components/services/ServiceDetailContent.vue'
+import { useServicePageHead } from '@/composables/useServicePageHead'
+import { servicePageContent } from '@/content/service-pages/apple/Mac/macos-navigation-tools'
 
-useHead({
-  title: 'Finder, Spotlight и Launchpad – IntellectShop',
-  meta: [
-    { name: 'description', content: 'Обучение эффективному поиску и запуску программ на Mac: Spotlight, Finder и Launchpad.' }
-  ]
-})
+useServicePageHead(servicePageContent)
 </script>
 
 <template>
-  <section class="max-w-3xl mx-auto px-4 py-10">
-    <h1 class="text-2xl font-bold mb-4">Finder, Spotlight и Launchpad</h1>
-
-    <p class="text-gray-700 mb-4">
-      macOS предоставляет сразу несколько удобных способов навигации, поиска и запуска программ. На этом тренинге вы научитесь использовать Finder, Spotlight и Launchpad, чтобы быстро находить нужные файлы, запускать приложения и структурировать своё цифровое пространство.
-    </p>
-
-    <h2 class="text-lg font-semibold mb-2">Что входит в обучение</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>Основы работы с Finder: структура папок, избранное, боковое меню</li>
-      <li>Открытие, копирование, перемещение и удаление файлов</li>
-      <li>Настройка отображения файлов: списки, иконки, колонки, галерея</li>
-      <li>Использование Spotlight для поиска файлов, программ, писем и даже расчётов</li>
-      <li>Создание Smart-папок и использование фильтров</li>
-      <li>Работа с Launchpad: организация приложений, поиск и удаление</li>
-      <li>Привязка программ к Dock и создание ярлыков на рабочем столе</li>
-    </ul>
-
-    <h2 class="text-lg font-semibold mb-2">Частые ошибки и трудности</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>Сложно найти нужный файл среди папок и загрузок</li>
-      <li>Пользователь не знает, где хранятся установленные программы</li>
-      <li>Перемешаны личные и системные файлы в одном месте</li>
-      <li>Используется только Launchpad, а возможности Finder остаются неиспользованными</li>
-      <li>Спотлайт ищет медленно или не показывает ожидаемые результаты</li>
-    </ul>
-
-    <h2 class="text-lg font-semibold mb-2">Что вы получите на выходе</h2>
-    <p class="text-gray-700 mb-6">
-      Вы сможете мгновенно находить нужные документы, эффективно запускать любые программы и поддерживать порядок на Mac. После тренинга Finder и Spotlight станут вашими основными инструментами, а Launchpad — простым и быстрым способом доступа к часто используемым приложениям.
-    </p>
-
-    <h2 class="text-lg font-semibold mb-2">2 лайфхака по Finder и Spotlight</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li><strong>Быстрый поиск с фильтрацией:</strong> в Finder нажмите <kbd>Cmd</kbd> + <kbd>F</kbd>, чтобы активировать поиск — затем выберите, по какому критерию искать (тип, дата, содержимое).</li>
-      <li><strong>Универсальный калькулятор:</strong> откройте Spotlight с помощью <kbd>Cmd</kbd> + <kbd>пробел</kbd> и введите математическое выражение или курс валюты — результат появится мгновенно.</li>
-    </ul>
-
-    <p class="text-gray-700 italic">
-      Знание базовых инструментов навигации в macOS — это не просто комфорт, это основа для уверенной и быстрой работы.
-    </p>
-  </section>
+  <ServiceDetailContent :content="servicePageContent" />
 </template>

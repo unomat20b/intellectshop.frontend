@@ -1,194 +1,329 @@
-import { servicePageContent as contentAiBusinessApiPrivacy } from './ai/business/api-privacy.js'
-import { servicePageContent as contentAiBusinessAutoWorkflows } from './ai/business/auto-workflows.js'
-import { servicePageContent as contentAiBusinessAutomationRequests } from './ai/business/automation-requests.js'
-import { servicePageContent as contentAiBusinessChatbotDeployment } from './ai/business/chatbot-deployment.js'
-import { servicePageContent as contentAiBusinessCrmWorkflows } from './ai/business/crm-workflows.js'
-import { servicePageContent as contentAiBusinessCustomAgents } from './ai/business/custom-agents.js'
-import { servicePageContent as contentAiBusinessDataIntegration } from './ai/business/data-integration.js'
-import { servicePageContent as contentAiBusinessFileSources } from './ai/business/file-sources.js'
-import { servicePageContent as contentAiBusinessGptIntro } from './ai/business/gpt-intro.js'
-import { servicePageContent as contentAiBusinessIntakeHandling } from './ai/business/intake-handling.js'
-import { servicePageContent as contentAiBusinessInternalBots } from './ai/business/internal-bots.js'
-import { servicePageContent as contentAiBusinessLocalLlm } from './ai/business/local-llm.js'
-import { servicePageContent as contentAiBusinessModelSelection } from './ai/business/model-selection.js'
-import { servicePageContent as contentAiBusinessN8nZapier } from './ai/business/n8n-zapier.js'
-import { servicePageContent as contentAiBusinessPhoneBots } from './ai/business/phone-bots.js'
-import { servicePageContent as contentAiBusinessProcessAnalysis } from './ai/business/process-analysis.js'
-import { servicePageContent as contentAiBusinessRagSetup } from './ai/business/rag-setup.js'
-import { servicePageContent as contentAiBusinessSpeechRecognition } from './ai/business/speech-recognition.js'
-import { servicePageContent as contentAiBusinessStaffTraining } from './ai/business/staff-training.js'
-import { servicePageContent as contentAiBusinessUseCases } from './ai/business/use-cases.js'
-import { servicePageContent as contentAiBusinessVoiceGeneration } from './ai/business/voice-generation.js'
-import { servicePageContent as contentAiBusinessWorkspaceIntegration } from './ai/business/workspace-integration.js'
-import { servicePageContent as contentAiPersonalAgentUi } from './ai/personal/agent-ui.js'
-import { servicePageContent as contentAiPersonalCloudAgent } from './ai/personal/cloud-agent.js'
-import { servicePageContent as contentAiPersonalCreativeUse } from './ai/personal/creative-use.js'
-import { servicePageContent as contentAiPersonalCustomMemory } from './ai/personal/custom-memory.js'
-import { servicePageContent as contentAiPersonalDocGeneration } from './ai/personal/doc-generation.js'
-import { servicePageContent as contentAiPersonalEmailHelper } from './ai/personal/email-helper.js'
-import { servicePageContent as contentAiPersonalGoalBasedSelection } from './ai/personal/goal-based-selection.js'
-import { servicePageContent as contentAiPersonalIdeaGen } from './ai/personal/idea-gen.js'
-import { servicePageContent as contentAiPersonalMaterials } from './ai/personal/materials.js'
-import { servicePageContent as contentAiPersonalMidjourneyPrompts } from './ai/personal/midjourney-prompts.js'
-import { servicePageContent as contentAiPersonalPdfAnalysis } from './ai/personal/pdf-analysis.js'
-import { servicePageContent as contentAiPersonalUniversalAgent } from './ai/personal/universal-agent.js'
-import { servicePageContent as contentAiPersonalVoiceToText } from './ai/personal/voice-to-text.js'
-import { servicePageContent as contentAiPersonalYoutubeGeneration } from './ai/personal/youtube-generation.js'
-import { servicePageContent as contentAppleIphoneBasics } from './apple/iphone/iphone-basics.js'
-import { servicePageContent as contentBusinessItInfraAnalysis } from './business-it/infra-analysis.js'
+import { servicePageContent as contentServicesAiBusinessApiPrivacy } from './ai/business/api-privacy.js'
+import { servicePageContent as contentServicesAiBusinessAutoWorkflows } from './ai/business/auto-workflows.js'
+import { servicePageContent as contentServicesAiBusinessAutomationRequests } from './ai/business/automation-requests.js'
+import { servicePageContent as contentServicesAiBusinessChatbotDeployment } from './ai/business/chatbot-deployment.js'
+import { servicePageContent as contentServicesAiBusinessCrmWorkflows } from './ai/business/crm-workflows.js'
+import { servicePageContent as contentServicesAiBusinessCustomAgents } from './ai/business/custom-agents.js'
+import { servicePageContent as contentServicesAiBusinessDataIntegration } from './ai/business/data-integration.js'
+import { servicePageContent as contentServicesAiBusinessFileSources } from './ai/business/file-sources.js'
+import { servicePageContent as contentServicesAiBusinessGptIntro } from './ai/business/gpt-intro.js'
+import { servicePageContent as contentServicesAiBusinessIntakeHandling } from './ai/business/intake-handling.js'
+import { servicePageContent as contentServicesAiBusinessInternalBots } from './ai/business/internal-bots.js'
+import { servicePageContent as contentServicesAiBusinessLocalLlm } from './ai/business/local-llm.js'
+import { servicePageContent as contentServicesAiBusinessModelSelection } from './ai/business/model-selection.js'
+import { servicePageContent as contentServicesAiBusinessN8nZapier } from './ai/business/n8n-zapier.js'
+import { servicePageContent as contentServicesAiBusinessPhoneBots } from './ai/business/phone-bots.js'
+import { servicePageContent as contentServicesAiBusinessProcessAnalysis } from './ai/business/process-analysis.js'
+import { servicePageContent as contentServicesAiBusinessRagSetup } from './ai/business/rag-setup.js'
+import { servicePageContent as contentServicesAiBusinessSpeechRecognition } from './ai/business/speech-recognition.js'
+import { servicePageContent as contentServicesAiBusinessStaffTraining } from './ai/business/staff-training.js'
+import { servicePageContent as contentServicesAiBusinessUseCases } from './ai/business/use-cases.js'
+import { servicePageContent as contentServicesAiBusinessVoiceGeneration } from './ai/business/voice-generation.js'
+import { servicePageContent as contentServicesAiBusinessWorkspaceIntegration } from './ai/business/workspace-integration.js'
+import { servicePageContent as contentServicesAiPersonalAgentUi } from './ai/personal/agent-ui.js'
+import { servicePageContent as contentServicesAiPersonalCloudAgent } from './ai/personal/cloud-agent.js'
+import { servicePageContent as contentServicesAiPersonalCreativeUse } from './ai/personal/creative-use.js'
+import { servicePageContent as contentServicesAiPersonalCustomMemory } from './ai/personal/custom-memory.js'
+import { servicePageContent as contentServicesAiPersonalDocGeneration } from './ai/personal/doc-generation.js'
+import { servicePageContent as contentServicesAiPersonalEmailHelper } from './ai/personal/email-helper.js'
+import { servicePageContent as contentServicesAiPersonalGoalBasedSelection } from './ai/personal/goal-based-selection.js'
+import { servicePageContent as contentServicesAiPersonalIdeaGen } from './ai/personal/idea-gen.js'
+import { servicePageContent as contentServicesAiPersonalMaterials } from './ai/personal/materials.js'
+import { servicePageContent as contentServicesAiPersonalMidjourneyPrompts } from './ai/personal/midjourney-prompts.js'
+import { servicePageContent as contentServicesAiPersonalPdfAnalysis } from './ai/personal/pdf-analysis.js'
+import { servicePageContent as contentServicesAiPersonalUniversalAgent } from './ai/personal/universal-agent.js'
+import { servicePageContent as contentServicesAiPersonalVoiceToText } from './ai/personal/voice-to-text.js'
+import { servicePageContent as contentServicesAiPersonalYoutubeGeneration } from './ai/personal/youtube-generation.js'
+import { servicePageContent as contentServicesAppleBusinessAppleInBusiness } from './apple/Business/AppleInBusiness.js'
+import { servicePageContent as contentServicesAppleBusinessKeynote } from './apple/Business/Keynote.js'
+import { servicePageContent as contentServicesAppleBusinessMacAndiPhone } from './apple/Business/MacAndiPhone.js'
+import { servicePageContent as contentServicesAppleCreativeAbletonLogic } from './apple/Creative/AbletonLogic.js'
+import { servicePageContent as contentServicesAppleCreativeCGIEffects } from './apple/Creative/CGIEffects.js'
+import { servicePageContent as contentServicesAppleCreativeDavinci } from './apple/Creative/Davinci.js'
+import { servicePageContent as contentServicesAppleCreativeGarageBand } from './apple/Creative/GarageBand.js'
+import { servicePageContent as contentServicesAppleCreativePhotoEditingMac } from './apple/Creative/PhotoEditingMac.js'
+import { servicePageContent as contentServicesAppleCreativePhotoEditingMobile } from './apple/Creative/PhotoEditingMobile.js'
+import { servicePageContent as contentServicesAppleCreativeThreeD } from './apple/Creative/ThreeD.js'
+import { servicePageContent as contentServicesAppleCreativeVector } from './apple/Creative/Vector.js'
+import { servicePageContent as contentServicesAppleIpadApplePencilUsage } from './apple/iPad/apple-pencil-usage.js'
+import { servicePageContent as contentServicesAppleIpadIpadAppsSync } from './apple/iPad/ipad-apps-sync.js'
+import { servicePageContent as contentServicesAppleIpadIpadInEducation } from './apple/iPad/ipad-in-education.js'
+import { servicePageContent as contentServicesAppleIpadIpadRemoteLearning } from './apple/iPad/ipad-remote-learning.js'
+import { servicePageContent as contentServicesAppleIpadIpadWorkflowTools } from './apple/iPad/ipad-workflow-tools.js'
+import { servicePageContent as contentServicesAppleIphoneAccessibility } from './apple/iPhone/Accessibility.js'
+import { servicePageContent as contentServicesAppleIphoneDataBackup } from './apple/iPhone/DataBackup.js'
+import { servicePageContent as contentServicesAppleIphoneICloudDocs } from './apple/iPhone/ICloudDocs.js'
+import { servicePageContent as contentServicesAppleIphoneIPhoneApps } from './apple/iPhone/IPhoneApps.js'
+import { servicePageContent as contentServicesAppleIphoneIPhoneBasics } from './apple/iphone/iphone-basics.js'
+import { servicePageContent as contentServicesAppleIphoneIPhonePrivacy } from './apple/iPhone/IPhonePrivacy.js'
+import { servicePageContent as contentServicesAppleMacMacosAppsInstall } from './apple/Mac/macos-apps-install.js'
+import { servicePageContent as contentServicesAppleMacMacosBasics } from './apple/Mac/macos-basics.js'
+import { servicePageContent as contentServicesAppleMacMacosFileManagement } from './apple/Mac/macos-file-management.js'
+import { servicePageContent as contentServicesAppleMacMacosNavigationTools } from './apple/Mac/macos-navigation-tools.js'
+import { servicePageContent as contentServicesAppleMacMacosThirdpartyWorkflow } from './apple/Mac/macos-thirdparty-workflow.js'
+import { servicePageContent as contentServicesAppleMacMacosTimeMachine } from './apple/Mac/macos-time-machine.js'
+import { servicePageContent as contentServicesBusinessItInfraAnalysis } from './business-it/infra-analysis.js'
 
 export const servicePageContentRegistry = [
   {
     path: '/services/ai/business/api-privacy',
-    content: contentAiBusinessApiPrivacy,
+    content: contentServicesAiBusinessApiPrivacy,
   },
   {
     path: '/services/ai/business/auto-workflows',
-    content: contentAiBusinessAutoWorkflows,
+    content: contentServicesAiBusinessAutoWorkflows,
   },
   {
     path: '/services/ai/business/automation-requests',
-    content: contentAiBusinessAutomationRequests,
+    content: contentServicesAiBusinessAutomationRequests,
   },
   {
     path: '/services/ai/business/chatbot-deployment',
-    content: contentAiBusinessChatbotDeployment,
+    content: contentServicesAiBusinessChatbotDeployment,
   },
   {
     path: '/services/ai/business/crm-workflows',
-    content: contentAiBusinessCrmWorkflows,
+    content: contentServicesAiBusinessCrmWorkflows,
   },
   {
     path: '/services/ai/business/custom-agents',
-    content: contentAiBusinessCustomAgents,
+    content: contentServicesAiBusinessCustomAgents,
   },
   {
     path: '/services/ai/business/data-integration',
-    content: contentAiBusinessDataIntegration,
+    content: contentServicesAiBusinessDataIntegration,
   },
   {
     path: '/services/ai/business/file-sources',
-    content: contentAiBusinessFileSources,
+    content: contentServicesAiBusinessFileSources,
   },
   {
     path: '/services/ai/business/gpt-intro',
-    content: contentAiBusinessGptIntro,
+    content: contentServicesAiBusinessGptIntro,
   },
   {
     path: '/services/ai/business/intake-handling',
-    content: contentAiBusinessIntakeHandling,
+    content: contentServicesAiBusinessIntakeHandling,
   },
   {
     path: '/services/ai/business/internal-bots',
-    content: contentAiBusinessInternalBots,
+    content: contentServicesAiBusinessInternalBots,
   },
   {
     path: '/services/ai/business/local-llm',
-    content: contentAiBusinessLocalLlm,
+    content: contentServicesAiBusinessLocalLlm,
   },
   {
     path: '/services/ai/business/model-selection',
-    content: contentAiBusinessModelSelection,
+    content: contentServicesAiBusinessModelSelection,
   },
   {
     path: '/services/ai/business/n8n-zapier',
-    content: contentAiBusinessN8nZapier,
+    content: contentServicesAiBusinessN8nZapier,
   },
   {
     path: '/services/ai/business/phone-bots',
-    content: contentAiBusinessPhoneBots,
+    content: contentServicesAiBusinessPhoneBots,
   },
   {
     path: '/services/ai/business/process-analysis',
-    content: contentAiBusinessProcessAnalysis,
+    content: contentServicesAiBusinessProcessAnalysis,
   },
   {
     path: '/services/ai/business/rag-setup',
-    content: contentAiBusinessRagSetup,
+    content: contentServicesAiBusinessRagSetup,
   },
   {
     path: '/services/ai/business/speech-recognition',
-    content: contentAiBusinessSpeechRecognition,
+    content: contentServicesAiBusinessSpeechRecognition,
   },
   {
     path: '/services/ai/business/staff-training',
-    content: contentAiBusinessStaffTraining,
+    content: contentServicesAiBusinessStaffTraining,
   },
   {
     path: '/services/ai/business/use-cases',
-    content: contentAiBusinessUseCases,
+    content: contentServicesAiBusinessUseCases,
   },
   {
     path: '/services/ai/business/voice-generation',
-    content: contentAiBusinessVoiceGeneration,
+    content: contentServicesAiBusinessVoiceGeneration,
   },
   {
     path: '/services/ai/business/workspace-integration',
-    content: contentAiBusinessWorkspaceIntegration,
+    content: contentServicesAiBusinessWorkspaceIntegration,
   },
   {
     path: '/services/ai/personal/agent-ui',
-    content: contentAiPersonalAgentUi,
+    content: contentServicesAiPersonalAgentUi,
   },
   {
     path: '/services/ai/personal/cloud-agent',
-    content: contentAiPersonalCloudAgent,
+    content: contentServicesAiPersonalCloudAgent,
   },
   {
     path: '/services/ai/personal/creative-use',
-    content: contentAiPersonalCreativeUse,
+    content: contentServicesAiPersonalCreativeUse,
   },
   {
     path: '/services/ai/personal/custom-memory',
-    content: contentAiPersonalCustomMemory,
+    content: contentServicesAiPersonalCustomMemory,
   },
   {
     path: '/services/ai/personal/doc-generation',
-    content: contentAiPersonalDocGeneration,
+    content: contentServicesAiPersonalDocGeneration,
   },
   {
     path: '/services/ai/personal/email-helper',
-    content: contentAiPersonalEmailHelper,
+    content: contentServicesAiPersonalEmailHelper,
   },
   {
     path: '/services/ai/personal/goal-based-selection',
-    content: contentAiPersonalGoalBasedSelection,
+    content: contentServicesAiPersonalGoalBasedSelection,
   },
   {
     path: '/services/ai/personal/idea-gen',
-    content: contentAiPersonalIdeaGen,
+    content: contentServicesAiPersonalIdeaGen,
   },
   {
     path: '/services/ai/personal/materials',
-    content: contentAiPersonalMaterials,
+    content: contentServicesAiPersonalMaterials,
   },
   {
     path: '/services/ai/personal/midjourney-prompts',
-    content: contentAiPersonalMidjourneyPrompts,
+    content: contentServicesAiPersonalMidjourneyPrompts,
   },
   {
     path: '/services/ai/personal/pdf-analysis',
-    content: contentAiPersonalPdfAnalysis,
+    content: contentServicesAiPersonalPdfAnalysis,
   },
   {
     path: '/services/ai/personal/universal-agent',
-    content: contentAiPersonalUniversalAgent,
+    content: contentServicesAiPersonalUniversalAgent,
   },
   {
     path: '/services/ai/personal/voice-to-text',
-    content: contentAiPersonalVoiceToText,
+    content: contentServicesAiPersonalVoiceToText,
   },
   {
     path: '/services/ai/personal/youtube-generation',
-    content: contentAiPersonalYoutubeGeneration,
+    content: contentServicesAiPersonalYoutubeGeneration,
+  },
+  {
+    path: '/services/apple/business/AppleInBusiness',
+    content: contentServicesAppleBusinessAppleInBusiness,
+  },
+  {
+    path: '/services/apple/business/Keynote',
+    content: contentServicesAppleBusinessKeynote,
+  },
+  {
+    path: '/services/apple/business/MacAndiPhone',
+    content: contentServicesAppleBusinessMacAndiPhone,
+  },
+  {
+    path: '/services/apple/creative/AbletonLogic',
+    content: contentServicesAppleCreativeAbletonLogic,
+  },
+  {
+    path: '/services/apple/creative/CGIEffects',
+    content: contentServicesAppleCreativeCGIEffects,
+  },
+  {
+    path: '/services/apple/creative/Davinci',
+    content: contentServicesAppleCreativeDavinci,
+  },
+  {
+    path: '/services/apple/creative/GarageBand',
+    content: contentServicesAppleCreativeGarageBand,
+  },
+  {
+    path: '/services/apple/creative/PhotoEditingMac',
+    content: contentServicesAppleCreativePhotoEditingMac,
+  },
+  {
+    path: '/services/apple/creative/PhotoEditingMobile',
+    content: contentServicesAppleCreativePhotoEditingMobile,
+  },
+  {
+    path: '/services/apple/creative/ThreeD',
+    content: contentServicesAppleCreativeThreeD,
+  },
+  {
+    path: '/services/apple/creative/Vector',
+    content: contentServicesAppleCreativeVector,
+  },
+  {
+    path: '/services/apple/ipad/apple-pencil-usage',
+    content: contentServicesAppleIpadApplePencilUsage,
+  },
+  {
+    path: '/services/apple/ipad/ipad-apps-sync',
+    content: contentServicesAppleIpadIpadAppsSync,
+  },
+  {
+    path: '/services/apple/ipad/ipad-in-education',
+    content: contentServicesAppleIpadIpadInEducation,
+  },
+  {
+    path: '/services/apple/ipad/ipad-remote-learning',
+    content: contentServicesAppleIpadIpadRemoteLearning,
+  },
+  {
+    path: '/services/apple/ipad/ipad-workflow-tools',
+    content: contentServicesAppleIpadIpadWorkflowTools,
+  },
+  {
+    path: '/services/apple/iphone/Accessibility',
+    content: contentServicesAppleIphoneAccessibility,
+  },
+  {
+    path: '/services/apple/iphone/DataBackup',
+    content: contentServicesAppleIphoneDataBackup,
+  },
+  {
+    path: '/services/apple/iphone/ICloudDocs',
+    content: contentServicesAppleIphoneICloudDocs,
+  },
+  {
+    path: '/services/apple/iphone/IPhoneApps',
+    content: contentServicesAppleIphoneIPhoneApps,
   },
   {
     path: '/services/apple/iphone/IPhoneBasics',
-    content: contentAppleIphoneBasics,
+    content: contentServicesAppleIphoneIPhoneBasics,
+  },
+  {
+    path: '/services/apple/iphone/IPhonePrivacy',
+    content: contentServicesAppleIphoneIPhonePrivacy,
+  },
+  {
+    path: '/services/apple/mac/macos-apps-install',
+    content: contentServicesAppleMacMacosAppsInstall,
+  },
+  {
+    path: '/services/apple/mac/macos-basics',
+    content: contentServicesAppleMacMacosBasics,
+  },
+  {
+    path: '/services/apple/mac/macos-file-management',
+    content: contentServicesAppleMacMacosFileManagement,
+  },
+  {
+    path: '/services/apple/mac/macos-navigation-tools',
+    content: contentServicesAppleMacMacosNavigationTools,
+  },
+  {
+    path: '/services/apple/mac/macos-thirdparty-workflow',
+    content: contentServicesAppleMacMacosThirdpartyWorkflow,
+  },
+  {
+    path: '/services/apple/mac/macos-time-machine',
+    content: contentServicesAppleMacMacosTimeMachine,
   },
   {
     path: '/services/business-it/infra-analysis',
-    content: contentBusinessItInfraAnalysis,
+    content: contentServicesBusinessItInfraAnalysis,
   },
 ]
 

@@ -1,55 +1,11 @@
 <script setup>
-import { useHead } from '@vueuse/head'
+import ServiceDetailContent from '@/components/services/ServiceDetailContent.vue'
+import { useServicePageHead } from '@/composables/useServicePageHead'
+import { servicePageContent } from '@/content/service-pages/apple/iPhone/DataBackup'
 
-useHead({
-  title: 'Перенос данных и резервные копии – IntellectShop',
-  meta: [
-    { name: 'description', content: 'Обучение созданию резервных копий и переносу данных с iPhone. Защитите свою информацию.' }
-  ]
-})
+useServicePageHead(servicePageContent)
 </script>
 
 <template>
-  <section class="max-w-3xl mx-auto px-4 py-10">
-    <h1 class="text-2xl font-bold mb-4">Перенос данных и резервные копии</h1>
-
-    <p class="text-gray-700 mb-4">
-      Потеря фотографий, контактов или документов может быть болезненной — особенно, если данные не были сохранены. Наш тренинг научит вас надёжно сохранять и восстанавливать информацию с iPhone, а также грамотно переносить её на новое устройство.
-    </p>
-
-    <h2 class="font-semibold text-lg mb-2">Что входит в обучение</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>Создание резервной копии через iCloud</li>
-      <li>Резервное копирование на компьютер с помощью Finder (Mac) или iTunes (Windows)</li>
-      <li>Автоматическое и ручное восстановление данных</li>
-      <li>Перенос данных при покупке нового iPhone</li>
-      <li>Перенос между устройствами iPhone ↔ iPad</li>
-      <li>Как проверить, что всё действительно скопировано</li>
-      <li>Удалённое стирание данных при потере устройства</li>
-    </ul>
-
-    <h2 class="font-semibold text-lg mb-2">Типичные проблемы пользователей</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li>Нет резервной копии перед поломкой/потерей устройства</li>
-      <li>iCloud не хватает места — непонятно, что удалять</li>
-      <li>Переход на новый iPhone без переноса нужных данных</li>
-      <li>Контакты, фотографии и заметки “пропали” после восстановления</li>
-      <li>Случайное удаление важных файлов и невозможность их вернуть</li>
-    </ul>
-
-    <h2 class="font-semibold text-lg mb-2">Что вы получите на выходе</h2>
-    <p class="text-gray-700 mb-6">
-      Вы научитесь контролировать безопасность своих данных, избегать потерь и без стресса переходить на новые устройства. После обучения вы сможете за 5 минут проверить, где хранятся копии, и настроить автоматическую защиту информации.
-    </p>
-
-    <h2 class="font-semibold text-lg mb-2">2 полезных лайфхака</h2>
-    <ul class="list-disc pl-5 text-gray-700 mb-6 space-y-1">
-      <li><strong>Проверка последней резервной копии:</strong> откройте <em>Настройки → [Ваше имя] → iCloud → Резервная копия</em>, чтобы увидеть дату последнего сохранения.</li>
-      <li><strong>Быстрый перенос на новый iPhone:</strong> просто поднесите новое устройство к старому — появится анимация, и начнётся миграция без кабелей и потерь.</li>
-    </ul>
-
-    <p class="text-gray-700 italic">
-      Вы не обязаны быть экспертом, чтобы защитить свои данные — просто приходите на обучение, и мы сделаем это вместе.
-    </p>
-  </section>
+  <ServiceDetailContent :content="servicePageContent" />
 </template>
