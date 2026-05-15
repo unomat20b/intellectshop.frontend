@@ -97,7 +97,12 @@ onMounted(async () => {
     <!-- Кнопка для перехода к сравнению нейросетей -->
     <div class="mb-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
       <h2 class="text-lg font-semibold mb-3 text-gray-800">Сравнение нейросетей</h2>
-      <p class="text-gray-600 mb-4">Актуализированный гид (май 2026): доступность, тарифы и выбор AI-сервиса под задачу</p>
+      <p class="text-gray-600 mb-3">Актуализированный гид (май 2026): доступность, тарифы и выбор AI-сервиса под задачу.</p>
+      <ul class="text-sm text-gray-700 mb-4 space-y-1">
+        <li>Обновлены данные по ChatGPT, Claude, Gemini, Perplexity, DeepSeek, GigaChat и другим сервисам.</li>
+        <li>Добавлены ориентиры по сильным сторонам и ограничениям для бизнеса и личных задач.</li>
+        <li>Уточнены критерии выбора: доступность, бюджет, уровень сложности и тип задач.</li>
+      </ul>
       <Button 
         variant="primary" 
         as="a"

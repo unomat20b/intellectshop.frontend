@@ -2,19 +2,46 @@ export const aiServiceContent = {
   meta: {
     title: 'AI-курсы и автоматизация – IntellectShop',
     description:
-      'Курсы и внедрение AI: аудит, агенты, интеграции, безопасность, персональные ассистенты и автоматизация рутинных задач.',
+      'Внедрение ChatGPT (GPTchat), Claude и других LLM в бизнес: Telegram-боты, автоматизация процессов, AI-агенты и IT-аудит перед запуском.',
   },
   page: {
     title: 'AI и автоматизация',
     summary:
-      'Внедряем ChatGPT-решения, создаём кастомных агентов и автоматизируем рутинные процессы команды.',
+      'Внедряем ChatGPT (GPTchat), Claude и другие LLM в бизнес: от пилота до рабочих Telegram-ботов и автоматизации отделов.',
     intro:
-      'Тренинги и внедрение нейросетей для бизнеса и личных задач. От аудита процессов до генерации и голосовых агентов.',
+      'Тренинги и внедрение нейросетей для бизнеса и личных задач. От IT-аудита и оценки процессов до запуска AI-агентов, LLM-ботов и автоматизаций.',
   },
   sections: [
     {
       title: '🏢 AI для бизнеса',
       groups: [
+        {
+          title: '🚀 Внедрение ChatGPT и LLM в бизнес',
+          items: [
+            { to: '/services/ai/business/gpt-intro', title: 'Внедрение ChatGPT (GPTchat) в отделы и роли' },
+            { to: '/services/ai/business/model-selection', title: 'Выбор и сравнение LLM под задачи компании' },
+            { to: '/services/ai/business/local-llm', title: 'Локальные и облачные LLM для бизнеса' },
+            { to: '/services/business-it/infra-analysis', title: 'IT-аудит инфраструктуры перед внедрением AI' },
+          ],
+        },
+        {
+          title: '🤖 Telegram-боты и клиентские ассистенты',
+          items: [
+            { to: '/services/ai/business/chatbot-deployment', title: 'Запуск AI-ботов в Telegram и на сайте' },
+            { to: '/services/ai/business/internal-bots', title: 'Внутренние Telegram-боты для команды' },
+            { to: '/services/ai/business/intake-handling', title: 'Боты для заявок, email и чатов' },
+            { to: '/services/ai/business/phone-bots', title: 'Голосовые боты и телефонные сценарии' },
+          ],
+        },
+        {
+          title: '⚡ Автоматизация процессов с AI',
+          items: [
+            { to: '/services/ai/business/n8n-zapier', title: 'AI-автоматизация через n8n / Make / Zapier' },
+            { to: '/services/ai/business/auto-workflows', title: 'Сценарии: заявка → обработка → отчёт' },
+            { to: '/services/ai/business/crm-workflows', title: 'AI + CRM: Bitrix24, amoCRM, 1C, Airtable' },
+            { to: '/services/ai/business/automation-requests', title: 'Автоответы и маршрутизация обращений' },
+          ],
+        },
         {
           title: '🔍 Аудит и стратегия',
           items: [
