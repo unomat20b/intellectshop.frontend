@@ -4,9 +4,8 @@ import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd())
-  const prerenderRoutes = new Set([
+  const staticPrerenderRoutes = new Set([
     '/',
-    '/services',
     '/about',
     '/projects',
     '/projects/alphabet',
@@ -29,7 +28,10 @@ export default defineConfig(({ mode }) => {
     ssgOptions: {
       dirStyle: 'nested',
       includedRoutes(paths) {
-        return paths.filter((path) => prerenderRoutes.has(path))
+        return paths.filter((path) => {
+          if (path.startsWith('/services')) return true
+          return staticPrerenderRoutes.has(path)
+        })
       }
     },
     define: {

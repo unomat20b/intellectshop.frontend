@@ -1,12 +1,9 @@
 <script setup>
-import { useHead } from '@vueuse/head'
 import ServiceSections from '@/components/services/ServiceSections.vue'
+import { useServiceCatalogHead } from '@/composables/useServiceCatalogHead'
 import { auditServiceContent } from '@/content/services/audit'
 
-useHead({
-  title: auditServiceContent.meta.title,
-  meta: [{ name: 'description', content: auditServiceContent.meta.description }],
-})
+useServiceCatalogHead(auditServiceContent)
 </script>
 
 <template>

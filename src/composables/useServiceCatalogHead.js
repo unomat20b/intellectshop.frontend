@@ -16,49 +16,72 @@ function stripBrandSuffix(title = '') {
   return String(title).replace(/\s+—\s+IntellectShop$/i, '').trim()
 }
 
-export function useServicePageHead(content) {
+function collectServiceItems(content) {
+  const items = []
+
+  for (const section of content?.sections ?? []) {
+    for (const group of section?.groups ?? []) {
+      for (const item of group?.items ?? []) {
+        if (!item?.to || !item?.title) continue
+        items.push(item)
+      }
+    }
+  }
+
+  return items
+}
+
+function withTrailingSlash(path = '/') {
+  if (!path || path === '/') return '/'
+  return path.endsWith('/') ? path : `${path}/`
+}
+
+export function useServiceCatalogHead(content) {
   const route = useRoute()
-  const title = content?.meta?.title || `${content?.hero?.title || 'Услуга'} — IntellectShop`
+  const title = content?.meta?.title || `${content?.page?.title || 'Услуги'} — IntellectShop`
   const description = content?.meta?.description || ''
-  const serviceName = content?.hero?.title || stripBrandSuffix(title) || 'Услуга'
+  const pageName = content?.page?.title || stripBrandSuffix(title) || 'Услуги'
+  const serviceItems = collectServiceItems(content)
 
   const canonicalUrl = computed(() => {
     return new URL(normalizeCanonicalPath(route.path), SITE_URL).toString()
   })
+
+  const collectionSchema = computed(() =>
+    JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      '@id': `${canonicalUrl.value}#webpage`,
+      url: canonicalUrl.value,
+      name: title,
+      inLanguage: 'ru-RU',
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: serviceItems.map((item, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: item.title,
+          url: `${SITE_URL}${withTrailingSlash(item.to)}`
+        }))
+      }
+    })
+  )
 
   const serviceSchema = computed(() =>
     JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Service',
       '@id': `${canonicalUrl.value}#service`,
-      name: serviceName,
+      name: pageName,
       description,
-      serviceType: serviceName,
+      serviceType: pageName,
       areaServed: 'RU',
       availableLanguage: ['ru-RU'],
       url: canonicalUrl.value,
       provider: { '@id': `${SITE_URL}/#organization` }
     })
   )
-
-  const faqSchema = computed(() => {
-    if (!Array.isArray(content?.faq) || content.faq.length === 0) return null
-
-    return JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: content.faq
-        .filter((entry) => entry?.question && entry?.answer)
-        .map((entry) => ({
-          '@type': 'Question',
-          name: entry.question,
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: entry.answer
-          }
-        }))
-    })
-  })
 
   useHead(() => ({
     title,
@@ -75,19 +98,15 @@ export function useServicePageHead(content) {
     ],
     script: [
       {
-        key: 'service-page-jsonld',
+        key: 'service-catalog-jsonld',
+        type: 'application/ld+json',
+        textContent: collectionSchema.value
+      },
+      {
+        key: 'service-catalog-service-jsonld',
         type: 'application/ld+json',
         textContent: serviceSchema.value
-      },
-      ...(faqSchema.value
-        ? [
-            {
-              key: 'service-faq-jsonld',
-              type: 'application/ld+json',
-              textContent: faqSchema.value
-            }
-          ]
-        : [])
+      }
     ]
   }))
 }

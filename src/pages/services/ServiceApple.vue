@@ -1,12 +1,9 @@
 <script setup>
-import { useHead } from '@vueuse/head'
 import ServiceSections from '@/components/services/ServiceSections.vue'
+import { useServiceCatalogHead } from '@/composables/useServiceCatalogHead'
 import { appleServiceContent } from '@/content/services/apple'
 
-useHead({
-  title: appleServiceContent.meta.title,
-  meta: [{ name: 'description', content: appleServiceContent.meta.description }],
-})
+useServiceCatalogHead(appleServiceContent)
 </script>
 
 <template>

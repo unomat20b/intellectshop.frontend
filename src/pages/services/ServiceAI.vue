@@ -1,12 +1,9 @@
 <script setup>
-import { useHead } from '@vueuse/head'
 import ServiceSections from '@/components/services/ServiceSections.vue'
+import { useServiceCatalogHead } from '@/composables/useServiceCatalogHead'
 import { aiServiceContent } from '@/content/services/ai'
 
-useHead({
-  title: aiServiceContent.meta.title,
-  meta: [{ name: 'description', content: aiServiceContent.meta.description }],
-})
+useServiceCatalogHead(aiServiceContent)
 </script>
 
 <template>
