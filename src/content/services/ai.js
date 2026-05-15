@@ -47,15 +47,15 @@ export const aiServiceContent = {
           items: [
             { to: '/services/ai/business/process-analysis', title: 'Анализ бизнес-процессов' },
             { to: '/services/ai/business/use-cases', title: 'Выбор точек применения AI' },
-            { to: '/services/ai/business/model-selection', title: 'Подбор моделей: GPT, Claude, LLM' },
+            { to: '/services/business-it/risk-detection', title: 'Оценка рисков перед внедрением AI' },
           ],
         },
         {
           title: '🛠️ Внедрение AI-агентов',
           items: [
             { to: '/services/ai/business/custom-agents', title: 'Создание кастомного ассистента' },
-            { to: '/services/ai/business/intake-handling', title: 'Обработка email, форм, чатов' },
-            { to: '/services/ai/business/automation-requests', title: 'Автоответы на заявки и письма' },
+            { to: '/services/ai/business/workspace-integration', title: 'Интеграции с Google Workspace и офисными сервисами' },
+            { to: '/services/business-it/access-roles', title: 'Роли доступа и правила работы с AI-инструментами' },
             { to: '/services/ai/business/data-integration', title: 'Интеграция с CRM, Notion, Airtable' },
           ],
         },
@@ -64,15 +64,15 @@ export const aiServiceContent = {
           items: [
             { to: '/services/ai/business/rag-setup', title: 'Настройка RAG: ответы по вашим файлам' },
             { to: '/services/ai/business/file-sources', title: 'Подключение Google Drive, PDF, Excel' },
-            { to: '/services/ai/business/chatbot-deployment', title: 'Использование в чате или Telegram' },
+            { to: '/services/business-it/transformation-strategy', title: 'План внедрения AI в действующие процессы' },
           ],
         },
         {
           title: '⚙️ Интеграции и автоматизация',
           items: [
-            { to: '/services/ai/business/n8n-zapier', title: 'Интеграция с n8n / Make / Zapier' },
-            { to: '/services/ai/business/crm-workflows', title: 'AI + Bitrix24, 1С, amoCRM, Airtable' },
-            { to: '/services/ai/business/auto-workflows', title: 'Сценарии: письмо → ответ → отчёт' },
+            { to: '/services/business-it/tool-selection', title: 'Подбор связки сервисов и AI-инструментов' },
+            { to: '/services/business-it/tool-comparison', title: 'Сравнение платформ для автоматизации' },
+            { to: '/services/business-it/team-structure', title: 'Распределение ролей в команде автоматизации' },
           ],
         },
         {
@@ -80,13 +80,13 @@ export const aiServiceContent = {
           items: [
             { to: '/services/ai/business/speech-recognition', title: 'Распознавание речи: Whisper / Vosk' },
             { to: '/services/ai/business/voice-generation', title: 'Генерация голоса: ElevenLabs / Bark' },
-            { to: '/services/ai/business/phone-bots', title: 'Голосовые ассистенты на телефоне' },
+            { to: '/services/business-it/onboarding-setup', title: 'Сценарии внедрения голосовых ботов в процессы команды' },
           ],
         },
         {
           title: '🔐 Безопасность и контроль',
           items: [
-            { to: '/services/ai/business/local-llm', title: 'Запуск локальных LLM (LLaMA, Mistral)' },
+            { to: '/services/business-it/secure-alternatives', title: 'Безопасные альтернативы облачным AI-сервисам' },
             { to: '/services/ai/business/api-privacy', title: 'Безопасность при работе с API' },
             { to: '/services/ai/business/staff-training', title: 'Ограничение и обучение сотрудников' },
           ],
@@ -94,9 +94,9 @@ export const aiServiceContent = {
         {
           title: '📚 Обучение сотрудников',
           items: [
-            { to: '/services/ai/business/gpt-intro', title: 'Вводное обучение по GPT' },
-            { to: '/services/ai/business/workspace-integration', title: 'Интеграции с Workspace, CRM' },
-            { to: '/services/ai/business/internal-bots', title: 'Чат-ассистенты по стандартам компании' },
+            { to: '/services/business-it/docflow-rules', title: 'Регламенты использования AI в документах и задачах' },
+            { to: '/services/business-it/file-organization', title: 'Подготовка структуры данных для AI-ассистентов' },
+            { to: '/services/business-it/internal-guides', title: 'Внутренние гайды по работе с AI для команды' },
           ],
         },
       ],
