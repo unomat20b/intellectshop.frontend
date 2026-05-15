@@ -1,5 +1,6 @@
 # Сборка Vite и выкладка ТОЛЬКО содержимого dist в корень public_html на Timeweb (без modx и пр.).
-# Секреты: TIMEWEB_SSH_KEY, TIMEWEB_HOST, TIMEWEB_USER, TIMEWEB_REMOTE_PATH (абсолютный путь к public_html).
+# Секреты SSH: TIMEWEB_SSH_KEY, TIMEWEB_HOST, TIMEWEB_SSH_HOST, TIMEWEB_SSH_PORT, TIMEWEB_USER, TIMEWEB_REMOTE_PATH.
+# Секреты FTPS fallback (опционально): TIMEWEB_FTP_HOST, TIMEWEB_FTP_USER, TIMEWEB_FTP_PASSWORD, TIMEWEB_FTP_PATH.
 # Retry marker: no-op change to force a fresh workflow run when network deploy flakes.
 
 name: Build and deploy dist to Timeweb
@@ -109,9 +110,37 @@ jobs:
           TIMEWEB_SSH_PORT: ${{ secrets.TIMEWEB_SSH_PORT }}
           TIMEWEB_USER: ${{ secrets.TIMEWEB_USER }}
           RPATH: ${{ secrets.TIMEWEB_REMOTE_PATH }}
+          TIMEWEB_FTP_HOST: ${{ secrets.TIMEWEB_FTP_HOST }}
+          TIMEWEB_FTP_USER: ${{ secrets.TIMEWEB_FTP_USER }}
+          TIMEWEB_FTP_PASSWORD: ${{ secrets.TIMEWEB_FTP_PASSWORD }}
+          TIMEWEB_FTP_PATH: ${{ secrets.TIMEWEB_FTP_PATH }}
         run: |
           set -euo pipefail
           test -n "$RPATH"
+
+          has_ftps_fallback=0
+          if [[ -n "${TIMEWEB_FTP_HOST:-}" && -n "${TIMEWEB_FTP_USER:-}" && -n "${TIMEWEB_FTP_PASSWORD:-}" ]]; then
+            has_ftps_fallback=1
+          fi
+
+          deploy_via_ftps() {
+            local ftp_path
+            ftp_path="${TIMEWEB_FTP_PATH:-$RPATH}"
+            echo "Using FTPS fallback to deploy dist → ${TIMEWEB_FTP_HOST}:${ftp_path}"
+            sudo apt-get update -y
+            sudo apt-get install -y lftp
+
+            lftp -u "$TIMEWEB_FTP_USER","$TIMEWEB_FTP_PASSWORD" "$TIMEWEB_FTP_HOST" <<EOF
+set ssl:verify-certificate no
+set ftp:ssl-force true
+set ftp:ssl-protect-data true
+set net:max-retries 2
+set net:timeout 20
+set xfer:clobber true
+mirror -R --delete --verbose dist "$ftp_path"
+bye
+EOF
+          }
 
           candidate_hosts=()
           if [[ -n "${TIMEWEB_SSH_HOST:-}" ]]; then
@@ -164,6 +193,11 @@ jobs:
 
           if [[ -z "$selected_host" ]]; then
             echo "SSH preflight failed for all candidate hosts (host unreachable or blocked)" >&2
+            if [[ "$has_ftps_fallback" -eq 1 ]]; then
+              deploy_via_ftps
+              exit 0
+            fi
+            echo "FTPS fallback is not configured. Set TIMEWEB_FTP_HOST, TIMEWEB_FTP_USER, TIMEWEB_FTP_PASSWORD (and optional TIMEWEB_FTP_PATH)." >&2
             exit 1
           fi
 
@@ -176,6 +210,10 @@ jobs:
             fi
             if [ "$attempt" -eq 5 ]; then
               echo "Failed to rsync assets after 5 attempts" >&2
+              if [[ "$has_ftps_fallback" -eq 1 ]]; then
+                deploy_via_ftps
+                exit 0
+              fi
               exit 1
             fi
             sleep 5
@@ -192,6 +230,10 @@ jobs:
               fi
               if [ "$attempt" -eq 5 ]; then
                 echo "Failed to rsync prerender dir '$dname' after 5 attempts" >&2
+                if [[ "$has_ftps_fallback" -eq 1 ]]; then
+                  deploy_via_ftps
+                  exit 0
+                fi
                 exit 1
               fi
               sleep 5
@@ -206,6 +248,10 @@ jobs:
               fi
               if [ "$attempt" -eq 5 ]; then
                 echo "Failed to copy root files after 5 attempts" >&2
+                if [[ "$has_ftps_fallback" -eq 1 ]]; then
+                  deploy_via_ftps
+                  exit 0
+                fi
                 exit 1
               fi
               sleep 5
