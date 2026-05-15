@@ -97,7 +97,7 @@ onMounted(async () => {
     <!-- Кнопка для перехода к сравнению нейросетей -->
     <div class="mb-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
       <h2 class="text-lg font-semibold mb-3 text-gray-800">Сравнение нейросетей</h2>
-      <p class="text-gray-600 mb-4">Интерактивный гид по выбору ИИ-сервисов для разных задач</p>
+      <p class="text-gray-600 mb-4">Актуализированный гид (май 2026): доступность, тарифы и выбор AI-сервиса под задачу</p>
       <Button 
         variant="primary" 
         as="a"
